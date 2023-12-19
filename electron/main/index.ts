@@ -55,6 +55,8 @@ async function createWindow() {
     },
   })
 
+  win.setMenuBarVisibility(false)
+
   if (url) { // electron-vite-vue#298
     win.loadURL(url)
     // Open devTool if the app is not packaged

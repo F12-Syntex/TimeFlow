@@ -18,5 +18,14 @@
     align-items: center; /* Optional: to align items vertically in the center */
 }
 .logoButton {
-    
+    width: 80%; 
+    background-size: contain; 
+    display: flex; 
+    border-radius: 16px;
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        outline: none; 
+        border: none;
+
+    }
 }

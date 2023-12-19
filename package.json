@@ -1,9 +1,9 @@
 {
-  "name": "electron-vite-react",
-  "version": "2.2.0",
+  "name": "timeflow",
+  "version": "1.0.0",
   "main": "dist-electron/main/index.js",
-  "description": "Electron Vite React boilerplate.",
-  "author": "草鞋没号 <308487730@qq.com>",
+  "description": "TimeFlow is a time-driven todo list application that helps you manage your tasks effectively by prioritizing them based on time constraints. With TimeFlow, you can organize your tasks, set deadlines, and visualize your schedule to make the most of your time.",
+  "author": "Saif Khan",
   "license": "MIT",
   "private": true,
   "debug": {

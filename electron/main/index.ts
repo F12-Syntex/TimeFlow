@@ -1,4 +1,4 @@
-import { app, BrowserWindow, shell, ipcMain } from 'electron'
+import { app, BrowserWindow, shell, ipcMain, contextBridge } from 'electron'
 import { release } from 'node:os'
 import { join } from 'node:path'
 import { update } from './update'
@@ -47,6 +47,13 @@ async function createWindow() {
     icon: join(process.env.VITE_PUBLIC, 'new_program_icon.ico'),
     width: 1200,
     height: 900,
+    minWidth: 600,
+    minHeight: 800,
+    transparent: true,
+    frame: false,
+    hasShadow: true,
+    vibrancy: 'sidebar',
+    titleBarStyle: 'hiddenInset',
     webPreferences: {
       preload,
       // Warning: Enable nodeIntegration and disable contextIsolation is not secure in production
@@ -57,7 +64,8 @@ async function createWindow() {
     },
   })
 
-  win.setMenuBarVisibility(false)
+  // win.setMenuBarVisibility(false)
+  win.removeMenu()
 
   if (url) { // electron-vite-vue#298
     win.loadURL(url)

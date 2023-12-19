@@ -16,22 +16,40 @@
     align-items: center;
     cursor: pointer;
     border: none;
-    border-radius: 16px;
+    border-radius: 50%;
     margin-bottom: 1rem;
     transition: all 0.25s;
 
+    &:hover, &:active, &:focus {
+        border-radius: 45%;
+        outline: none;
+    }
+
     &:hover {
         background-color: rgba(255, 255, 255, 0.1);
-        outline: none;
     }
 
     &:active {
         background-color: rgba(0, 225, 255, 0.1);
-        outline: none;
     }
 
     &:focus {
         background-color: rgb(0, 115, 255);
-        outline: none;
+    }
+}
+
+.sidebar-add {
+    background-color: rgba(148, 63, 60, 0.6);
+
+    &:hover {
+        background-color: rgba(148, 63, 60, 0.8);
+    }
+
+    &:active {
+        background-color: rgb(148, 63, 60);
+    }
+
+    &:focus {
+        background-color: rgb(148, 63, 60);
     }
 }

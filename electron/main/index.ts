@@ -52,7 +52,6 @@ async function createWindow() {
     transparent: false,
     // frame: false,
     hasShadow: true,
-    vibrancy: 'sidebar',
     titleBarOverlay: true,
     titleBarStyle: 'default',
     webPreferences: {

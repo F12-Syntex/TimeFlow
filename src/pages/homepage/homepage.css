@@ -1,6 +1,6 @@
 .homepage-container {
     height: 100vh;
-    width: calc(100vw - 64px);
+    width: calc(100vw - 96px);
     display: flex;
     flex-direction: column;
     justify-content: center;

@@ -19,7 +19,7 @@ function App() {
       <h1>Electron + Vite + React</h1>
       <div className='card'>
         <button onClick={() => setCount((count) => count + 1)}>
-          rahart likes boys {count}
+          rahart likes boys {count} alot
         </button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR

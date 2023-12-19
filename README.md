@@ -1,6 +1,6 @@
 # TimeFlow
 
-TimeFlow is a time-driven todo list application that helps you manage your tasks effectively by prioritizing them based on time constraints. With TimeFlow, you can organize your tasks, set deadlines, and visualize your schedule to make the most of your time.
+TimeFlow is a time-driven todo list application that helps you manage your tasks effectively by prioritising them based on time constraints. With TimeFlow, you can organise your tasks, set deadlines, and visualise your schedule to make the most of your time.
 
 ## Todo List
 - [ ] Set up project structure
@@ -9,8 +9,8 @@ TimeFlow is a time-driven todo list application that helps you manage your tasks
 - [ ] Implement task update functionality
 - [ ] Implement task removal functionality
 - [ ] Add deadline tracking feature
-- [ ] Integrate time visualization tools
-- [ ] Prioritize tasks based on deadlines
+- [ ] Integrate time visualisation tools
+- [ ] Prioritise tasks based on deadlines
 - [ ] Test and debug the application
 - [ ] Update README with installation and usage instructions
 - [ ] Add contribution guidelines
@@ -19,7 +19,7 @@ TimeFlow is a time-driven todo list application that helps you manage your tasks
 
 ## Installation
 To run TimeFlow locally, follow these steps:
-1. Clone the repository: `git clone https://github.com/your-username/TimeFlow.git`
+1. Clone the repository: `git clone https://github.com/F12-Syntex/TimeFlow.git`
 2. Navigate to the project directory: `cd TimeFlow`
 3. Install dependencies: `npm install`
 

@@ -54,6 +54,7 @@ async function createWindow() {
     hasShadow: true,
     vibrancy: 'sidebar',
     titleBarOverlay: true,
+    titleBarStyle: 'hiddenInset',
     webPreferences: {
       preload,
       // Warning: Enable nodeIntegration and disable contextIsolation is not secure in production

@@ -49,11 +49,11 @@ async function createWindow() {
     height: 900,
     minWidth: 600,
     minHeight: 800,
-    transparent: true,
+    transparent: false,
     frame: false,
     hasShadow: true,
     vibrancy: 'sidebar',
-    titleBarStyle: 'hiddenInset',
+    titleBarOverlay: true,
     webPreferences: {
       preload,
       // Warning: Enable nodeIntegration and disable contextIsolation is not secure in production

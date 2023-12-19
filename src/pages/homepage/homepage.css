@@ -1,11 +1,11 @@
 .homepage-container {
     height: 100vh;
-    width: 100vw;
-
+    width: calc(100vw - 64px);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background-color: #1a1a1a;
 }
 .sub-header {
     position: absolute;

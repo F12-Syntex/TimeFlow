@@ -2,8 +2,7 @@ import React from 'react';
 import './sidebar.css';
 import "bootstrap-icons/font/bootstrap-icons.css";
 
-    // if selected then add class selected
-    // if selected instead of bi-{name} use bi-{name}-fill
+let selectedIndex = 3
 
 const icons = [
     'plus',
@@ -39,52 +38,45 @@ function getIconClassName(index: number, selected: boolean) {
 
 function getButtonClassName(index: number, selected: boolean) {
     if (selected) {
+        if (index === 0) {
+            return `sidebar-button sidebar-add sidebar-add-selected`
+        }
         return `sidebar-button sidebar-selected`
     } 
     return `sidebar-button`
 }
 
 function getButton(index: number, selected: boolean) {
-    // print index and selected
-    console.log(index, selected)
     if (index === 0) {
         return (
-            // if selected add sidebar-selected
-            <button className={`sidebar-button sidebar-add ${selected ? 'sidebar-selected' : ''}`}>
+            // onclick not working
+            <button className={`sidebar-button sidebar-add ${selected ? 'sidebar-add-selected' : ''}`} onClick={() => {selectedIndex = 0}}>
                 <i className="bi bi-plus"></i>
             </button>
         )
     } else {
         return (
-            <button className={getButtonClassName(index, selected)}>
+            <button className={getButtonClassName(index, selected)} onClick={() => {selectedIndex = index}}>
                 <i className={getIconClassName(index, selected)}></i>
             </button>
         )
     }
 }
 
-function getButtons(selected: number) {
+function getButtons() {
     return (
         <div className="sidebar-buttons">
             {icons.map((icon, index) => {
-                return getButton(index, index === selected)
+                return getButton(index, index === selectedIndex)
             })}
         </div>
-    )
-}
-
-function getAddButton() {
-    return (
-        <button className="sidebar-button sidebar-add">
-            <i className="bi bi-plus"></i>
-        </button>
     )
 }
 
 const Sidebar = () => {
     return (
         <div className="sidebar">
-            {getButtons(0)}
+            {getButtons()}
         </div>
     )
 }

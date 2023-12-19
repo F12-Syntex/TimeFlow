@@ -30,7 +30,7 @@
     }
 
     &:active {
-        background-color: rgba(0, 225, 255, 0.1);
+        background-color: rgb(0, 115, 255);
     }
 
     &:focus {
@@ -52,4 +52,14 @@
     &:focus {
         background-color: rgb(148, 63, 60);
     }
+}
+
+.sidebar-selected {
+    background-color: rgb(0, 115, 255);
+    border-radius: 45%;
+}
+
+.sidebar-add-selected {
+    background-color: rgb(148, 63, 60);
+    border-radius: 45%;
 }

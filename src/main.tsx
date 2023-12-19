@@ -7,14 +7,12 @@ import Homepage from './pages/homepage/Homepage'
 import Sidebar from './components/update/Sidebar'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  // <React.StrictMode>
-  <div className="main-titlebar-container">
+  <React.StrictMode>
     <div className="main-container">
       <Sidebar/>
       <Homepage/>
     </div>
-  </div>
-  // </React.StrictMode>,
+  </React.StrictMode>,
 )
 
 postMessage({ payload: 'removeLoading' }, '*')

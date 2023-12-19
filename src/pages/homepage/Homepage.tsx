@@ -7,7 +7,9 @@ import './homepage.css'
 function App() {
   return (
     <div className='homepage-container'>
-
+      <div className='todayName'>
+        <h3>Today</h3>
+      </div>
 
 
     </div>

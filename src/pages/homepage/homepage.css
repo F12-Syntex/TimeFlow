@@ -7,3 +7,11 @@
     justify-content: center;
     align-items: center;
 }
+.todayName {
+    position: absolute;
+    size: 2em;
+    top: 10%;
+    left: 33%;
+    transform: translateX(-50%);
+    text-align: left;
+}

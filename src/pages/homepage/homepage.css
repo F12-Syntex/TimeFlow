@@ -7,3 +7,25 @@
     align-items: center;
     background-color: #1a1a1a;
 }
+.sub-header {
+    position: absolute;
+    size: 2em;
+    top: 10%;
+    left: 33%;
+    transform: translateX(-50%);
+    text-align: left;
+    display: flex; /* Add this line */
+    align-items: center; /* Optional: to align items vertically in the center */
+}
+.logoButton {
+    width: 80%; 
+    background-size: contain; 
+    display: flex; 
+    border-radius: 16px;
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        outline: none; 
+        border: none;
+
+    }
+}

@@ -11,7 +11,7 @@ function App() {
         <div className='todayName'>
           <h3>Today</h3>
         </div>
-        <div className='logoButton'>
+        <div>
           <button className='logoButton' data-title="View options"><img src="/menu_icon.ico/"></img> View</button>
         </div>
       </div>

@@ -16,7 +16,7 @@ function App() {
             <div className="hompage-button-image">
               <img src="/menu_icon.ico/"></img>
             </div>
-            View
+            open
           </button>
         </div>
       </div>

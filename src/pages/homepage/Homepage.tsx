@@ -12,7 +12,7 @@ function App() {
           <h3>Today</h3>
         </div>
         <div className='logoButton'>
-          <button className='logoButton'><img src="/menu_icon.ico/"></img> View</button>
+          <button className='logoButton' data-title="View options"><img src="/menu_icon.ico/"></img> View</button>
         </div>
       </div>
     </div>

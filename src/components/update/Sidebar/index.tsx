@@ -2,7 +2,7 @@ import React from 'react';
 import './sidebar.css';
 import "bootstrap-icons/font/bootstrap-icons.css";
 
-let selectedIndex = 3
+let selectedIndex = 3;
 
 const icons = [
     'plus',

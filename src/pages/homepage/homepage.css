@@ -22,6 +22,9 @@
     background-size: contain; 
     display: flex; 
     border-radius: 16px;
+    justify-content: center;
+    align-items: center;
+    position: relative;
     &:hover {
         background-color: rgba(255, 255, 255, 0.1);
         outline: none; 
@@ -29,3 +32,28 @@
 
     }
 }
+.logoButton::after{
+    content: attr(data-title);
+    position: absolute;
+    background: #444;
+    color: #fff;
+    left: 0;
+    top: 100%;
+    font-size: 12px;
+    width: 100px;
+    padding: 5px;
+    border-radius: 4px;
+    transition: 300ms;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(15px);
+  }
+  .logoButton:hover::after{
+    opacity: 1;
+    transform: translateY(5px);
+  }
+
+  .hompage-button-image{
+    margin-right: 10px;
+    color: red;
+  }

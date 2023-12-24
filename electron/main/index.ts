@@ -1,4 +1,4 @@
-import { app, BrowserWindow, shell, ipcMain, contextBridge } from 'electron'
+import { app, BrowserWindow, shell, ipcMain, contextBridge, globalShortcut } from 'electron'
 import { release } from 'node:os'
 import { join } from 'node:path'
 import { update } from './update'
@@ -61,6 +61,7 @@ async function createWindow() {
       // Read more on https://www.electronjs.org/docs/latest/tutorial/context-isolation
       nodeIntegration: true,
       contextIsolation: false,
+      devTools: true,
     },
   })
 
@@ -74,6 +75,27 @@ async function createWindow() {
   } else {
     win.loadFile(indexHtml)
   }
+
+  // Function to toggle dev tools
+  const toggleDevTools = () => {
+    if (win) {
+      if (win.webContents.isDevToolsOpened()) {
+        win.webContents.closeDevTools();
+      } else {
+        win.webContents.openDevTools();
+      }
+    }
+  };
+
+  // Register global hotkey to toggle dev tools (CmdOrCtrl+Shift+I)
+  app.whenReady().then(() => {
+    globalShortcut.register('CommandOrControl+Shift+I', toggleDevTools);
+  });
+
+  // Unregister the hotkey when the app is about to quit
+  app.on('will-quit', () => {
+    globalShortcut.unregister('CommandOrControl+Shift+I');
+  });
 
   // Test actively push message to the Electron-Renderer
   win.webContents.on('did-finish-load', () => {

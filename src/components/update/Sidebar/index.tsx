@@ -1,8 +1,6 @@
-import React from 'react';
+import { useState } from 'react';
 import './sidebar.css';
 import "bootstrap-icons/font/bootstrap-icons.css";
-
-let selectedIndex = 3;
 
 const icons = [
     'plus',
@@ -22,58 +20,61 @@ const iconsSelected = [
     'tag-fill',
 ]
 
-function getIcon(index: number, selected: boolean) {
-    if (selected) {
-        return iconsSelected[index]
-    } 
-    return icons[index]
-}
+const Sidebar = () => {
+    const [selectedIndex, setSelectedIndex] = useState(3);
 
-function getIconClassName(index: number, selected: boolean) {
-    if (selected) {
-        return `bi bi-${iconsSelected[index]}`
-    } 
-    return `bi bi-${icons[index]}`
-}
+    // gets the classes for the icon
+    function getIconClassName(index: number, selected: boolean) {
+        if (selected) {
+            return `bi bi-${iconsSelected[index]}`
+        } 
+        return `bi bi-${icons[index]}`
+    }
 
-function getButtonClassName(index: number, selected: boolean) {
-    if (selected) {
+    // get the classes for the button
+    function getButtonClassName(index: number, selected: boolean) {
+        if (selected) {
+            if (index === 0) {
+                return `sidebar-button sidebar-add sidebar-add-selected`
+            }
+            return `sidebar-button sidebar-selected`
+        } 
+        return `sidebar-button`
+    }
+
+    // changes the selected index to the index of the button that was clicked
+    function handleButtonClick(index: number) {
+        setSelectedIndex(index);
+    }
+
+    // gets a single button for the sidebar
+    function getButton(index: number, selected: boolean) {
         if (index === 0) {
-            return `sidebar-button sidebar-add sidebar-add-selected`
+            return (
+                <button className={`sidebar-button sidebar-add ${selected ? 'sidebar-add-selected' : ''}`} onClick={() => handleButtonClick(0)}>
+                    <i className="bi bi-plus"></i>
+                </button>
+            )
+        } else {
+            return (
+                <button className={getButtonClassName(index, selected)} onClick={() => handleButtonClick(index)}>
+                    <i className={getIconClassName(index, selected)}></i>
+                </button>
+            )
         }
-        return `sidebar-button sidebar-selected`
-    } 
-    return `sidebar-button`
-}
+    }
 
-function getButton(index: number, selected: boolean) {
-    if (index === 0) {
+    // gets all the buttons for the sidebar
+    function getButtons() {
         return (
-            // onclick not working
-            <button className={`sidebar-button sidebar-add ${selected ? 'sidebar-add-selected' : ''}`} onClick={() => {selectedIndex = 0}}>
-                <i className="bi bi-plus"></i>
-            </button>
-        )
-    } else {
-        return (
-            <button className={getButtonClassName(index, selected)} onClick={() => {selectedIndex = index}}>
-                <i className={getIconClassName(index, selected)}></i>
-            </button>
+            <div className="sidebar-buttons">
+                {icons.map((icon, index) => {
+                    return getButton(index, index === selectedIndex)
+                })}
+            </div>
         )
     }
-}
 
-function getButtons() {
-    return (
-        <div className="sidebar-buttons">
-            {icons.map((icon, index) => {
-                return getButton(index, index === selectedIndex)
-            })}
-        </div>
-    )
-}
-
-const Sidebar = () => {
     return (
         <div className="sidebar">
             {getButtons()}
@@ -81,4 +82,4 @@ const Sidebar = () => {
     )
 }
 
-export default Sidebar
+export default Sidebar;

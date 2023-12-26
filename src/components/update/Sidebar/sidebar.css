@@ -6,6 +6,7 @@
     padding: 4rem 1rem 1rem 1rem;
     height: 100vh;
     overflow: hidden;
+    background-color: rgb(12, 12, 12);
 }
 
 .sidebar-button {
@@ -19,6 +20,11 @@
     border-radius: 50%;
     margin-bottom: 1rem;
     transition: all 0.25s;
+    background-color: rgb(24, 24, 24);
+
+    i {
+        font-size: 1.2rem;
+    }
 
     &:hover, &:active, &:focus {
         border-radius: 45%;
@@ -40,6 +46,10 @@
 
 .sidebar-add {
     background-color: rgba(148, 63, 60, 0.6);
+
+    i {
+        font-size: 1.8rem;
+    }
 
     &:hover {
         background-color: rgba(148, 63, 60, 0.8);

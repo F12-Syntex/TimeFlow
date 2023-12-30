@@ -31,7 +31,7 @@ for (let i = 0; i < 15; i++) {
 function App() {
   return (
     <div className='main-page-container'>
-      <PageHeader title='Search' editableView={true}/>
+      <PageHeader title='Search' editableView={false}/>
       <input type="text" className='search-search-bar' placeholder="Search" />
       <div className="search-page-content">
         <ListView listViewItems={todoList}/>

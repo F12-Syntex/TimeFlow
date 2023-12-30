@@ -11,12 +11,12 @@ import Tags from "../../pages/Tags/Tags";
 // const icons = ["plus", "search", "inbox", "calendar-day", "calendar", "tag"];
 
 const buttonData = [
-    { name: 'plus', component: <Add /> },
-    { name: 'search', component: <Search /> },
-    { name: 'inbox-fill', component: <Inbox /> },
-    { name: 'calendar-day-fill', component: <Today /> },
-    { name: 'calendar-fill', component: <Calendar /> },
-    { name: 'tag-fill', component: <Tags /> }
+    { name: 'plus', selectedName: 'plus', component: <Add /> },
+    { name: 'search', selectedName: 'search', component: <Search /> },
+    { name: 'inbox', selectedName: 'inbox-fill', component: <Inbox /> },
+    { name: 'calendar-day', selectedName: 'calendar-day-fill', component: <Today /> },
+    { name: 'calendar', selectedName: 'calendar-fill', component: <Calendar /> },
+    { name: 'tag', selectedName: 'tag-fill', component: <Tags /> },
   ];
 
 const TimeFlow = () => {
@@ -25,7 +25,7 @@ const TimeFlow = () => {
   // gets the classes for the icon
   function getIconClassName(index: number, selected: boolean) {
     if (selected) {
-      return `bi bi-${buttonData[index].name}`;
+      return `bi bi-${buttonData[index].selectedName}`;
     }
     return `bi bi-${buttonData[index].name}`;
   }

@@ -1,13 +1,38 @@
 import './inbox.css'
 import '../pages.css'
 import PageHeader from '../../components/update/PageHeader/pageheader'
+import ListView from '../../components/update/ListView/listview'
+
+interface TodoItem {
+  title: string
+  description: string
+  date: Date
+  priority: string
+  labels: string[]
+  completed: boolean
+}
+
+var todoList: TodoItem[] = [
+  {
+    title: 'Take the productivity method quiz',
+    description: 'Get a personalized recommendation from Todoist',
+    date: new Date(),
+    priority: "low",
+    labels: ['Todoist'],
+    completed: false,
+  },
+]
+
+for (let i = 0; i < 15; i++) {
+  todoList.push(todoList[0])
+}
 
 function App() {
   return (
     <div className='main-page-container'>
       <PageHeader title='Inbox' editableView={true}/>
       <div className="page-content">
-
+        <ListView listViewItems={todoList}/>
       </div>
     </div>
   )

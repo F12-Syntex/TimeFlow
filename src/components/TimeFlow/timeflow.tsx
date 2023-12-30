@@ -8,16 +8,16 @@ import Add from "../../pages/Add/Add";
 import Calendar from "../../pages/Calendar/Calendar";
 import Tags from "../../pages/Tags/Tags";
 
-const icons = ["plus", "search", "inbox", "calendar-day", "calendar", "tag"];
+// const icons = ["plus", "search", "inbox", "calendar-day", "calendar", "tag"];
 
-const iconsSelected = [
-  "plus",
-  "search",
-  "inbox-fill",
-  "calendar-day-fill",
-  "calendar-fill",
-  "tag-fill",
-];
+const buttonData = [
+    { name: 'plus', component: <Add /> },
+    { name: 'search', component: <Search /> },
+    { name: 'inbox-fill', component: <Inbox /> },
+    { name: 'calendar-day-fill', component: <Today /> },
+    { name: 'calendar-fill', component: <Calendar /> },
+    { name: 'tag-fill', component: <Tags /> }
+  ];
 
 const TimeFlow = () => {
   const [selectedIndex, setSelectedIndex] = useState(3);
@@ -25,9 +25,9 @@ const TimeFlow = () => {
   // gets the classes for the icon
   function getIconClassName(index: number, selected: boolean) {
     if (selected) {
-      return `bi bi-${iconsSelected[index]}`;
+      return `bi bi-${buttonData[index].name}`;
     }
-    return `bi bi-${icons[index]}`;
+    return `bi bi-${buttonData[index].name}`;
   }
 
   // get the classes for the button
@@ -65,7 +65,7 @@ const TimeFlow = () => {
   function getButtons() {
     return (
       <div className="sidebar-buttons">
-        {icons.map((icon, index) => {
+        {buttonData.map((button, index) => { // Use buttonData instead of undefined icons
           return getButton(index, index === selectedIndex);
         })}
       </div>
@@ -74,19 +74,7 @@ const TimeFlow = () => {
 
   // gets the url for the page
   function getPageURL() {
-    if (selectedIndex === 0) {
-      return <Add />;
-    } else if (selectedIndex === 1) {
-      return <Search />;
-    } else if (selectedIndex === 2) {
-      return <Inbox />;
-    } else if (selectedIndex === 3) {
-      return <Today />;
-    } else if (selectedIndex === 4) {
-      return <Calendar />;
-    } else if (selectedIndex === 5) {
-      return <Tags />;
-    }
+    return buttonData[selectedIndex].component;
   }
 
   return (

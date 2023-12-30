@@ -5,7 +5,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #1a1a1ae5;
+    /* background-color: #1a1a1ae5; */
+    background-color: #1a1a1a;
 }
 .page-content, .search-page-content {
     position: relative;

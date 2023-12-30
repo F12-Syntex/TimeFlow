@@ -7,7 +7,7 @@ interface TodoItem {
   title: string
   description: string
   date: Date
-  priority: number
+  priority: string
   labels: string[]
   completed: boolean
 }
@@ -17,7 +17,7 @@ var todoList: TodoItem[] = [
     title: 'Take the productivity method quiz',
     description: 'Get a personalized recommendation from Todoist',
     date: new Date(),
-    priority: 0,
+    priority: "low",
     labels: ['Todoist'],
     completed: false,
   },

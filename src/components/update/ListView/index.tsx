@@ -9,7 +9,7 @@ interface TodoItem {
     title: string
     description: string
     date: Date
-    priority: number
+    priority: string
     labels: string[]
     completed: boolean
 }

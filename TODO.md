@@ -13,4 +13,4 @@
 - [ ] Colaboration
 - [ ] Notifications
 - [ ] Search after every character
-- [ ]
+- [ ] Fix light mode

@@ -1,0 +1,33 @@
+.main-page-container {
+    height: 100vh;
+    width: calc(100vw - 96px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #1a1a1a;
+}
+.page-content, .search-page-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: top;
+    align-items: center;
+    width: calc(100vw - 96px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: calc(100vh);
+}
+
+.page-content {
+    margin-top: -4px;
+}
+
+.search-page-content {
+    margin-top: 10px;
+}
+
+#root {    
+    margin: 0 !important;
+    padding: 0 !important;
+}

@@ -1,0 +1,109 @@
+.list-view {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: calc(100vw - 96px - 64px);
+    padding-bottom: 32px;
+    border-radius: 16px;
+}
+
+.list-view-item {
+    display: flex;
+    flex-direction: row;
+    align-items: left;
+    width: calc(100vw - 96px - 90px);
+    padding-top: 16px;
+    padding-bottom: 16px;
+    padding-right: 24px;
+    list-style: none;
+    border-radius: 16px;
+    background-color: rgba(255, 255, 255, 0.08);
+    transition: background-color 0.25s;
+    margin-bottom: 10px;
+}
+
+.list-view-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.list-view-item-left {
+    width: 40px;
+    margin-left: 20px;
+    padding-top: 8px;
+}
+
+.list-view-item-right {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    width: calc(100vw - 96px - 96px - 40px);
+}
+
+.list-view-item-top, .list-view-item-bottom {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.list-view-item-title {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.list-view-item-description, .list-view-item-date {
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.list-view-item-labels {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.container {
+    margin: 0 auto;
+  }
+  
+  .round {
+    position: relative;
+  }
+  
+  .round label {
+    background-color: #00000000;
+    border: 3px solid #a04242;
+    border-radius: 50%;
+    cursor: pointer;
+    height: 16px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 16px;
+  }
+  
+  .round label:after {
+    border: 2px solid #fff;
+    border-top: none;
+    border-right: none;
+    content: "";
+    height: 4px;
+    left: 3px;
+    opacity: 0;
+    position: absolute;
+    top: 4px;
+    transform: rotate(-45deg);
+    width: 8px;
+  }
+  
+  .round input[type="checkbox"] {
+    visibility: hidden;
+  }
+  
+  .round input[type="checkbox"]:checked + label {
+    background-color: #4da151;
+    border-color: #4da151;
+  }
+  
+  .round input[type="checkbox"]:checked + label:after {
+    opacity: 1;
+  }

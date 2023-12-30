@@ -1,6 +1,12 @@
 import { useState } from 'react';
 import './sidebar.css';
 import "bootstrap-icons/font/bootstrap-icons.css";
+import Today from '../../../pages/Today/Today'
+import Inbox from '../../../pages/Inbox/Inbox'
+import Search from '../../../pages/Search/Search'
+import Add from '../../../pages/Add/Add'
+import Calendar from '../../../pages/Calendar/Calendar'
+import Tags from '../../../pages/Tags/Tags'
 
 const icons = [
     'plus',
@@ -35,10 +41,13 @@ const Sidebar = () => {
     function getButtonClassName(index: number, selected: boolean) {
         if (selected) {
             if (index === 0) {
-                return `sidebar-button sidebar-add sidebar-add-selected`
+                return `sidebar-add sidebar-add-selected`
             }
             return `sidebar-button sidebar-selected`
         } 
+        if (index === 0) {
+            return `sidebar-add`
+        }
         return `sidebar-button`
     }
 
@@ -49,19 +58,11 @@ const Sidebar = () => {
 
     // gets a single button for the sidebar
     function getButton(index: number, selected: boolean) {
-        if (index === 0) {
-            return (
-                <button className={`sidebar-button sidebar-add ${selected ? 'sidebar-add-selected' : ''}`} onClick={() => handleButtonClick(0)}>
-                    <i className="bi bi-plus"></i>
-                </button>
-            )
-        } else {
-            return (
-                <button className={getButtonClassName(index, selected)} onClick={() => handleButtonClick(index)}>
-                    <i className={getIconClassName(index, selected)}></i>
-                </button>
-            )
-        }
+        return (
+            <a className={getButtonClassName(index, selected)} onClick={() => handleButtonClick(index)}>
+                <i className={getIconClassName(index, selected)}></i>
+            </a>
+        )
     }
 
     // gets all the buttons for the sidebar
@@ -75,9 +76,43 @@ const Sidebar = () => {
         )
     }
 
+    // gets the url for the page
+    function getPageURL() {
+        if (selectedIndex === 0) {
+            return (
+                <Add/>
+            )
+        } else if (selectedIndex === 1) {
+            return (
+                <Search/>
+            )
+        } else if (selectedIndex === 2) {
+            return (
+                <Inbox/>
+            )
+        } else if (selectedIndex === 3) {
+            return (
+                <Today/>
+            )
+        } else if (selectedIndex === 4) {
+            return (
+                <Calendar/>
+            )
+        } else if (selectedIndex === 5) {
+            return (
+                <Tags/>
+            )
+        }
+    }
+
     return (
-        <div className="sidebar">
-            {getButtons()}
+        <div className="main-container">
+            <div className="sidebar">
+                {getButtons()}
+            </div>
+            <div className="homepage-container">
+                {getPageURL()}
+            </div>
         </div>
     )
 }

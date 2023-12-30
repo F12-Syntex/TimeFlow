@@ -1,4 +1,4 @@
-import { app, BrowserWindow, shell, ipcMain, contextBridge, globalShortcut } from 'electron'
+import { app, BrowserWindow, shell, ipcMain, globalShortcut } from 'electron'
 import { release } from 'node:os'
 import { join } from 'node:path'
 import { update } from './update'

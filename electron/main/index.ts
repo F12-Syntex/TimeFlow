@@ -49,7 +49,7 @@ async function createWindow() {
     height: 900,
     minWidth: 600,
     minHeight: 800,
-    transparent: false,
+    // transparent: true,
     // frame: false,
     hasShadow: true,
     titleBarOverlay: true,
@@ -67,7 +67,7 @@ async function createWindow() {
     },
   })
 
-  win.blur()
+  // win.blur()
 
   // win.setMenuBarVisibility(false)
   win.removeMenu()

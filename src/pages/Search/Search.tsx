@@ -1,7 +1,7 @@
 import './search.css'
 import '../pages.css'
-import PageHeader from '../../components/update/PageHeader/index'
-import ListView from '../../components/update/ListView/index'
+import PageHeader from '../../components/update/PageHeader/pageheader'
+import ListView from '../../components/update/ListView/listview'
 import React from 'react'
 
 interface TodoItem {

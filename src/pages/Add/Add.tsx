@@ -1,6 +1,6 @@
 import './add.css'
 import '../pages.css'
-import PageHeader from '../../components/update/PageHeader/index'
+import PageHeader from '../../components/update/PageHeader/pageheader'
 
 function App() {
   return (

@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import './sidebar.css';
+import './timeflow.css';
 import "bootstrap-icons/font/bootstrap-icons.css";
-import Today from '../../../pages/Today/Today'
-import Inbox from '../../../pages/Inbox/Inbox'
-import Search from '../../../pages/Search/Search'
-import Add from '../../../pages/Add/Add'
-import Calendar from '../../../pages/Calendar/Calendar'
-import Tags from '../../../pages/Tags/Tags'
+import Today from '../../pages/Today/Today'
+import Inbox from '../../pages/Inbox/Inbox'
+import Search from '../../pages/Search/Search'
+import Add from '../../pages/Add/Add'
+import Calendar from '../../pages/Calendar/Calendar'
+import Tags from '../../pages/Tags/Tags'
 
 const icons = [
     'plus',
@@ -26,7 +26,7 @@ const iconsSelected = [
     'tag-fill',
 ]
 
-const Sidebar = () => {
+const TimeFlow = () => {
     const [selectedIndex, setSelectedIndex] = useState(3);
 
     // gets the classes for the icon
@@ -117,4 +117,4 @@ const Sidebar = () => {
     )
 }
 
-export default Sidebar;
+export default TimeFlow;

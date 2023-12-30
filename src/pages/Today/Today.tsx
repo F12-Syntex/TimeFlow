@@ -1,7 +1,7 @@
 import './today.css'
 import '../pages.css'
-import PageHeader from '../../components/update/PageHeader/index'
-import ListView from '../../components/update/ListView/index'
+import PageHeader from '../../components/update/PageHeader/pageheader'
+import ListView from '../../components/update/ListView/listview'
 
 interface TodoItem {
   title: string

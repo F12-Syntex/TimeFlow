@@ -43,14 +43,14 @@ const indexHtml = join(process.env.DIST, 'index.html')
 
 async function createWindow() {
   win = new BrowserWindow({
-    title: 'Main window',
+    title: 'TimeFlow',
     icon: join(process.env.VITE_PUBLIC, 'new_program_icon.ico'),
     width: 1200,
     height: 900,
     minWidth: 600,
     minHeight: 800,
-    transparent: true,
-    frame: false,
+    transparent: false,
+    // frame: false,
     hasShadow: true,
     titleBarOverlay: true,
     titleBarStyle: 'default',

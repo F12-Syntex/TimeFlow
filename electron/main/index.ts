@@ -67,6 +67,8 @@ async function createWindow() {
     },
   })
 
+  win.blur()
+
   // win.setMenuBarVisibility(false)
   win.removeMenu()
 

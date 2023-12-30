@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './sidebar.css';
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Today from '../../../pages/Today/Today'

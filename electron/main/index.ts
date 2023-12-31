@@ -2,6 +2,8 @@ import { app, BrowserWindow, shell, ipcMain, globalShortcut } from 'electron'
 import { release } from 'node:os'
 import { join } from 'node:path'
 import { update } from './update'
+import { expressApp } from '../../express/src/server'
+import { Request, Response } from 'express-serve-static-core';
 
 // The built directory structure
 //
@@ -157,3 +159,109 @@ ipcMain.handle('open-win', (_, arg) => {
   }
 })
 
+interface TodoItem {
+  title: string
+  description: string
+  date: Date
+  priority: string
+  labels: string[]
+  completed: boolean
+}
+
+var todoList: TodoItem[] = [
+  {
+    title: 'Take the productivity method quiz',
+    description: 'Get a personalized recommendation from Todoist',
+    date: new Date(),
+    priority: "low",
+    labels: ['Todoist'],
+    completed: false,
+  },
+  {
+    title: 'Second',
+    description: 'Second description',
+    date: new Date(),
+    priority: "low",
+    labels: ['2nd label'],
+    completed: true,
+  },
+  {
+    title: 'Take the productivity method quiz',
+    description: 'Get a personalized recommendation from Todoist',
+    date: new Date(),
+    priority: "low",
+    labels: ['Todoist'],
+    completed: false,
+  },
+  {
+    title: 'Second',
+    description: 'Second description',
+    date: new Date(),
+    priority: "low",
+    labels: ['2nd label'],
+    completed: true,
+  },
+  {
+    title: 'Take the productivity method quiz',
+    description: 'Get a personalized recommendation from Todoist',
+    date: new Date(),
+    priority: "low",
+    labels: ['Todoist'],
+    completed: false,
+  },
+  {
+    title: 'Second',
+    description: 'Second description',
+    date: new Date(),
+    priority: "low",
+    labels: ['2nd label'],
+    completed: true,
+  },
+  {
+    title: 'Take the productivity method quiz',
+    description: 'Get a personalized recommendation from Todoist',
+    date: new Date(),
+    priority: "low",
+    labels: ['Todoist'],
+    completed: false,
+  },
+  {
+    title: 'Second',
+    description: 'Second description',
+    date: new Date(),
+    priority: "low",
+    labels: ['2nd label'],
+    completed: true,
+  },
+  {
+    title: 'Take the productivity method quiz',
+    description: 'Get a personalized recommendation from Todoist',
+    date: new Date(),
+    priority: "low",
+    labels: ['Todoist'],
+    completed: false,
+  },
+  {
+    title: 'Second',
+    description: 'Second description',
+    date: new Date(),
+    priority: "low",
+    labels: ['2nd label'],
+    completed: true,
+  }
+]
+
+expressApp.get('/api/sample/tasklist', (req: Request, res: Response) => {
+  res.json({todoList})
+});
+
+expressApp.get('/api/sample/tasklist/:id', (req: Request, res: Response) => {
+  const id: number = parseInt(req.params.id);
+  res.json({todoList: todoList[id]})
+});
+
+expressApp.post('/api/sample/tasklist/add', (req: Request, res: Response) => {
+  const newTask: TodoItem = req.body;
+  todoList.push(newTask);
+  res.json({todoList})
+});

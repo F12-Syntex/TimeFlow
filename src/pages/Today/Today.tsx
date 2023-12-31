@@ -12,20 +12,25 @@ interface TodoItem {
   completed: boolean
 }
 
-var todoList: TodoItem[] = [
-  {
-    title: 'Take the productivity method quiz',
-    description: 'Get a personalized recommendation from Todoist',
-    date: new Date(),
-    priority: "low",
-    labels: ['Todoist'],
-    completed: false,
-  },
-]
+const todoList: TodoItem[] = []
 
-for (let i = 0; i < 15; i++) {
-  todoList.push(todoList[0])
-}
+fetch('http://localhost:3000/api/sample/tasklist')
+  .then(response => response.json())
+  .then(data => {
+    data['todoList'].forEach((element: TodoItem) => {
+      todoList.push({
+        title: element.title,
+        description: element.description,
+        date: new Date(element.date),
+        priority: element.priority,
+        labels: element.labels,
+        completed: element.completed
+      })
+    });
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+  });
 
 function App() {
   return (

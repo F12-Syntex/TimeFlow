@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./timeflow.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Today from "../../pages/Today/Today";
@@ -8,16 +8,14 @@ import Add from "../../pages/Add/Add";
 import Calendar from "../../pages/Calendar/Calendar";
 import Tags from "../../pages/Tags/Tags";
 
-// const icons = ["plus", "search", "inbox", "calendar-day", "calendar", "tag"];
-
 const buttonData = [
-    { name: 'plus', selectedName: 'plus', component: <Add /> },
-    { name: 'search', selectedName: 'search', component: <Search /> },
-    { name: 'inbox', selectedName: 'inbox-fill', component: <Inbox /> },
-    { name: 'calendar-day', selectedName: 'calendar-day-fill', component: <Today /> },
-    { name: 'calendar', selectedName: 'calendar-fill', component: <Calendar /> },
-    { name: 'tag', selectedName: 'tag-fill', component: <Tags /> },
-  ];
+  { name: 'plus', selectedName: 'plus', component: <Add /> },
+  { name: 'search', selectedName: 'search', component: <Search /> },
+  { name: 'inbox', selectedName: 'inbox-fill', component: <Inbox /> },
+  { name: 'calendar-day', selectedName: 'calendar-day-fill', component: <Today /> },
+  { name: 'calendar', selectedName: 'calendar-fill', component: <Calendar /> },
+  { name: 'tag', selectedName: 'tag-fill', component: <Tags /> },
+];
 
 const TimeFlow = () => {
   const [selectedIndex, setSelectedIndex] = useState(3);

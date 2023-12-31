@@ -22,7 +22,8 @@ function ListView({ listViewItems }: ListViewProps) {
                     <div className="list-view-item-left">
                         <div className="container">
                         <div className="round">
-                            <input type="checkbox" id="checkbox" />
+                            {/* if completed then chekbox defaults to true */}
+                            <input type="checkbox" id="checkbox" checked={item.completed} onClick={() => {item.completed = !item.completed}}/>
                             <label htmlFor="checkbox"></label>
                         </div>
                         </div>

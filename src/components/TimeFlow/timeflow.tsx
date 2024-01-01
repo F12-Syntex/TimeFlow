@@ -42,17 +42,12 @@ const TimeFlow = () => {
     return `sidebar-button`;
   }
 
-  // changes the selected index to the index of the button that was clicked
-  function handleButtonClick(index: number) {
-    setSelectedIndex(index);
-  }
-
   // gets a single button for the sidebar
   function getButton(index: number, selected: boolean) {
     return (
       <a
         className={getButtonClassName(index, selected)}
-        onClick={() => handleButtonClick(index)}
+        onClick={() => setSelectedIndex(index)}
       >
         <i className={getIconClassName(index, selected)}></i>
       </a>
@@ -70,15 +65,10 @@ const TimeFlow = () => {
     );
   }
 
-  // gets the url for the page
-  function getPageURL() {
-    return buttonData[selectedIndex].component;
-  }
-
   return (
     <div className="main-container">
       <div className="sidebar">{getButtons()}</div>
-      <div className="homepage-container">{getPageURL()}</div>
+      <div className="homepage-container">{buttonData[selectedIndex].component}</div>
     </div>
   );
 };

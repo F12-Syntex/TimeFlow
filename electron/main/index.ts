@@ -4,6 +4,7 @@ import { join } from 'node:path'
 import { update } from './update'
 import { expressApp } from '../../express/src/server'
 import { Request, Response } from 'express-serve-static-core';
+import TodoItem from '../../express/src/types/TodoItem';
 
 // The built directory structure
 //
@@ -159,15 +160,6 @@ ipcMain.handle('open-win', (_, arg) => {
   }
 })
 
-interface TodoItem {
-  title: string
-  description: string
-  date: Date
-  priority: string
-  labels: string[]
-  completed: boolean
-}
-
 var todoList: TodoItem[] = [
   {
     title: 'Take the productivity method quiz',
@@ -176,6 +168,7 @@ var todoList: TodoItem[] = [
     priority: "low",
     labels: ['Todoist'],
     completed: false,
+    id: Math.floor(Math.random() * 1000000000)
   },
   {
     title: 'Second',
@@ -184,6 +177,7 @@ var todoList: TodoItem[] = [
     priority: "low",
     labels: ['2nd label'],
     completed: true,
+    id: Math.floor(Math.random() * 1000000000)
   },
   {
     title: 'Take the productivity method quiz',
@@ -192,6 +186,7 @@ var todoList: TodoItem[] = [
     priority: "low",
     labels: ['Todoist'],
     completed: false,
+    id: Math.floor(Math.random() * 1000000000)
   },
   {
     title: 'Second',
@@ -200,6 +195,7 @@ var todoList: TodoItem[] = [
     priority: "low",
     labels: ['2nd label'],
     completed: true,
+    id: Math.floor(Math.random() * 1000000000)
   },
   {
     title: 'Take the productivity method quiz',
@@ -208,6 +204,7 @@ var todoList: TodoItem[] = [
     priority: "low",
     labels: ['Todoist'],
     completed: false,
+    id: Math.floor(Math.random() * 1000000000)
   },
   {
     title: 'Second',
@@ -216,6 +213,7 @@ var todoList: TodoItem[] = [
     priority: "low",
     labels: ['2nd label'],
     completed: true,
+    id: Math.floor(Math.random() * 1000000000)
   },
   {
     title: 'Take the productivity method quiz',
@@ -224,6 +222,7 @@ var todoList: TodoItem[] = [
     priority: "low",
     labels: ['Todoist'],
     completed: false,
+    id: Math.floor(Math.random() * 1000000000)
   },
   {
     title: 'Second',
@@ -232,6 +231,7 @@ var todoList: TodoItem[] = [
     priority: "low",
     labels: ['2nd label'],
     completed: true,
+    id: Math.floor(Math.random() * 1000000000)
   },
   {
     title: 'Take the productivity method quiz',
@@ -240,6 +240,7 @@ var todoList: TodoItem[] = [
     priority: "low",
     labels: ['Todoist'],
     completed: false,
+    id: Math.floor(Math.random() * 1000000000)
   },
   {
     title: 'Second',
@@ -248,6 +249,7 @@ var todoList: TodoItem[] = [
     priority: "low",
     labels: ['2nd label'],
     completed: true,
+    id: Math.floor(Math.random() * 1000000000)
   }
 ]
 
@@ -261,7 +263,30 @@ expressApp.get('/api/sample/tasklist/:id', (req: Request, res: Response) => {
 });
 
 expressApp.post('/api/sample/tasklist/add', (req: Request, res: Response) => {
+  console.log(req.body);
   const newTask: TodoItem = req.body;
   todoList.push(newTask);
+  res.json({todoList})
+});
+
+expressApp.patch('/api/sample/tasklist/update/:id', (req: Request, res: Response) => {
+  const id = parseInt(req.params.id);
+  const updatedTask = req.body;
+
+  // Find the index of the TodoItem with the specified ID
+  const index = todoList.findIndex(item => item.id === id);
+
+  if (index !== -1) {
+    // Update the TodoItem at the found index
+    todoList[index] = { ...todoList[index], ...updatedTask };
+    res.json({ todoList: todoList[index] });
+  } else {
+    res.status(404).json({ message: 'TodoItem not found' });
+  }
+});
+
+expressApp.post('/api/sample/tasklist/delete/:id', (req: Request, res: Response) => {
+  const id: number = parseInt(req.params.id);
+  todoList.splice(id, 1);
   res.json({todoList})
 });

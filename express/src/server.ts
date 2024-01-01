@@ -9,6 +9,7 @@ const expressApp = express();
 
 // Serve static files from the 'public' folder
 expressApp.use(express.static('public'));
+expressApp.use(express.json());
 expressApp.use(cors());
 
 // Start the Express server

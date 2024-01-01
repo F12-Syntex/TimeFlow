@@ -23,7 +23,8 @@
     "cors": "^2.8.5",
     "electron-updater": "^6.1.1",
     "express": "^4.18.2",
-    "react-router-dom": "^6.21.1"
+    "react-router-dom": "^6.21.1",
+    "react-select": "^5.8.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.37.1",

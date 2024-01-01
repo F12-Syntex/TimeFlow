@@ -41,14 +41,12 @@ function App() {
 
   return (
     <div className="main-page-container">
-      <PageHeader title="Today" editableView={true} />
-      <div className="page-content">
-        <ListView listViewItems={todoList} filterDate={filterDate} />
-      </div>
       <PageHeader title="Inbox" editableView={true} />
-      <div className="page-content">
-        <ListView listViewItems={todoList} />
-      </div>
+        <div className="page-content">
+          <ListView listViewItems={todoList} filterDate={filterDate} />
+          <PageHeader title="Today" editableView={true} />
+          <ListView listViewItems={todoList} />
+        </div>
     </div>
   );
 }

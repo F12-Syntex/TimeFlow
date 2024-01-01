@@ -1,6 +1,5 @@
 interface TagItem {
     name: string;
-    color: string;
     id: number;
 }
 

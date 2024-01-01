@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import TodoItem from "../../../../express/src/types/TodoItem";
+import TagItem from "express/src/types/TagItem";
 
 interface ListItemProps {
   item: TodoItem;
@@ -31,16 +32,28 @@ const ListItem = ({ item }: ListItemProps) => {
     setCheck(updatedItem);
   };
 
-  function getItemLabels(labels: string[] | undefined) {
-    let labelString = "";
-
+  function getItemLabels(
+    labels: TagItem[] | undefined
+  ): JSX.Element | undefined {
     if (Array.isArray(labels)) {
-      labelString = labels.join(", "); // Join labels array elements with a comma and space
+      // console.log(labels);
+      return (
+        <>
+          {labels.map((label: TagItem) => (
+            <div
+              className="list-view-item-label"
+              key={label.id}
+              style={{ border: `1px solid {label.color}` }}
+            >
+              {label.name}
+            </div>
+          ))}
+        </>
+      );
     } else {
       console.error("Labels are not an array or are undefined/null");
     }
-
-    return labelString;
+    return undefined;
   }
 
   const parseDate = (date: Date): string => {
@@ -99,7 +112,13 @@ const ListItem = ({ item }: ListItemProps) => {
   };
 
   function openTask() {
-	alert(`Title: ${item.title}\nDescription: ${item.description}\nDate: ${parseDate(item.date)}\nPriority: ${item.priority}\nLabels: ${getItemLabels(item.labels)}`)
+    alert(
+      `Title: ${item.title}\nDescription: ${
+        item.description
+      }\nDate: ${parseDate(item.date)}\nPriority: ${
+        item.priority
+      }\nLabels: ${getItemLabels(item.labels)}`
+    );
   }
 
   return (

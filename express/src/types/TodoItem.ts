@@ -1,9 +1,10 @@
+import TagItem from "./TagItem"
 interface TodoItem {
     title: string
     description: string
     date: Date
     priority: string
-    labels: string[]
+    labels: TagItem[]
     completed: boolean
     id: number
 }

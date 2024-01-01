@@ -114,7 +114,6 @@ function App() {
 
   useEffect(() => {
     getTags();
-    console.log(tagList);
   }, []);
 
   return (

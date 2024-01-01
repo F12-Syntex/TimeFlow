@@ -89,7 +89,7 @@ function App() {
           item.description.toLowerCase().includes(searchText) ||
           item.priority.toLowerCase().includes(searchText) ||
           item.labels.some((label) =>
-            label.toLowerCase().includes(searchText)
+            label.name.toLowerCase().includes(searchText)
           ) ||
           parseDate(item.date).toLowerCase().includes(searchText) ||
           item.completed.toString().toLowerCase().includes(searchText)

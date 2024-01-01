@@ -57,8 +57,23 @@
 }
 
 .list-view-item-labels {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: right;
     font-size: 14px;
-    font-weight: 400;
+    font-weight: 600;
+}
+
+.list-view-item-label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 2px 6px;
+    margin-left: 8px;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.08);
 }
 
 .container {

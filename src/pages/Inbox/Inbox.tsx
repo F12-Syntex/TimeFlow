@@ -41,7 +41,7 @@ function App() {
 
   return (
     <div className="main-page-container">
-      <div className="page-content">
+      <div className="page-content inbox-scroller">
         <PageHeader title="Today" editableView={true} />
         <ListView listViewItems={todoList} filterDate={filterDate} />
         <PageHeader title="Inbox" editableView={true} />

@@ -7,8 +7,6 @@
     align-items: center;
     /* background-color: #1a1a1ae5; */
     background-color: #161616;
-
-    padding-bottom: 32px;
 }
 .page-content, .search-page-content {
     position: relative;

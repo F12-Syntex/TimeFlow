@@ -36,17 +36,17 @@ function App() {
       });
   };
 
-  const filterCompleted: boolean = false
+  const filterCompleted: boolean = false;
   const filterDate: Date = new Date();
 
   return (
     <div className="main-page-container">
-        <div className="page-content">
-          <PageHeader title="Inbox" editableView={true} />
-          <ListView listViewItems={todoList} />
-          <PageHeader title="Today" editableView={true} />
-          <ListView listViewItems={todoList} filterDate={filterDate} />
-        </div>
+      <div className="page-content">
+        <PageHeader title="Today" editableView={true} />
+        <ListView listViewItems={todoList} filterDate={filterDate} />
+        <PageHeader title="Inbox" editableView={true} />
+        <ListView listViewItems={todoList} />
+      </div>
     </div>
   );
 }

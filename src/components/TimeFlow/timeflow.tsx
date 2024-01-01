@@ -1,7 +1,6 @@
 import { useState } from "react";
 import "./timeflow.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import Today from "../../pages/Today/Today";
 import Inbox from "../../pages/Inbox/Inbox";
 import Search from "../../pages/Search/Search";
 import Add from "../../pages/Add/Add";
@@ -12,7 +11,6 @@ const buttonData = [
   { name: 'plus', selectedName: 'plus', component: <Add /> },
   { name: 'search', selectedName: 'search', component: <Search /> },
   { name: 'inbox', selectedName: 'inbox-fill', component: <Inbox /> },
-  { name: 'calendar-day', selectedName: 'calendar-day-fill', component: <Today /> },
   { name: 'calendar', selectedName: 'calendar-fill', component: <Calendar /> },
   { name: 'tag', selectedName: 'tag-fill', component: <Tags /> },
 ];

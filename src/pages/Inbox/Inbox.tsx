@@ -36,8 +36,15 @@ function App() {
       });
   };
 
+  const filterCompleted: boolean = false
+  const filterDate: Date = new Date();
+
   return (
     <div className="main-page-container">
+      <PageHeader title="Today" editableView={true} />
+      <div className="page-content">
+        <ListView listViewItems={todoList} filterDate={filterDate} />
+      </div>
       <PageHeader title="Inbox" editableView={true} />
       <div className="page-content">
         <ListView listViewItems={todoList} />

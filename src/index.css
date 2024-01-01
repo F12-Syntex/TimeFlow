@@ -71,6 +71,10 @@ input {
   }
 }
 
+input {
+  cursor: text;
+}
+
 code {
   background-color: #121212;
   padding: 2px 4px;

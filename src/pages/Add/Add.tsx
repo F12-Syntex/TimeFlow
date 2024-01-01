@@ -72,7 +72,6 @@ function App() {
       // then alert the user that the task was added and redirect to the inbo
       .then((response) => {
         if (response.status === 200) {
-          alert("Task added");
           window.location.href = "/inbox";
         } else {
           alert("Error adding task");
@@ -88,12 +87,6 @@ function App() {
       parseInt(dateArray[2])
     );
   };
-
-  const options = [
-    { value: "work", label: "Work" },
-    { value: "school", label: "School" },
-    { value: "personal", label: "Personal" },
-  ];
 
   return (
     <div className="main-page-container">

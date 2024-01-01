@@ -285,7 +285,7 @@ expressApp.patch('/api/sample/tasklist/update/:id', (req: Request, res: Response
   }
 });
 
-expressApp.post('/api/sample/tasklist/delete/:id', (req: Request, res: Response) => {
+expressApp.delete('/api/sample/tasklist/delete/:id', (req: Request, res: Response) => {
   const id: number = parseInt(req.params.id);
   todoList.splice(id, 1);
   res.json({todoList})

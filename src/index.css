@@ -51,7 +51,7 @@ input {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: rgba(255, 255, 255, 0.05);
   cursor: pointer;
   transition: border-color, background-color 0.2s ease-in-out;
   outline: none;
@@ -72,7 +72,7 @@ input {
 }
 
 code {
-  background-color: #1a1a1a;
+  background-color: #121212;
   padding: 2px 4px;
   margin: 0 4px;
   border-radius: 4px;

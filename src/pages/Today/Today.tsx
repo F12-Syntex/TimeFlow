@@ -35,11 +35,14 @@ function App() {
       });
   };
 
+  const filterDate = new Date();
+  const filterCompleted = undefined;
+
   return (
     <div className="main-page-container">
       <PageHeader title="Today" editableView={true} />
       <div className="page-content">
-        <ListView listViewItems={todoList} />
+        <ListView listViewItems={todoList} filterDate={filterDate} filterCompleted={filterCompleted} />
       </div>
     </div>
   );

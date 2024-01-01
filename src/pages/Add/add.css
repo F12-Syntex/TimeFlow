@@ -7,7 +7,7 @@
     padding-bottom: 16px;
     padding-top: 24px;
     border-radius: 16px;
-    background-color: rgba(255, 255, 255, 0.08);
+    background-color: rgba(255, 255, 255, 0.05);
   }
   
   .add-task-form-item-row {
@@ -18,7 +18,7 @@
     width: calc(100% - 52px);
 
     input {
-        background-color: rgba(255, 255, 255, 0.08);
+        background-color: rgba(255, 255, 255, 0.05);
     }
 
     input:hover {
@@ -26,7 +26,7 @@
     }
 
     select {
-        background-color: rgba(255, 255, 255, 0.08);
+        background-color: rgba(255, 255, 255, 0.05);
         border-radius: 16px;
         border: none;
         height: 40px;
@@ -48,7 +48,7 @@
     justify-content: center;
     margin-bottom: 10px;
     input {
-        background-color: rgba(255, 255, 255, 0.08);
+        background-color: rgba(255, 255, 255, 0.05);
         width: calc(100%);
     }
 
@@ -57,7 +57,7 @@
     }
 
     select {
-        background-color: rgba(255, 255, 255, 0.08);
+        background-color: rgba(255, 255, 255, 0.05);
         border-radius: 16px;
         border: none;
         height: 40px;
@@ -74,7 +74,7 @@
     margin-bottom: 10px; /* Adjust spacing between form items */
     width: calc(100% - 52px);
     input {
-        background-color: rgba(255, 255, 255, 0.08);
+        background-color: rgba(255, 255, 255, 0.05);
         width: calc(100% - 40px);
     }
 
@@ -83,7 +83,7 @@
     }
 
     select {
-        background-color: rgba(255, 255, 255, 0.08);
+        background-color: rgba(255, 255, 255, 0.05);
         width: calc(100% - 8px);
         border-radius: 16px;
         border: none;
@@ -104,7 +104,7 @@
   }
   
   .add-task-form-submit {
-    background-color: rgba(255, 255, 255, 0.08);
+    background-color: rgba(255, 255, 255, 0.05);
     width: calc(100%);
   }
 

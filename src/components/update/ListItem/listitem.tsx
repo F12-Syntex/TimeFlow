@@ -98,6 +98,10 @@ const ListItem = ({ item }: ListItemProps) => {
     return `${mm}/${dd}/${yyyy}`;
   };
 
+  function openTask() {
+	alert(`Title: ${item.title}\nDescription: ${item.description}\nDate: ${parseDate(item.date)}\nPriority: ${item.priority}\nLabels: ${getItemLabels(item.labels)}`)
+  }
+
   return (
     <div className="list-view-item">
       <div className="list-view-item-left">
@@ -113,7 +117,7 @@ const ListItem = ({ item }: ListItemProps) => {
           </div>
         </div>
       </div>
-      <div className="list-view-item-right">
+      <div className="list-view-item-right" onClick={openTask}>
         <div className="list-view-item-top">
           <div className="list-view-item-title">{item.title}</div>
           <div className="list-view-item-date">

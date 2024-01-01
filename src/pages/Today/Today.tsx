@@ -14,7 +14,7 @@ function App() {
   }, []);
 
   const fetchTodoList = () => {
-    fetch("http://localhost:3000/api/sample/tasklist")
+    fetch("http://localhost:3000/api/sample/tasks")
       .then((response) => response.json())
       .then((data) => {
         const parsedTodoList: TodoItem[] = data["todoList"].map(

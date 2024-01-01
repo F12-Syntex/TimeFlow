@@ -12,7 +12,7 @@ const ListItem = ({ item }: ListItemProps) => {
     const checked = event.currentTarget.checked;
     const updatedItem = { ...item, completed: checked };
 
-    const url = `http://localhost:3000/api/sample/tasklist/update/${item.id}`;
+    const url = `http://localhost:3000/api/sample/tasks/update/${item.id}`;
     const method = "PATCH";
     const body = JSON.stringify(updatedItem);
     const headers = {

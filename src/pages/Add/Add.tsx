@@ -1,8 +1,8 @@
 import "./add.css";
 import "../pages.css";
 import PageHeader from "../../components/update/PageHeader/pageheader";
-import Select from "react-select";
-import { useState } from "react";
+import TagItem from "express/src/types/TagItem";
+import React, { useEffect, useState } from "react";
 
 function App() {
   const addTask = () => {
@@ -62,7 +62,7 @@ function App() {
       id: Math.floor(Math.random() * 1000000000),
     };
 
-    fetch("http://localhost:3000/api/sample/tasklist/add", {
+    fetch("http://localhost:3000/api/sample/tasks/add", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -87,6 +87,35 @@ function App() {
       parseInt(dateArray[2])
     );
   };
+
+  const [tagList, setTagList] = useState<TagItem[]>([]);
+
+  const getTags = () => {
+    fetch("http://localhost:3000/api/sample/tags")
+      .then((response) => response.json())
+      .then((data) => {
+        // Check if data.tags is an array
+        if (Array.isArray(data.tags)) {
+          // Manipulate the data to get TagItem array
+          const parsedTagList: TagItem[] = data.tags.map((tag: any) => ({
+            name: tag.name,
+            color: tag.color,
+            id: tag.id,
+          }));
+          setTagList(parsedTagList);
+        } else {
+          console.error("Invalid data format for tags");
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching tags:", error);
+      });
+  };
+
+  useEffect(() => {
+    getTags();
+    console.log(tagList);
+  }, []);
 
   return (
     <div className="main-page-container">
@@ -125,10 +154,11 @@ function App() {
             </div>
             <div className="add-task-form-item">
               <select id="labels" name="labels">
-                {/* placeholders */}
-                <option value="work">Work</option>
-                <option value="school">School</option>
-                <option value="personal">Personal</option>
+                {tagList.map((tag) => (
+                  <option key={tag.id} value={tag.name}>
+                    {tag.name}
+                  </option>
+                ))}
               </select>
             </div>
             <div className="add-task-form-item">

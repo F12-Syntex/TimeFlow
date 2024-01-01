@@ -5,6 +5,7 @@ import { update } from './update'
 import { expressApp } from '../../express/src/server'
 import { Request, Response } from 'express-serve-static-core';
 import TodoItem from '../../express/src/types/TodoItem';
+import TagItem from '../../express/src/types/TagItem';
 
 // The built directory structure
 //
@@ -164,7 +165,7 @@ var todoList: TodoItem[] = [
   {
     title: 'Take the productivity method quiz',
     description: 'Get a personalized recommendation from Todoist',
-    date: new Date(),
+    date: new Date(new Date().setDate(new Date().getDate() - 1)),
     priority: "low",
     labels: ['Todoist'],
     completed: false,
@@ -173,7 +174,7 @@ var todoList: TodoItem[] = [
   {
     title: 'Second',
     description: 'Second description',
-    date: new Date(),
+    date: new Date(new Date().setDate(new Date().getDate() - 1)),
     priority: "low",
     labels: ['2nd label'],
     completed: true,
@@ -182,7 +183,7 @@ var todoList: TodoItem[] = [
   {
     title: 'Take the productivity method quiz',
     description: 'Get a personalized recommendation from Todoist',
-    date: new Date(),
+    date: new Date(new Date().setDate(new Date().getDate() - 1)),
     priority: "low",
     labels: ['Todoist'],
     completed: false,
@@ -191,7 +192,7 @@ var todoList: TodoItem[] = [
   {
     title: 'Second',
     description: 'Second description',
-    date: new Date(),
+    date: new Date(new Date().setDate(new Date().getDate() - 1)),
     priority: "low",
     labels: ['2nd label'],
     completed: true,
@@ -200,7 +201,7 @@ var todoList: TodoItem[] = [
   {
     title: 'Take the productivity method quiz',
     description: 'Get a personalized recommendation from Todoist',
-    date: new Date(),
+    date: new Date(new Date().setDate(new Date().getDate() - 1)),
     priority: "low",
     labels: ['Todoist'],
     completed: false,
@@ -209,7 +210,7 @@ var todoList: TodoItem[] = [
   {
     title: 'Second',
     description: 'Second description',
-    date: new Date(),
+    date: new Date(new Date().setDate(new Date().getDate() - 1)),
     priority: "low",
     labels: ['2nd label'],
     completed: true,
@@ -218,7 +219,7 @@ var todoList: TodoItem[] = [
   {
     title: 'Take the productivity method quiz',
     description: 'Get a personalized recommendation from Todoist',
-    date: new Date(),
+    date: new Date(new Date().setDate(new Date().getDate() - 1)),
     priority: "low",
     labels: ['Todoist'],
     completed: false,
@@ -227,14 +228,14 @@ var todoList: TodoItem[] = [
   {
     title: 'Second',
     description: 'Second description',
-    date: new Date(),
+    date: new Date(new Date().setDate(new Date().getDate() - 1)),
     priority: "low",
     labels: ['2nd label'],
     completed: true,
     id: Math.floor(Math.random() * 1000000000)
   },
   {
-    title: 'Take the productivity method quiz',
+    title: `Take today's productivity method quiz`,
     description: 'Get a personalized recommendation from Todoist',
     date: new Date(),
     priority: "low",
@@ -243,7 +244,7 @@ var todoList: TodoItem[] = [
     id: Math.floor(Math.random() * 1000000000)
   },
   {
-    title: 'Second',
+    title: 'Second today item',
     description: 'Second description',
     date: new Date(),
     priority: "low",
@@ -253,23 +254,36 @@ var todoList: TodoItem[] = [
   }
 ]
 
-expressApp.get('/api/sample/tasklist', (req: Request, res: Response) => {
+var tagList: TagItem[] = [
+  {
+    name: 'TagItem 1',
+    color: '#ff0000',
+    id: Math.floor(Math.random() * 1000000000)
+  },
+  {
+    name: 'TagItem 2',
+    color: '#00ff00',
+    id: Math.floor(Math.random() * 1000000000)
+  }
+]
+
+expressApp.get('/api/sample/tasks', (req: Request, res: Response) => {
   res.json({todoList})
 });
 
-expressApp.get('/api/sample/tasklist/:id', (req: Request, res: Response) => {
+expressApp.get('/api/sample/tasks/:id', (req: Request, res: Response) => {
   const id: number = parseInt(req.params.id);
   res.json({todoList: todoList[id]})
 });
 
-expressApp.post('/api/sample/tasklist/add', (req: Request, res: Response) => {
+expressApp.post('/api/sample/tasks/add', (req: Request, res: Response) => {
   console.log(req.body);
   const newTask: TodoItem = req.body;
   todoList.push(newTask);
   res.json({todoList})
 });
 
-expressApp.patch('/api/sample/tasklist/update/:id', (req: Request, res: Response) => {
+expressApp.patch('/api/sample/tasks/update/:id', (req: Request, res: Response) => {
   const id = parseInt(req.params.id);
   const updatedTask = req.body;
 
@@ -285,8 +299,23 @@ expressApp.patch('/api/sample/tasklist/update/:id', (req: Request, res: Response
   }
 });
 
-expressApp.delete('/api/sample/tasklist/delete/:id', (req: Request, res: Response) => {
+expressApp.delete('/api/sample/tasks/delete/:id', (req: Request, res: Response) => {
   const id: number = parseInt(req.params.id);
   todoList.splice(id, 1);
   res.json({todoList})
+});
+
+expressApp.get('/api/sample/tags', (req: Request, res: Response) => {
+  const uniqueTags = [...tagList];
+  res.json({tags: uniqueTags})
+});
+
+expressApp.post('/api/sample/tags/add', (req: Request, res: Response) => {
+  const newTag = req.body;
+  res.json({tags: newTag})
+});
+
+expressApp.delete('/api/sample/tags/delete/:id', (req: Request, res: Response) => {
+  const id: number = parseInt(req.params.id);
+  res.json({tags: id})
 });

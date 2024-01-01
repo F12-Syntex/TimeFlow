@@ -4,7 +4,6 @@
     align-items: center;
     justify-content: center;
     max-width: calc(100vw - 96px - 64px);
-    padding-bottom: 32px;
     border-radius: 16px;
 }
 

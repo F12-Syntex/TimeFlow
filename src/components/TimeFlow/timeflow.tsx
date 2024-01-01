@@ -8,11 +8,11 @@ import Calendar from "../../pages/Calendar/Calendar";
 import Tags from "../../pages/Tags/Tags";
 
 const buttonData = [
-  { name: 'plus', selectedName: 'plus', component: <Add /> },
-  { name: 'search', selectedName: 'search', component: <Search /> },
-  { name: 'inbox', selectedName: 'inbox-fill', component: <Inbox /> },
-  { name: 'calendar', selectedName: 'calendar-fill', component: <Calendar /> },
-  { name: 'tag', selectedName: 'tag-fill', component: <Tags /> },
+  { name: "plus", selectedName: "plus", component: <Add /> },
+  { name: "search", selectedName: "search", component: <Search /> },
+  { name: "inbox", selectedName: "inbox-fill", component: <Inbox /> },
+  { name: "calendar", selectedName: "calendar-fill", component: <Calendar /> },
+  { name: "tag", selectedName: "tag-fill", component: <Tags /> },
 ];
 
 const TimeFlow = () => {
@@ -56,7 +56,8 @@ const TimeFlow = () => {
   function getButtons() {
     return (
       <div className="sidebar-buttons">
-        {buttonData.map((button, index) => { // Use buttonData instead of undefined icons
+        {buttonData.map((button, index) => {
+          // Use buttonData instead of undefined icons
           return getButton(index, index === selectedIndex);
         })}
       </div>
@@ -66,7 +67,9 @@ const TimeFlow = () => {
   return (
     <div className="main-container">
       <div className="sidebar">{getButtons()}</div>
-      <div className="homepage-container">{buttonData[selectedIndex].component}</div>
+      <div className="homepage-container">
+        {buttonData[selectedIndex].component}
+      </div>
     </div>
   );
 };

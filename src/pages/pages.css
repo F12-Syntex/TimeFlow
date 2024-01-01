@@ -20,6 +20,8 @@
     height: calc(100vh);
 
     user-select: none;
+
+    padding-bottom: 36px;
 }
 
 

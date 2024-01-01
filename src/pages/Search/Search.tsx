@@ -100,6 +100,7 @@ function App() {
 
   return (
     <div className="main-page-container">
+      <div className="search-page-content">
       <PageHeader title="Search" editableView={true} />
       <input
         type="text"
@@ -107,7 +108,6 @@ function App() {
         placeholder="Search"
         onChange={handleSearch}
       />
-      <div className="search-page-content">
         <ListView listViewItems={filteredList} />
       </div>
     </div>

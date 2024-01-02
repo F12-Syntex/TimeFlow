@@ -21,24 +21,43 @@ function App() {
     fetch("http://localhost:3000/api/sample/tasks")
       .then((response) => response.json())
       .then((data) => {
-        console.log(data["tasks"].map((element: TodoItem) => element));
-        const updatedTodoList: TodoItem[] = data["tasks"].map(
-          (element: TodoItem) => ({
-            title: element.title,
-            description: element.description,
-            date: new Date(element.date),
-            priority: element.priority,
-            labels: element.labels,
-            completed: element.completed,
-            _id: element._id,
-          })
+        const tasks: TodoItem[] = data["tasks"];
+  
+        const fetchLabelPromises = tasks.map((task: TodoItem) =>
+          fetch(`http://localhost:3000/api/sample/tags/${task.labels}`)
+            .then((response) => response.json())
+            .then((labelData) => {
+              return labelData;
+            })
+            .catch((error) => {
+              console.error("Error fetching label:", error);
+              return null;
+            })
         );
-        setTodoList(updatedTodoList);
+  
+        Promise.all(fetchLabelPromises)
+          .then((labelResults) => {
+            const updatedTodoList: TodoItem[] = tasks.map((task: TodoItem, index: number) => ({
+              user: "", // Add the missing user property
+              title: task.title,
+              description: task.description,
+              date: new Date(task.date),
+              priority: task.priority,
+              labels: labelResults[index],
+              completed: task.completed,
+              _id: task._id,
+            }));
+            setTodoList(updatedTodoList);
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
       })
       .catch((error) => {
-        console.error("Error:", error);
+        console.error("Error fetching tasks:", error);
       });
   };
+  
 
   const parseDate = (date: Date): string => {
     const currentDate = new Date();

@@ -9,8 +9,6 @@ interface ListItemProps {
 const ListItem = ({ item }: ListItemProps) => {
   const [check, setCheck] = useState(item);
 
-  console.log(item);
-
   const handleCheckboxClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     const checked = event.currentTarget.checked;
     const updatedItem = { ...item, completed: checked };
@@ -25,7 +23,7 @@ const ListItem = ({ item }: ListItemProps) => {
     fetch(url, { method, body, headers })
       .then((response) => response.json())
       .then((data) => {
-        // console.log('Success:', data);
+        // console.log("Success:", data);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -33,49 +31,6 @@ const ListItem = ({ item }: ListItemProps) => {
 
     setCheck(updatedItem);
   };
-
-  function getItemLabels(labels: ObjectId[] | undefined): JSX.Element | undefined {
-	const [fetchedLabels, setFetchedLabels] = useState<TagItem[]>([]);
-  
-	useEffect(() => {
-	  if (Array.isArray(labels)) {
-		// Fetch label data based on the provided label IDs
-		fetch('/api/sample/tags', {
-		  method: 'POST',
-		  headers: {
-			'Content-Type': 'application/json',
-		  },
-		  body: JSON.stringify({ ids: labels }),
-		})
-		  .then((response) => response.json())
-		  .then((data) => {
-			setFetchedLabels(data.labels); // Store fetched labels in state
-		  })
-		  .catch((error) => {
-			console.error('Error:', error);
-		  });
-	  } else {
-		console.error('Labels are not an array or are undefined/null');
-	  }
-	}, [labels]);
-  
-	if (fetchedLabels.length > 0) {
-	  return (
-		<>
-		  {fetchedLabels.map((label: TagItem) => (
-			<div
-			  className="list-view-item-label"
-			  key={String(label._id)}
-			>
-			  {label.name}
-			</div>
-		  ))}
-		</>
-	  );
-	}
-  
-	return undefined;
-  }
 
   const parseDate = (date: Date): string => {
     const currentDate = new Date();
@@ -137,9 +92,9 @@ const ListItem = ({ item }: ListItemProps) => {
       `Title: ${item.title}\nDescription: ${
         item.description
         // get date from timestamp
-      }\nDate: ${parseDate(item.date)}\nPriority: ${item.priority}\nLabels: ${item.labels
-        // .map((label: TagItem) => label.name)
-        .join(", ")}\nCompleted: ${item.completed}\nID: ${item._id}`
+      }\nDate: ${parseDate(item.date)}\nPriority: ${
+        item.priority
+      }\nLabels: TODO\nCompleted: ${item.completed}\nID: ${item._id}`
     );
   }
 
@@ -168,7 +123,7 @@ const ListItem = ({ item }: ListItemProps) => {
         <div className="list-view-item-bottom">
           <div className="list-view-item-description">{item.description}</div>
           <div className="list-view-item-labels">
-            {getItemLabels(item.labels)}
+			{  }
           </div>
         </div>
       </div>

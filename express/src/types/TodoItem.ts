@@ -9,7 +9,7 @@ interface TodoItem {
     date: Date;
     priority: string;
     completed: boolean;
-    labels: ObjectId[];
+    labels: TagItem[];
 }
 
 export default TodoItem

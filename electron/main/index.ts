@@ -162,7 +162,7 @@ ipcMain.handle("open-win", (_, arg) => {
   }
 });
 
-import { MongoClient, ServerApiVersion } from "mongodb";
+import { MongoClient, ObjectId, ServerApiVersion } from "mongodb";
 
 // Encode the username and password for the URI
 const user = encodeURIComponent("admin");
@@ -272,15 +272,15 @@ expressApp.get("/api/sample/tags", async (req: Request, res: Response) => {
   }
 });
 
-expressApp.post("/api/sample/tags", async (req: Request, res: Response) => {
+expressApp.get("/api/sample/tags/:id", async (req: Request, res: Response) => {
   try {
     const tagsCollection = database.collection("tags");
-    const ids: string[] = req.query.ids as string[];
-    const tags = await tagsCollection.find({ id: { $in: ids } }).toArray();
-    res.json({ tags });
+    const id: string = req.params.id;
+    const tag = await tagsCollection.findOne({ _id: new ObjectId(id) });
+    res.json({ tag });
   } catch (error) {
-    console.error("Error fetching tags:", error);
-    res.status(500).json({ error: "Error fetching tags" });
+    console.error("Error fetching tag:", error);
+    res.status(500).json({ error: "Error fetching tag" });
   }
 });
 

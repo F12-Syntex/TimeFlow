@@ -12,8 +12,6 @@ function ListView({
 }: ListViewProps) {
   let filteredItems = listViewItems;
 
-  console.log(filteredItems);
-
   return (
     <div>
       {(filteredItems.length === 0 && (

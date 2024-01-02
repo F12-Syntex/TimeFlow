@@ -58,7 +58,7 @@ async function createWindow() {
     hasShadow: true,
     titleBarOverlay: true,
     titleBarStyle: "default",
-    vibrancy: "popover",
+    // vibrancy: "popover",
     roundedCorners: true,
     webPreferences: {
       preload,
@@ -162,174 +162,151 @@ ipcMain.handle("open-win", (_, arg) => {
   }
 });
 
-var tagList: TagItem[] = [
-  {
-    name: "Work",
-    id: Math.floor(Math.random() * 1000000000),
-  },
-  {
-    name: "School",
-    id: Math.floor(Math.random() * 1000000000),
-  },
-];
+import { MongoClient, ServerApiVersion } from "mongodb";
 
-var todoList: TodoItem[] = [
-  {
-    title: "Take the productivity method quiz",
-    description: "Get a personalized recommendation from Todoist",
-    date: new Date(new Date().setDate(new Date().getDate() - 1)),
-    priority: "low",
-    labels: tagList,
-    completed: false,
-    id: Math.floor(Math.random() * 1000000000),
-  },
-  {
-    title: "Second",
-    description: "Second description",
-    date: new Date(new Date().setDate(new Date().getDate() - 1)),
-    priority: "low",
-    labels: tagList,
-    completed: true,
-    id: Math.floor(Math.random() * 1000000000),
-  },
-  {
-    title: "Take the productivity method quiz",
-    description: "Get a personalized recommendation from Todoist",
-    date: new Date(new Date().setDate(new Date().getDate() - 1)),
-    priority: "low",
-    labels: tagList,
-    completed: false,
-    id: Math.floor(Math.random() * 1000000000),
-  },
-  {
-    title: "Second",
-    description: "Second description",
-    date: new Date(new Date().setDate(new Date().getDate() - 1)),
-    priority: "low",
-    labels: tagList,
-    completed: true,
-    id: Math.floor(Math.random() * 1000000000),
-  },
-  {
-    title: "Take the productivity method quiz",
-    description: "Get a personalized recommendation from Todoist",
-    date: new Date(new Date().setDate(new Date().getDate() - 1)),
-    priority: "low",
-    labels: tagList,
-    completed: false,
-    id: Math.floor(Math.random() * 1000000000),
-  },
-  {
-    title: "Second",
-    description: "Second description",
-    date: new Date(new Date().setDate(new Date().getDate() - 1)),
-    priority: "low",
-    labels: tagList,
-    completed: true,
-    id: Math.floor(Math.random() * 1000000000),
-  },
-  {
-    title: "Take the productivity method quiz",
-    description: "Get a personalized recommendation from Todoist",
-    date: new Date(new Date().setDate(new Date().getDate() - 1)),
-    priority: "low",
-    labels: tagList,
-    completed: false,
-    id: Math.floor(Math.random() * 1000000000),
-  },
-  {
-    title: "Second",
-    description: "Second description",
-    date: new Date(new Date().setDate(new Date().getDate() - 1)),
-    priority: "low",
-    labels: tagList,
-    completed: true,
-    id: Math.floor(Math.random() * 1000000000),
-  },
-  {
-    title: `Take today's productivity method quiz`,
-    description: "Get a personalized recommendation from Todoist",
-    date: new Date(),
-    priority: "low",
-    labels: tagList,
-    completed: false,
-    id: Math.floor(Math.random() * 1000000000),
-  },
-  {
-    title: "Second today item",
-    description: "Second description",
-    date: new Date(),
-    priority: "low",
-    labels: tagList,
-    completed: true,
-    id: Math.floor(Math.random() * 1000000000),
-  },
-];
+// Encode the username and password for the URI
+const user = encodeURIComponent("admin");
+const password = encodeURIComponent("admin");
+const uri = `mongodb+srv://${user}:${password}@timeflow.g62uc3l.mongodb.net/?retryWrites=true&w=majority`;
 
-expressApp.get("/api/sample/tasks", (req: Request, res: Response) => {
-  res.json({ todoList });
+// Create a MongoClient with MongoClientOptions to set the Stable API version
+const client = new MongoClient(uri, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  },
 });
 
-expressApp.get("/api/sample/tasks/:id", (req: Request, res: Response) => {
-  const id: number = parseInt(req.params.id);
-  res.json({ todoList: todoList[id] });
+// Connect to MongoDB
+async function connectToMongoDB() {
+  try {
+    await client.connect();
+    console.log("Connected to MongoDB!");
+  } catch (error) {
+    console.error("Error connecting to MongoDB:", error);
+  }
+}
+
+// Run the connection function
+connectToMongoDB();
+
+const database = client.db("TimeFlow");
+
+// Define an Express route to get tasks from the database
+expressApp.get("/api/sample/tasks", async (req: Request, res: Response) => {
+  try {
+    // Retrieve tasks from the database
+    const taskCollection = database.collection("tasks");
+    const tasks = await taskCollection.find({}).toArray();
+    res.json({ tasks });
+  } catch (error) {
+    console.error("Error fetching tasks:", error);
+    res.status(500).json({ error: "Error fetching tasks" });
+  }
 });
 
-expressApp.post("/api/sample/tasks/add", (req: Request, res: Response) => {
-  console.log(req.body);
-  const newTask: TodoItem = req.body;
-  todoList.push(newTask);
-  res.json({ todoList });
+expressApp.get("/api/sample/tasks/:id", async (req: Request, res: Response) => {
+  try {
+    const tasksCollection = database.collection("tasks");
+    const id: number = parseInt(req.params.id);
+    const task = tasksCollection.findOne({ id: id });
+    res.json({ task });
+  } catch (error) {
+    console.error("Error fetching task:", error);
+    res.status(500).json({ error: "Error fetching task" });
+  }
+});
+
+expressApp.post("/api/sample/tasks/add", async (req: Request, res: Response) => {
+  try {
+    const tasksCollection = database.collection("tasks");
+    const task: TodoItem = req.body;
+    tasksCollection.insertOne(task);
+    res.json({ task });
+  } catch (error) {
+    console.error("Error adding task:", error);
+    res.status(500).json({ error: "Error adding task" });
+  }
 });
 
 expressApp.patch(
   "/api/sample/tasks/update/:id",
-  (req: Request, res: Response) => {
-    const id = parseInt(req.params.id);
-    const updatedTask = req.body;
-
-    // Find the index of the TodoItem with the specified ID
-    const index = todoList.findIndex((item) => item.id === id);
-
-    if (index !== -1) {
-      // Update the TodoItem at the found index
-      todoList[index] = { ...todoList[index], ...updatedTask };
-      res.json({ todoList: todoList[index] });
-    } else {
-      res.status(404).json({ message: "TodoItem not found" });
+  async (req: Request, res: Response) => {
+    try {
+      const tasksCollection = database.collection("tasks");
+      const id: number = parseInt(req.params.id);
+      const task: TodoItem = req.body;
+      tasksCollection.updateOne({ id: id }, { $set: task });
+      res.json({ task });
+    } catch (error) {
+      console.error("Error updating task:", error);
+      res.status(500).json({ error: "Error updating task" });
     }
   }
 );
 
 expressApp.delete(
   "/api/sample/tasks/delete/:id",
-  (req: Request, res: Response) => {
-    const id: number = parseInt(req.params.id);
-    todoList.splice(id, 1);
-    res.json({ todoList });
+  async (req: Request, res: Response) => {
+    try {
+      const tasksCollection = database.collection("tasks");
+      const id: number = parseInt(req.params.id);
+      tasksCollection.deleteOne({ id: id });
+      res.json({ tasks: id });
+    } catch (error) {
+      console.error("Error deleting task:", error);
+      res.status(500).json({ error: "Error deleting task" });
+    }
   }
 );
 
-expressApp.get("/api/sample/tags", (req: Request, res: Response) => {
-  const uniqueTags = [...tagList];
-  res.json({ tags: uniqueTags });
+expressApp.get("/api/sample/tags", async (req: Request, res: Response) => {
+  try {
+    const tagsCollection = database.collection("tags");
+    const tags = await tagsCollection.find({}).toArray();
+    res.json({ tags });
+  } catch (error) {
+    console.error("Error fetching tags:", error);
+    res.status(500).json({ error: "Error fetching tags" });
+  }
 });
 
-expressApp.post("/api/sample/tags/add", (req: Request, res: Response) => {
-  const newTag = req.body;
-  res.json({ tags: newTag });
+expressApp.post("/api/sample/tags", async (req: Request, res: Response) => {
+  try {
+    const tagsCollection = database.collection("tags");
+    const ids: string[] = req.query.ids as string[];
+    const tags = await tagsCollection.find({ id: { $in: ids } }).toArray();
+    res.json({ tags });
+  } catch (error) {
+    console.error("Error fetching tags:", error);
+    res.status(500).json({ error: "Error fetching tags" });
+  }
+});
+
+expressApp.post("/api/sample/tags/add", async (req: Request, res: Response) => {
+  try {
+    const tagsCollection = database.collection("tags");
+    const tag: TagItem = req.body;
+    tagsCollection.insertOne(tag);
+    res.json({ tag });
+  } catch (error) {
+    console.error("Error adding tag:", error);
+    res.status(500).json({ error: "Error adding tag" });
+  }
 });
 
 expressApp.delete(
   "/api/sample/tags/delete/:id",
-  (req: Request, res: Response) => {
-    const id: number = parseInt(req.params.id);
-    res.json({ tags: id });
+  async (req: Request, res: Response) => {
+    try {
+      const tagsCollection = database.collection("tags");
+      const id: number = parseInt(req.params.id);
+      tagsCollection.deleteOne({ id: id });
+      res.json({ tags: id });
+    } catch (error) {
+      console.error("Error deleting tag:", error);
+      res.status(500).json({ error: "Error deleting tag" });
+    }
   }
 );
-
-// getRandomTag
-expressApp.get("/api/sample/tags/random", (req: Request, res: Response) => {
-  const randomTag = tagList[Math.floor(Math.random() * tagList.length)];
-  res.json({ tags: randomTag });
-});

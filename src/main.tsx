@@ -6,7 +6,7 @@ import TimeFlow from './components/TimeFlow/timeflow'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-      <TimeFlow/>
+    <TimeFlow />
   </React.StrictMode>,
 )
 

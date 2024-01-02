@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import TodoItem from "../../../../express/src/types/TodoItem";
 import TagItem from "express/src/types/TagItem";
-
+import { ObjectId } from "mongodb";
 interface ListItemProps {
   item: TodoItem;
 }
@@ -9,11 +9,13 @@ interface ListItemProps {
 const ListItem = ({ item }: ListItemProps) => {
   const [check, setCheck] = useState(item);
 
+  console.log(item);
+
   const handleCheckboxClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     const checked = event.currentTarget.checked;
     const updatedItem = { ...item, completed: checked };
 
-    const url = `http://localhost:3000/api/sample/tasks/update/${item.id}`;
+    const url = `http://localhost:3000/api/sample/tasks/update/${item._id}`;
     const method = "PATCH";
     const body = JSON.stringify(updatedItem);
     const headers = {
@@ -32,28 +34,47 @@ const ListItem = ({ item }: ListItemProps) => {
     setCheck(updatedItem);
   };
 
-  function getItemLabels(
-    labels: TagItem[] | undefined
-  ): JSX.Element | undefined {
-    if (Array.isArray(labels)) {
-      // console.log(labels);
-      return (
-        <>
-          {labels.map((label: TagItem) => (
-            <div
-              className="list-view-item-label"
-              key={label.id}
-              style={{ border: `1px solid {label.color}` }}
-            >
-              {label.name}
-            </div>
-          ))}
-        </>
-      );
-    } else {
-      console.error("Labels are not an array or are undefined/null");
-    }
-    return undefined;
+  function getItemLabels(labels: ObjectId[] | undefined): JSX.Element | undefined {
+	const [fetchedLabels, setFetchedLabels] = useState<TagItem[]>([]);
+  
+	useEffect(() => {
+	  if (Array.isArray(labels)) {
+		// Fetch label data based on the provided label IDs
+		fetch('/api/sample/tags', {
+		  method: 'POST',
+		  headers: {
+			'Content-Type': 'application/json',
+		  },
+		  body: JSON.stringify({ ids: labels }),
+		})
+		  .then((response) => response.json())
+		  .then((data) => {
+			setFetchedLabels(data.labels); // Store fetched labels in state
+		  })
+		  .catch((error) => {
+			console.error('Error:', error);
+		  });
+	  } else {
+		console.error('Labels are not an array or are undefined/null');
+	  }
+	}, [labels]);
+  
+	if (fetchedLabels.length > 0) {
+	  return (
+		<>
+		  {fetchedLabels.map((label: TagItem) => (
+			<div
+			  className="list-view-item-label"
+			  key={String(label._id)}
+			>
+			  {label.name}
+			</div>
+		  ))}
+		</>
+	  );
+	}
+  
+	return undefined;
   }
 
   const parseDate = (date: Date): string => {
@@ -115,9 +136,10 @@ const ListItem = ({ item }: ListItemProps) => {
     alert(
       `Title: ${item.title}\nDescription: ${
         item.description
-      }\nDate: ${parseDate(item.date)}\nPriority: ${
-        item.priority
-      }\nLabels: ${getItemLabels(item.labels)}`
+        // get date from timestamp
+      }\nDate: ${parseDate(item.date)}\nPriority: ${item.priority}\nLabels: ${item.labels
+        // .map((label: TagItem) => label.name)
+        .join(", ")}\nCompleted: ${item.completed}\nID: ${item._id}`
     );
   }
 
@@ -128,11 +150,11 @@ const ListItem = ({ item }: ListItemProps) => {
           <div className="round">
             <input
               type="checkbox"
-              id={`checkbox-${item.id}`}
+              id={`checkbox-${item._id}`}
               checked={check.completed}
               onChange={handleCheckboxClick}
             />
-            <label htmlFor={`checkbox-${item.id}`}></label>
+            <label htmlFor={`checkbox-${item._id}`}></label>
           </div>
         </div>
       </div>

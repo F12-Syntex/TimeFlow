@@ -2,16 +2,19 @@ import "../ListView/listview.css";
 import React, { useState } from "react";
 import ListItem from "../ListItem/listitem";
 import TodoItem from "../../../../express/src/types/TodoItem";
+import NoItems from "../NoItems/noitems";
 
 interface ListViewProps {
   listViewItems: TodoItem[];
   filterDate?: Date | null;
+  filterInverseDate?: Date | null;
   filterCompleted?: boolean;
 }
 
 function ListView({
   listViewItems,
   filterDate,
+  filterInverseDate,
   filterCompleted,
 }: ListViewProps) {
   let filteredItems = listViewItems;
@@ -35,15 +38,27 @@ function ListView({
     );
   }
 
+  if (filterInverseDate) {
+    filteredItems = filteredItems.filter((item) => {
+      const itemDate = new Date(item.date);
+      const selectedDate = new Date(filterInverseDate);
+
+      return (
+        itemDate.getDate() !== selectedDate.getDate() ||
+        itemDate.getMonth() !== selectedDate.getMonth() ||
+        itemDate.getFullYear() !== selectedDate.getFullYear()
+      );
+    });
+  }
+
   return (
-    <div className="list-view">
-      {filteredItems.map((item) => (
-        <ListItem
-          key={item.id}
-          item={item}
-        />
-      ))}
-    </div>
+    <div>
+      {(filteredItems.length === 0 && (
+		<NoItems name="task" />
+      )) ||
+		filteredItems.map((item) => <ListItem key={String(item._id)} item={item} />)
+	  }
+	</div>
   );
 }
 

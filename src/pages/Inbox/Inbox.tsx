@@ -18,7 +18,8 @@ function App() {
     fetch("http://localhost:3000/api/sample/tasks")
       .then((response) => response.json())
       .then((data) => {
-        const updatedTodoList: TodoItem[] = data["todoList"].map(
+        console.log(data["tasks"].map((element: TodoItem) => element));
+        const updatedTodoList: TodoItem[] = data["tasks"].map(
           (element: TodoItem) => ({
             title: element.title,
             description: element.description,
@@ -26,7 +27,7 @@ function App() {
             priority: element.priority,
             labels: element.labels,
             completed: element.completed,
-            id: element.id,
+            _id: element._id,
           })
         );
         setTodoList(updatedTodoList);
@@ -44,8 +45,8 @@ function App() {
       <div className="page-content">
         <PageHeader title="Today" editableView={true} />
         <ListView listViewItems={todoList} filterDate={filterDate} />
-        <PageHeader title="Inbox" editableView={true} />
-        <ListView listViewItems={todoList} />
+        <PageHeader title="Inbox" editableView={false} />
+        <ListView listViewItems={todoList} filterInverseDate={filterDate} />
       </div>
     </div>
   );

@@ -1,12 +1,15 @@
+import { ObjectId } from "mongodb";
 import TagItem from "./TagItem"
+
 interface TodoItem {
-    title: string
-    description: string
-    date: Date
-    priority: string
-    labels: TagItem[]
-    completed: boolean
-    id: number
+    _id: ObjectId;
+    user: string;
+    title: string;
+    description: string;
+    date: Date;
+    priority: string;
+    completed: boolean;
+    labels: ObjectId[];
 }
 
 export default TodoItem

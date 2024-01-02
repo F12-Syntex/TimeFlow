@@ -21,7 +21,8 @@ function App() {
     fetch("http://localhost:3000/api/sample/tasks")
       .then((response) => response.json())
       .then((data) => {
-        const updatedTodoList: TodoItem[] = data["todoList"].map(
+        console.log(data["tasks"].map((element: TodoItem) => element));
+        const updatedTodoList: TodoItem[] = data["tasks"].map(
           (element: TodoItem) => ({
             title: element.title,
             description: element.description,
@@ -29,7 +30,7 @@ function App() {
             priority: element.priority,
             labels: element.labels,
             completed: element.completed,
-            id: element.id,
+            _id: element._id,
           })
         );
         setTodoList(updatedTodoList);
@@ -88,9 +89,9 @@ function App() {
           item.title.toLowerCase().includes(searchText) ||
           item.description.toLowerCase().includes(searchText) ||
           item.priority.toLowerCase().includes(searchText) ||
-          item.labels.some((label) =>
-            label.name.toLowerCase().includes(searchText)
-          ) ||
+          // item.labels.some((label) =>
+            // label.name.toLowerCase().includes(searchText)
+          // ) ||
           parseDate(item.date).toLowerCase().includes(searchText) ||
           item.completed.toString().toLowerCase().includes(searchText)
         );

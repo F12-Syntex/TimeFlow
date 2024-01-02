@@ -18,9 +18,7 @@
     overflow-y: auto;
     overflow-x: hidden;
     height: calc(100vh);
-
     user-select: none;
-
     padding-bottom: 36px;
 }
 
@@ -29,20 +27,18 @@
     padding: 0 !important;
 }
 
-
 ::-webkit-scrollbar {
+    position: absolute;
+    z-index: 1000;
     width: 10px;
   }
-  
+
   ::-webkit-scrollbar-thumb {
     background: #262626; 
-    border-radius: 10px;
-    margin-right: 4px;
+    border-radius: 4px;
   }
-  
+
   ::-webkit-scrollbar-thumb:hover {
     background: #2f2f2f; 
-    border-radius: 10px;
-    margin-right: 4px;
+    border-radius: 4px;
   }
-  

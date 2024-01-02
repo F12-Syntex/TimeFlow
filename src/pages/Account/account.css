@@ -1,0 +1,45 @@
+.login-form-item {
+    margin-bottom: 10px;
+    width: calc(100% - 52px);
+    input {
+        background-color: rgba(255, 255, 255, 0.05);
+        width: calc(100% - 40px);
+    }
+}
+
+.login-form-item-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: calc(100vw - 96px - 64px - 52px);
+    justify-content: space-between;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: calc(100vw - 96px - 64px);
+    padding-bottom: 16px;
+    padding-top: 24px;
+    border-radius: 16px;
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.login-form-bottom-right {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: center;
+    button {
+        margin-left: 10px;
+    }
+}
+
+.login-form-bottom-left {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+}

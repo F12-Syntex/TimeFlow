@@ -1,6 +1,8 @@
+import { ObjectId } from 'mongodb';
+
 interface TagItem {
     name: string;
-    id: number;
+    _id: ObjectId;
 }
 
 export default TagItem;

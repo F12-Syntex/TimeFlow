@@ -5,6 +5,7 @@ import TagItem from "express/src/types/TagItem";
 import React, { useEffect, useState } from "react";
 
 function App() {
+
   const addTask = () => {
     // make sure all fields are filled out
     if ((document.getElementById("name") as HTMLInputElement)?.value === "") {
@@ -154,7 +155,7 @@ function App() {
             <div className="add-task-form-item">
               <select id="labels" name="labels">
                 {tagList.map((tag) => (
-                  <option key={tag.id} value={tag.name}>
+                  <option key={String(tag._id)} value={tag.name}>
                     {tag.name}
                   </option>
                 ))}

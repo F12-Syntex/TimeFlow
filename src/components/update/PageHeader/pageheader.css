@@ -6,6 +6,6 @@
     justify-content: space-between;
     width: calc(100vw - 96px - 64px);
     padding-top: 8px;
-
+    margin-bottom: -8px;
     user-select: none;
 }

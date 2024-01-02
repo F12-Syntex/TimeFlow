@@ -6,6 +6,7 @@ import Search from "../../pages/Search/Search";
 import Add from "../../pages/Add/Add";
 import Calendar from "../../pages/Calendar/Calendar";
 import Tags from "../../pages/Tags/Tags";
+import Account from "../../pages/Account/Account";
 
 const buttonData = [
   { name: "plus", selectedName: "plus", component: <Add /> },
@@ -64,11 +65,27 @@ const TimeFlow = () => {
     );
   }
 
+  const handlePersonButtonClick = () => {
+    const classes = `sidebar-account-button sidebar-button ${selectedIndex === 5 ? "sidebar-selected" : ""}`;
+    return (
+      <a className={classes} onClick={() => setSelectedIndex(5)}>
+        <i className="bi bi-person-fill"></i>
+      </a>
+    );
+  };
+
   return (
     <div className="main-container">
-      <div className="sidebar">{getButtons()}</div>
+      <div className="sidebar">
+        <div className="sidebar-top">
+          {getButtons()}
+        </div>
+        <div className="sidebar-bottom">
+          {handlePersonButtonClick()}
+        </div>
+      </div>
       <div className="homepage-container">
-        {buttonData[selectedIndex].component}
+        {selectedIndex === 5 ? (<Account />) : buttonData[selectedIndex].component}
       </div>
     </div>
   );

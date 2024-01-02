@@ -58,7 +58,6 @@ function App() {
       });
   };
 
-  
   const parseDate = (date: Date): string => {
     const currentDate = new Date();
     const oneDay = 24 * 60 * 60 * 1000; // milliseconds in a day

@@ -17,7 +17,7 @@ function ListView({
       {(filteredItems.length === 0 && (
 		<NoItems name="tag" />
       )) ||
-		  filteredItems.map((item) => <TagListItem key={String(item._id)} item={item} />)
+		  filteredItems.map((item) => <TagListItem item={item} />)
     }
     </div>
   );

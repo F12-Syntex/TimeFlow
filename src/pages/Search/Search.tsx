@@ -9,14 +9,6 @@ function App() {
   const [todoList, setTodoList] = useState<TodoItem[]>([]);
   const [filteredList, setFilteredList] = useState(todoList);
 
-  useEffect(() => {
-    fetchTaskList();
-  }, []); // Fetch the initial task list when the component mounts
-
-  useEffect(() => {
-    setFilteredList(todoList); // Update the filtered list whenever todoList changes
-  }, [todoList]);
-
   const fetchTaskList = () => {
     fetch("http://localhost:3000/api/sample/tasks")
       .then((response) => response.json())
@@ -117,6 +109,14 @@ function App() {
     );
   };
 
+  useEffect(() => {
+    fetchTaskList();
+  }, []); // Fetch the initial task list when the component mounts
+
+  useEffect(() => {
+    setFilteredList(todoList); // Update the filtered list whenever todoList changes
+  }, [todoList]);
+  
   return (
     <div className="main-page-container">
       <div className="search-page-content">

@@ -155,7 +155,7 @@ function App() {
             <div className="add-task-form-item">
               <select id="labels" name="labels">
                 {tagList.map((tag) => (
-                  <option key={String(tag._id)} value={tag.name}>
+                  <option value={tag.name}>
                     {tag.name}
                   </option>
                 ))}

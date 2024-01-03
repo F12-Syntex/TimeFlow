@@ -12,7 +12,7 @@ import TodoItem from "../../../express/src/types/TodoItem";
 import TagItem from "../../../express/src/types/TagItem";
 
 const TimeFlow = () => {
-  const [selectedIndex, setSelectedIndex] = useState(3);
+  const [selectedIndex, setSelectedIndex] = useState(2);
   const [todoList, setTodoList] = useState<TodoItem[]>([]);
   const [tagList, setTagList] = useState<TagItem[]>([]);
 

@@ -27,7 +27,7 @@ function LoginPage() {
         const username = (document.getElementById('username') as HTMLInputElement).value;
         const password = (document.getElementById('password') as HTMLInputElement).value;
 
-        fetch('/login', {
+        fetch('http://localhost:3000/api/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -36,9 +36,10 @@ function LoginPage() {
         })
             .then(response => response.json())
             .then(data => {
-                console.log('Success:', data);
-                if (data.success) {
-                    window.location.href = '/account';
+                if (data['user'] != null) {
+                    window.location.href = '/';
+                } else {
+                    alert('Error logging in');
                 }
             })
             .catch((error) => {

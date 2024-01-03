@@ -314,12 +314,29 @@ expressApp.delete(
   }
 );
 
-expressApp.post("/login", async (req: Request, res: Response) => {
+expressApp.post("/api/login", async (req: Request, res: Response) => {
   try {
     const usersCollection = database.collection("users");
-    const user = req.body;
-    usersCollection.insertOne(user);
-    res.json({ user });
+    const username: string = req.body.username;
+    const password: string = req.body.password;
+
+    if (!username || !password) {
+      return res.status(400).json({ error: "Missing username or password" });
+    }
+
+    // find the user with that username
+    // TODO: hash the password
+    const user = await usersCollection.findOne({ username: username, password: password });
+
+    // if user has error key then error if has user key then return user
+    const hasErrorKey = user !== null && Object.keys(user).includes("error");
+
+    if (hasErrorKey) {
+      return res.status(401).json({ error: "Invalid username or password" });
+    } else {
+      return res.json({ user });
+    }
+
   } catch (error) {
     console.error("Error adding user:", error);
     res.status(500).json({ error: "Error adding user" });

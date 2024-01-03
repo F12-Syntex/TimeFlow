@@ -97,6 +97,7 @@ function App() {
       .then((data) => {
         // Check if data.tags is an array
         if (Array.isArray(data.tags)) {
+          console.log("Tags:", data.tags);
           // Manipulate the data to get TagItem array
           const parsedTagList: TagItem[] = data.tags.map((tag: any) => ({
             name: tag.name,

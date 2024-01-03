@@ -23,13 +23,16 @@ const ListItem = ({ item }: ListItemProps) => {
     fetch(url, { method, body, headers })
       .then((response) => response.json())
       .then((data) => {
-        // console.log("Success:", data);
+        console.log("Success:", data);
       })
       .catch((error) => {
         console.error("Error:", error);
       });
 
     setCheck(updatedItem);
+
+    // send request to timeflow.tsx to update the list
+  
   };
 
   const parseDate = (date: Date): string => {
@@ -88,13 +91,16 @@ const ListItem = ({ item }: ListItemProps) => {
   };
 
   function openTask() {
+
+    console.log(item.labels);
     alert(
       `Title: ${item.title}\nDescription: ${
         item.description
         // get date from timestamp
       }\nDate: ${parseDate(item.date)}\nPriority: ${
         item.priority
-      }\nLabels: TODO\nCompleted: ${item.completed}\nID: ${item._id}`
+      }\nLabels: ${item.labels}
+      \nCompleted: ${item.completed}\nID: ${item._id}`
     );
   }
 
@@ -123,7 +129,13 @@ const ListItem = ({ item }: ListItemProps) => {
         <div className="list-view-item-bottom">
           <div className="list-view-item-description">{item.description}</div>
           <div className="list-view-item-labels">
-			{  }
+          {item.labels && item.labels.length > 0 &&
+            <ul>
+              {item.labels.map((label, index) => (
+                <li key={index}>{label.name}</li>
+              ))}
+            </ul>
+            }
           </div>
         </div>
       </div>

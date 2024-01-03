@@ -15,6 +15,9 @@
 
 .list-view-item:hover {
     background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0px 4px 16px -4px rgba(0, 0, 0, 0.25);
+    scale: 1.001;
+    transition: background-color 0.25s, box-shadow 0.25s, scale 0.25s;
 }
 
 .list-view-item-left {
@@ -69,7 +72,7 @@
 .container {
     margin: 0 auto;
   }
-  
+
 .round {
     position: relative;
 }
@@ -85,7 +88,7 @@
     top: 0;
     width: 16px;
 }
-  
+
 .round label:after {
     border: 2px solid #fff;
     border-top: none;
@@ -111,4 +114,9 @@
   
 .round input[type="checkbox"]:checked + label:after {
     opacity: 1;
+}
+
+.round input:hover + label {
+    scale: 1.05;
+    transition: scale 0.25s ease-in-out;
 }

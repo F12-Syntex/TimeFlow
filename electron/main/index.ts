@@ -218,17 +218,20 @@ expressApp.get("/api/sample/tasks/:id", async (req: Request, res: Response) => {
   }
 });
 
-expressApp.post("/api/sample/tasks/add", async (req: Request, res: Response) => {
-  try {
-    const tasksCollection = database.collection("tasks");
-    const task: TodoItem = req.body;
-    tasksCollection.insertOne(task);
-    res.json({ task });
-  } catch (error) {
-    console.error("Error adding task:", error);
-    res.status(500).json({ error: "Error adding task" });
+expressApp.post(
+  "/api/sample/tasks/add",
+  async (req: Request, res: Response) => {
+    try {
+      const tasksCollection = database.collection("tasks");
+      const task: TodoItem = req.body;
+      tasksCollection.insertOne(task);
+      res.json({ task });
+    } catch (error) {
+      console.error("Error adding task:", error);
+      res.status(500).json({ error: "Error adding task" });
+    }
   }
-});
+);
 
 expressApp.patch(
   "/api/sample/tasks/update/:id",
@@ -310,3 +313,15 @@ expressApp.delete(
     }
   }
 );
+
+expressApp.post("/login", async (req: Request, res: Response) => {
+  try {
+    const usersCollection = database.collection("users");
+    const user = req.body;
+    usersCollection.insertOne(user);
+    res.json({ user });
+  } catch (error) {
+    console.error("Error adding user:", error);
+    res.status(500).json({ error: "Error adding user" });
+  }
+});

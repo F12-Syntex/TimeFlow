@@ -4,51 +4,11 @@ import PageHeader from "../../components/update/PageHeader/pageheader";
 import ListView from "../../components/update/ListView/listview";
 import { useState, useEffect } from "react";
 import TodoItem from "../../../express/src/types/TodoItem";
+import Spinner from "../../components/update/Spinner/spinner";
 
-function App() {
-  const [todoList, setTodoList] = useState<TodoItem[]>([]);
-  const [filteredList, setFilteredList] = useState(todoList);
-
-  const fetchTaskList = () => {
-    fetch("http://localhost:3000/api/sample/tasks")
-      .then((response) => response.json())
-      .then((data) => {
-        const tasks: TodoItem[] = data["tasks"];
-  
-        const fetchLabelPromises = tasks.map((task: TodoItem) =>
-          fetch(`http://localhost:3000/api/sample/tags/${task.labels}`)
-            .then((response) => response.json())
-            .then((labelData) => {
-              return labelData;
-            })
-            .catch((error) => {
-              console.error("Error fetching label:", error);
-              return null;
-            })
-        );
-  
-        Promise.all(fetchLabelPromises)
-          .then((labelResults) => {
-            const updatedTodoList: TodoItem[] = tasks.map((task: TodoItem, index: number) => ({
-              user: "", // Add the missing user property
-              title: task.title,
-              description: task.description,
-              date: new Date(task.date),
-              priority: task.priority,
-              labels: labelResults[index],
-              completed: task.completed,
-              _id: task._id,
-            }));
-            setTodoList(updatedTodoList);
-          })
-          .catch((error) => {
-            console.error("Error:", error);
-          });
-      })
-      .catch((error) => {
-        console.error("Error fetching tasks:", error);
-      });
-  };
+function App({ listViewItems }: { listViewItems: TodoItem[] }) {
+  const [loading, setLoading] = useState(false);
+  const [filteredList, setFilteredList] = useState(listViewItems);
 
   const parseDate = (date: Date): string => {
     const currentDate = new Date();
@@ -94,13 +54,13 @@ function App() {
     const searchText = event.target.value.toLowerCase();
     // Filter the list of items based on the search text
     setFilteredList(
-      todoList.filter((item) => {
+      listViewItems.filter((item) => {
         return (
           item.title.toLowerCase().includes(searchText) ||
           item.description.toLowerCase().includes(searchText) ||
           item.priority.toLowerCase().includes(searchText) ||
           // item.labels.some((label) =>
-            // label.name.toLowerCase().includes(searchText)
+          // label.name.toLowerCase().includes(searchText)
           // ) ||
           parseDate(item.date).toLowerCase().includes(searchText) ||
           item.completed.toString().toLowerCase().includes(searchText)
@@ -110,25 +70,25 @@ function App() {
   };
 
   useEffect(() => {
-    fetchTaskList();
-  }, []); // Fetch the initial task list when the component mounts
+    setFilteredList(listViewItems);
+  }, [listViewItems]);
 
-  useEffect(() => {
-    setFilteredList(todoList); // Update the filtered list whenever todoList changes
-  }, [todoList]);
-  
   return (
     <div className="main-page-container">
-      <div className="search-page-content">
-      <PageHeader title="Search" editableView={true} />
-      <input
-        type="text"
-        className="search-search-bar"
-        placeholder="Search"
-        onChange={handleSearch}
-      />
-        <ListView listViewItems={filteredList} />
-      </div>
+      {loading ? ( // Conditionally render the spinner when loading is true
+        <Spinner />
+      ) : (
+        <div className="search-page-content">
+          <PageHeader title="Search" editableView={true} />
+          <input
+            type="text"
+            className="search-search-bar"
+            placeholder="Search"
+            onChange={handleSearch}
+          />
+          <ListView listViewItems={filteredList} />
+        </div>
+      )}
     </div>
   );
 }

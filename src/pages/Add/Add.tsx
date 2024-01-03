@@ -9,31 +9,31 @@ function App() {
   const addTask = () => {
     // make sure all fields are filled out
     if ((document.getElementById("name") as HTMLInputElement)?.value === "") {
-      alert("Please enter a name");
+      alert("Please enter a task name");
       return;
     }
 
     if (
       (document.getElementById("description") as HTMLInputElement)?.value === ""
     ) {
-      alert("Please enter a description");
+      alert("Please enter the description of the task");
       return;
     }
 
     if ((document.getElementById("date") as HTMLInputElement)?.value === "") {
-      alert("Please enter a date");
+      alert("Please enter a date for this task");
       return;
     }
 
     if (
       (document.getElementById("priority") as HTMLInputElement)?.value === ""
     ) {
-      alert("Please enter a priority");
+      alert("Please enter the level of priority of this task");
       return;
     }
 
     if ((document.getElementById("labels") as HTMLInputElement)?.value === "") {
-      alert("Please enter a label");
+      alert("Please choose a label for this task");
       return;
     }
 
@@ -42,7 +42,7 @@ function App() {
         (document.getElementById("date") as HTMLInputElement)?.value ?? ""
       ).toString() === "Invalid Date"
     ) {
-      alert("Please enter a valid date");
+      alert("Please enter a valid date for this task");
       return;
     }
 

@@ -331,10 +331,11 @@ expressApp.delete(
       const deletionResult = await tagsCollection.deleteOne({ _id: new ObjectId(req.params.id) });
 
       const tasksCollection = database.collection("tasks");
-      await tasksCollection.updateMany(
-        { labels: { $elemMatch: { _id: new ObjectId(req.params.id) } } },
+
+      const updateResult = await tasksCollection.updateMany(
+        { labels: [new ObjectId(req.params.id)] },
         { $set: { labels: [] } }
-      );
+      );;
 
       if (deletionResult && deletionResult.deletedCount === 1) {
         res.json({ deletedId: req.params.id });

@@ -1,10 +1,18 @@
 import PageHeader from "@/components/update/PageHeader/pageheader";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import "./account.css";
-import React from "react";
+import React, { useEffect, useState } from "react";
+
+let isLoggedIn = false;
+
+function getLoginStatus() {
+
+}
 
 function Account() {
-    const isLoggedIn = false;
+    useEffect(() => {
+        getLoginStatus();
+    }, []);
 
     if (isLoggedIn) {
         return AccountPage();
@@ -38,6 +46,7 @@ function LoginPage() {
             .then(response => response.json())
             .then(data => {
                 if (data['user'] != null) {
+                    isLoggedIn = true;
                     window.location.href = '/';
                 } else {
                     alert('Error logging in');

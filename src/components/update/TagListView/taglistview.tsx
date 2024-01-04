@@ -10,14 +10,13 @@ interface ListViewProps {
 function ListView({
   listViewItems,
 }: ListViewProps) {
-  let filteredItems = listViewItems;
 
   return (
     <div>
-      {(filteredItems.length === 0 && (
+      {(listViewItems.length === 0 && (
 		<NoItems name="tag" />
       )) ||
-		  filteredItems.map((item) => <TagListItem item={item} />)
+		  listViewItems.map((item) => <TagListItem item={item}/>)
     }
     </div>
   );

@@ -3,9 +3,10 @@ import React, { useState } from "react";
 import ListItem from "../ListItem/listitem";
 import TodoItem from "../../../../express/src/types/TodoItem";
 import NoItems from "../NoItems/noitems";
+import TodoItemWithTags from "express/src/types/TodoItemWithTags";
 
 interface ListViewProps {
-  listViewItems: TodoItem[];
+  listViewItems: TodoItemWithTags[];
   filterDate?: Date | null;
   filterInverseDate?: Date | null;
   filterCompleted?: boolean;

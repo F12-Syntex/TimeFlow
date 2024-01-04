@@ -1,47 +1,42 @@
 import React, { useState, useEffect } from "react";
 import TagItem from "express/src/types/TagItem";
 import "./taglistitem.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 interface ListItemProps {
   item: TagItem;
 }
 
 const ListItem = ({ item }: ListItemProps) => {
-  const [check, setCheck] = useState(item);
 
-  const handleCheckboxClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const checked = event.currentTarget.checked;
-    const updatedItem = { ...item, completed: checked };
+  function openTag() {
+    alert(
+      `Title: ${item.name}\nID: ${item._id}`
+    );
+  }
 
-    const url = `http://localhost:3000/api/sample/tags/update/${item._id}`;
-    const method = "PATCH";
-    const body = JSON.stringify(updatedItem);
-    const headers = {
-      "Content-Type": "application/json",
-    };
-
-    fetch(url, { method, body, headers })
+  function deleteTag() {
+    fetch(`http://localhost:3000/api/sample/tags/delete/${item._id}`, {
+      method: "DELETE",
+    })
       .then((response) => response.json())
       .then((data) => {
-        // console.log('Success:', data);
+        console.log('Success:', data);
+        // window.location.href = "/tags";
       })
       .catch((error) => {
         console.error("Error:", error);
       });
 
-    setCheck(updatedItem);
-  };
-
-  function openTag() {
-    alert(
-      `Title: ${item.name}`
-    );
   }
 
   return (
     <div className="list-view-item">
-      <div className="tag-list-view-item-right" onClick={openTag}>
+      <div className="tag-list-view-item-left" onClick={openTag}>
         <div className="list-view-item-title">{item.name}</div>
+      </div>
+      <div className="tag-list-view-item-right" onClick={deleteTag}>
+        <button className="bi bi-trash3-fill"></button>
       </div>
     </div>
   );

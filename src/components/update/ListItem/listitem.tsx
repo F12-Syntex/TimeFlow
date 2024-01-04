@@ -2,8 +2,13 @@ import React, { useState, useEffect } from "react";
 import TodoItem from "../../../../express/src/types/TodoItem";
 import TagItem from "express/src/types/TagItem";
 import { ObjectId } from "mongodb";
+import TodoItemWithTags from "express/src/types/TodoItemWithTags";
 interface ListItemProps {
-  item: TodoItem;
+  item: TodoItemWithTags;
+}
+
+interface ListItemTags {
+  tag: TagItem;
 }
 
 const ListItem = ({ item }: ListItemProps) => {
@@ -24,6 +29,8 @@ const ListItem = ({ item }: ListItemProps) => {
       .then((response) => response.json())
       .then((data) => {
         console.log("Success:", data);
+        // TESTING - cannot deselect checkbox
+        window.location.href = "/";
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -32,7 +39,6 @@ const ListItem = ({ item }: ListItemProps) => {
     setCheck(updatedItem);
 
     // send request to timeflow.tsx to update the list
-  
   };
 
   const parseDate = (date: Date): string => {
@@ -90,17 +96,22 @@ const ListItem = ({ item }: ListItemProps) => {
     return `${mm}/${dd}/${yyyy}`;
   };
 
-  function openTask() {
+  interface ListItemTags {
+    tag: TagItem;
+  }
 
-    console.log(item.labels);
+  const labels = (item.labels as unknown as ListItemTags[]).map(
+    (label) => label.tag.name
+  );
+
+  function openTask() {
     alert(
       `Title: ${item.title}\nDescription: ${
         item.description
-        // get date from timestamp
       }\nDate: ${parseDate(item.date)}\nPriority: ${
         item.priority
-      }\nLabels: ${item.labels}
-      \nCompleted: ${item.completed}\nID: ${item._id}`
+      }\nLabels: ${labels.join(", ")}
+      Completed: ${item.completed}\nID: ${item._id}`
     );
   }
 
@@ -129,13 +140,9 @@ const ListItem = ({ item }: ListItemProps) => {
         <div className="list-view-item-bottom">
           <div className="list-view-item-description">{item.description}</div>
           <div className="list-view-item-labels">
-          {item.labels && item.labels.length > 0 &&
-            <ul>
-              {item.labels.map((label, index) => (
-                <li key={index}>{label.name}</li>
-              ))}
-            </ul>
-            }
+            {labels.map((label) => (
+              <div className="list-view-item-label">{label}</div>
+            ))}
           </div>
         </div>
       </div>

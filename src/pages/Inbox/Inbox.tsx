@@ -4,8 +4,9 @@ import PageHeader from "../../components/update/PageHeader/pageheader";
 import ListView from "../../components/update/ListView/listview";
 import React, { useEffect, useState } from "react";
 import TodoItem from "../../../express/src/types/TodoItem";
+import TodoItemWithTags from "express/src/types/TodoItemWithTags";
 
-function App({ listViewItems }: { listViewItems: TodoItem[] }) {
+function App({ listViewItems }: { listViewItems: TodoItemWithTags[] }) {
   
   const filterCompleted: boolean = false;
   const filterDate: Date = new Date();

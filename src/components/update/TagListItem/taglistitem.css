@@ -1,3 +1,13 @@
-.tag-list-view-item-right {
+.tag-list-view-item-left {
     margin-left: 24px;
+    display: flex;
+    align-items: center;
+}
+
+.tag-list-view-item-right {
+    margin-left: auto;
+}
+
+.bi-trash3-fill {
+    color: #ff3e3e;
 }

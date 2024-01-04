@@ -10,10 +10,12 @@ import Tags from "../../pages/Tags/Tags";
 import Account from "../../pages/Account/Account";
 import TodoItem from "../../../express/src/types/TodoItem";
 import TagItem from "../../../express/src/types/TagItem";
+import TodoItemWithTags from "../../../express/src/types/TodoItemWithTags";
+import { ObjectId } from "mongodb";
 
 const TimeFlow = () => {
   const [selectedIndex, setSelectedIndex] = useState(2);
-  const [todoList, setTodoList] = useState<TodoItem[]>([]);
+  const [todoList, setTodoList] = useState<TodoItemWithTags[]>([]);
   const [tagList, setTagList] = useState<TagItem[]>([]);
 
   useEffect(() => {
@@ -26,23 +28,28 @@ const TimeFlow = () => {
       .then((response) => response.json())
       .then((data) => {
         const tasks: TodoItem[] = data["tasks"];
-
-        const fetchLabelPromises = tasks.map((task: TodoItem) =>
-          fetch(`http://localhost:3000/api/sample/tags/${task.labels}`)
-            .then((response) => response.json())
-            .then((labelData) => {
-              console.log(labelData);
-              return labelData;
-            })
-            .catch((error) => {
-              console.error("Error fetching label:", error);
-              return null;
-            })
+        console.log(tasks.map((task) => task.labels));
+        const fetchLabelPromises: Promise<TagItem[]>[] = tasks.map((task: TodoItem) =>
+          Promise.all(
+            task.labels.map((labelId: ObjectId) =>
+              fetch(`http://localhost:3000/api/sample/tags/${labelId}`)
+                .then((response) => response.json())
+                .then((labelData: TagItem) => {
+                  console.log(labelData);
+                  return labelData;
+                })
+                .catch((error) => {
+                  console.error("Error fetching label:", error);
+                  return null;
+                })
+            )
+          )
+          .then((labelResults: (TagItem | null)[]) => labelResults.filter((label) => label !== null) as TagItem[])
         );
-
+  
         Promise.all(fetchLabelPromises)
-          .then((labelResults) => {
-            const updatedTodoList: TodoItem[] = tasks.map((task: TodoItem, index: number) => ({
+          .then((labelResults: TagItem[][]) => {
+            const updatedTodoList: TodoItemWithTags[] = tasks.map((task: TodoItem, index: number) => ({
               user: "", // Add the missing user property
               title: task.title,
               description: task.description,
@@ -53,6 +60,7 @@ const TimeFlow = () => {
               _id: task._id,
             }));
             setTodoList(updatedTodoList);
+            console.log(updatedTodoList);
           })
           .catch((error) => {
             console.error("Error:", error);
@@ -62,7 +70,8 @@ const TimeFlow = () => {
         console.error("Error fetching tasks:", error);
       });
   };
-
+  
+  
   const fetchTagList = () => {
     fetch("http://localhost:3000/api/sample/tags")
       .then((response) => response.json())
@@ -70,7 +79,7 @@ const TimeFlow = () => {
         const updatedTagList: TagItem[] = data["tags"].map(
           (element: TagItem) => ({
             name: element.name,
-            id: element._id,
+            _id: element._id,
           })
         );
         setTagList(updatedTagList);

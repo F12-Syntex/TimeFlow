@@ -2,10 +2,11 @@ import "./add.css";
 import "../pages.css";
 import PageHeader from "../../components/update/PageHeader/pageheader";
 import TagItem from "express/src/types/TagItem";
+import TodoItem from "express/src/types/TodoItem";
 import React, { useEffect, useState } from "react";
+import { ObjectId } from "mongodb";
 
 function App() {
-
   const addTask = () => {
     // make sure all fields are filled out
     if ((document.getElementById("name") as HTMLInputElement)?.value === "") {
@@ -46,7 +47,8 @@ function App() {
       return;
     }
 
-    const task = {
+    const task: TodoItem = {
+      user: "",
       title: (document.getElementById("name") as HTMLInputElement)?.value ?? "",
       description:
         (document.getElementById("description") as HTMLInputElement)?.value ??
@@ -56,11 +58,9 @@ function App() {
       ),
       priority:
         (document.getElementById("priority") as HTMLInputElement)?.value ?? "",
-      labels: [
-        (document.getElementById("labels") as HTMLInputElement)?.value ?? "",
-      ],
+      labels: [new ObjectId((document.getElementById("labels") as HTMLInputElement)?.value ?? "")],
       completed: false,
-      id: Math.floor(Math.random() * 1000000000),
+      _id: new ObjectId(),
     };
 
     fetch("http://localhost:3000/api/sample/tasks/add", {
@@ -70,12 +70,41 @@ function App() {
       },
       body: JSON.stringify(task),
     })
-      // then alert the user that the task was added and redirect to the inbo
+      // then alert the user that the task was added and redirect to the inbox
       .then((response) => {
         if (response.status === 200) {
           window.location.href = "/inbox";
         } else {
           alert("Error adding task");
+        }
+      });
+  };
+
+  const addTag = () => {
+    // make sure all fields are filled out
+    if ((document.getElementById("tag-name") as HTMLInputElement)?.value === "") {
+      alert("Please enter a tag name");
+      return;
+    }
+
+    const tag: TagItem = {
+      name: (document.getElementById("tag-name") as HTMLInputElement)?.value ?? "",
+      _id: new ObjectId(),
+    };
+
+    fetch("http://localhost:3000/api/sample/tags/add", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(tag),
+    })
+      // then alert the user that the task was added and redirect to the inbo
+      .then((response) => {
+        if (response.status === 200) {
+          window.location.href = "/tags";
+        } else {
+          alert("Error adding tag");
         }
       });
   };
@@ -97,12 +126,10 @@ function App() {
       .then((data) => {
         // Check if data.tags is an array
         if (Array.isArray(data.tags)) {
-          console.log("Tags:", data.tags);
           // Manipulate the data to get TagItem array
           const parsedTagList: TagItem[] = data.tags.map((tag: any) => ({
             name: tag.name,
-            color: tag.color,
-            id: tag.id,
+            _id: tag._id,
           }));
           setTagList(parsedTagList);
         } else {
@@ -120,8 +147,8 @@ function App() {
 
   return (
     <div className="main-page-container">
-      <PageHeader title="Add Task" editableView={false} />
       <div className="page-content">
+      <PageHeader title="Add Task" editableView={false} />
         <div className="add-task-form">
           <div className="add-task-form-item">
             <input type="text" id="name" name="name" placeholder="Name" />
@@ -156,9 +183,7 @@ function App() {
             <div className="add-task-form-item">
               <select id="labels" name="labels">
                 {tagList.map((tag) => (
-                  <option value={tag.name}>
-                    {tag.name}
-                  </option>
+                  <option value={tag._id.toString()}>{tag.name}</option>
                 ))}
               </select>
             </div>
@@ -167,6 +192,17 @@ function App() {
                 Add Task
               </button>
             </div>
+          </div>
+        </div>
+        <PageHeader title="Add Tag" editableView={false} />
+        <div className="add-task-form">
+          <div className="add-task-form-item">
+            <input type="text" id="tag-name" name="name" placeholder="Name" />
+          </div>
+          <div className="add-task-form-item">
+            <button className="add-task-form-submit" onClick={addTag}>
+              Add Tag
+            </button>
           </div>
         </div>
       </div>

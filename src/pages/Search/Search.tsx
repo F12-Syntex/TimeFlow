@@ -5,8 +5,9 @@ import ListView from "../../components/update/ListView/listview";
 import { useState, useEffect } from "react";
 import TodoItem from "../../../express/src/types/TodoItem";
 import Spinner from "../../components/update/Spinner/spinner";
+import TodoItemWithTags from "express/src/types/TodoItemWithTags";
 
-function App({ listViewItems }: { listViewItems: TodoItem[] }) {
+function App({ listViewItems }: { listViewItems: TodoItemWithTags[] }) {
   const [loading, setLoading] = useState(false);
   const [filteredList, setFilteredList] = useState(listViewItems);
 

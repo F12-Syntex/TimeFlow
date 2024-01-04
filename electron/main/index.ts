@@ -209,8 +209,7 @@ expressApp.get("/api/sample/tasks", async (req: Request, res: Response) => {
 expressApp.get("/api/sample/tasks/:id", async (req: Request, res: Response) => {
   try {
     const tasksCollection = database.collection("tasks");
-    const id: number = parseInt(req.params.id);
-    const task = tasksCollection.findOne({ id: id });
+    const task = tasksCollection.findOne({ _id: new ObjectId(req.params.id) });
     res.json({ task });
   } catch (error) {
     console.error("Error fetching task:", error);
@@ -223,7 +222,17 @@ expressApp.post(
   async (req: Request, res: Response) => {
     try {
       const tasksCollection = database.collection("tasks");
-      const task: TodoItem = req.body;
+      const task: TodoItem = {
+        user: req.body.user,
+        title: req.body.title,
+        description: req.body.description,
+        date: req.body.date,
+        priority: req.body.priority,
+        completed: req.body.completed,
+        labels: [new ObjectId(req.body.labels[0])],
+        _id: new ObjectId(),
+      }
+
       tasksCollection.insertOne(task);
       res.json({ task });
     } catch (error) {
@@ -238,10 +247,20 @@ expressApp.patch(
   async (req: Request, res: Response) => {
     try {
       const tasksCollection = database.collection("tasks");
-      const id: number = parseInt(req.params.id);
-      const task: TodoItem = req.body;
-      tasksCollection.updateOne({ id: id }, { $set: task });
-      res.json({ task });
+      const taskId = req.params.id;
+      const updateData = req.body;
+
+      // Remove the _id field from the update data
+      delete updateData._id;
+      delete updateData.labels;
+
+      // Perform the update using $set to update specific fields
+      await tasksCollection.updateOne(
+        { _id: new ObjectId(taskId) },
+        { $set: updateData }
+      );
+
+      res.json({ message: "Task updated successfully" });
     } catch (error) {
       console.error("Error updating task:", error);
       res.status(500).json({ error: "Error updating task" });
@@ -254,9 +273,8 @@ expressApp.delete(
   async (req: Request, res: Response) => {
     try {
       const tasksCollection = database.collection("tasks");
-      const id: number = parseInt(req.params.id);
-      tasksCollection.deleteOne({ id: id });
-      res.json({ tasks: id });
+      tasksCollection.deleteOne({ _id: new ObjectId(req.params.id) });
+      res.json({ tasks: [] });
     } catch (error) {
       console.error("Error deleting task:", error);
       res.status(500).json({ error: "Error deleting task" });
@@ -278,8 +296,7 @@ expressApp.get("/api/sample/tags", async (req: Request, res: Response) => {
 expressApp.get("/api/sample/tags/:id", async (req: Request, res: Response) => {
   try {
     const tagsCollection = database.collection("tags");
-    const id: string = req.params.id;
-    const tag = await tagsCollection.findOne({ _id: new ObjectId(id) });
+    const tag = await tagsCollection.findOne({ _id: new ObjectId(req.params.id) });
     res.json({ tag });
   } catch (error) {
     console.error("Error fetching tag:", error);
@@ -304,11 +321,20 @@ expressApp.delete(
   async (req: Request, res: Response) => {
     try {
       const tagsCollection = database.collection("tags");
-      const id: number = parseInt(req.params.id);
-      tagsCollection.deleteOne({ id: id });
-      res.json({ tags: id });
+      const deletionResult = await tagsCollection.deleteOne({ _id: new ObjectId(req.params.id) });
+
+      const tasksCollection = database.collection("tasks");
+      await tasksCollection.updateMany(
+        { labels: { $elemMatch: { _id: new ObjectId(req.params.id) } } },
+        { $set: { labels: [] } }
+      );
+
+      if (deletionResult && deletionResult.deletedCount === 1) {
+        res.json({ deletedId: req.params.id });
+      } else {
+        res.status(404).json({ error: "Tag not found" });
+      }
     } catch (error) {
-      console.error("Error deleting tag:", error);
       res.status(500).json({ error: "Error deleting tag" });
     }
   }
@@ -326,7 +352,10 @@ expressApp.post("/api/login", async (req: Request, res: Response) => {
 
     // find the user with that username
     // TODO: hash the password
-    const user = await usersCollection.findOne({ username: username, password: password });
+    const user = await usersCollection.findOne({
+      username: username,
+      password: password,
+    });
 
     // if user has error key then error if has user key then return user
     const hasErrorKey = user !== null && Object.keys(user).includes("error");
@@ -336,7 +365,6 @@ expressApp.post("/api/login", async (req: Request, res: Response) => {
     } else {
       return res.json({ user });
     }
-
   } catch (error) {
     console.error("Error adding user:", error);
     res.status(500).json({ error: "Error adding user" });

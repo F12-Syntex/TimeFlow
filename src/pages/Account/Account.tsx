@@ -36,6 +36,11 @@ function LoginPage() {
         const username = (document.getElementById('username') as HTMLInputElement).value;
         const password = (document.getElementById('password') as HTMLInputElement).value;
 
+        if (!username || !password) {
+            alert('Please fill in all fields');
+            return;
+        }
+
         fetch('http://localhost:3000/api/login', {
             method: 'POST',
             headers: {
@@ -79,56 +84,6 @@ function LoginPage() {
                         <div className="login-form-bottom-right">
                             <Link className="login-form-submit" to="/register"><button>Register</button></Link>
                             <Link className="login-form-submit" to="/forgotpassword"><button>Forgot Password</button></Link>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-}
-function RegisterPage() {
-    return (
-        <div className="main-page-container">
-            <PageHeader title="Register" editableView={false} />
-            <div className="page-content">
-                <div className="register-form">
-                    <div className="register-form-item">
-                        <input type="text" id="username" name="username" placeholder="Username" />
-                    </div>
-                    <div className="register-form-item">
-                        <input type="password" id="password" name="password" placeholder="Password" />
-                    </div>
-                    <div className="register-form-item">
-                        <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm Password" />
-                    </div>
-                    <div className="register-form-item-row">
-                        <div className="register-form-bottom-left">
-                            <button className="register-form-submit">Register</button>
-                        </div>
-                        <div className="register-form-bottom-right">
-                            <Link className="register-form-submit" to="/login"><button>Login</button></Link>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-}
-function ForgotPasswordPage() {
-    return (
-        <div className="main-page-container">
-            <PageHeader title="Forgot Password" editableView={false} />
-            <div className="page-content">
-                <div className="forgot-password-form">
-                    <div className="forgot-password-form-item">
-                        <input type="text" id="username" name="username" placeholder="Username" />
-                    </div>
-                    <div className="forgot-password-form-item-row">
-                        <div className="forgot-password-form-bottom-left">
-                            <button className="forgot-password-form-submit">Reset Password</button>
-                        </div>
-                        <div className="forgot-password-form-bottom-right">
-                            <Link className="forgot-password-form-submit" to="/login"><button>Login</button></Link>
                         </div>
                     </div>
                 </div>

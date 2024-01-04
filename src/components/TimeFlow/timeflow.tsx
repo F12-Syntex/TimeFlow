@@ -8,6 +8,8 @@ import Add from "../../pages/Add/Add";
 import Calendar from "../../pages/Calendar/Calendar";
 import Tags from "../../pages/Tags/Tags";
 import Account from "../../pages/Account/Account";
+import RegisterPage from "../../pages/Register/register";
+import ForgotPasswordPage from "../../pages/ForgotPassword/forgotPassword";
 import TodoItem from "../../../express/src/types/TodoItem";
 import TagItem from "../../../express/src/types/TagItem";
 import TodoItemWithTags from "../../../express/src/types/TodoItemWithTags";
@@ -60,7 +62,6 @@ const TimeFlow = () => {
               _id: task._id,
             }));
             setTodoList(updatedTodoList);
-            console.log(updatedTodoList);
           })
           .catch((error) => {
             console.error("Error:", error);
@@ -172,6 +173,10 @@ const TimeFlow = () => {
         <div className="homepage-container">
           <Routes>
           <Route path="/" element={<Inbox listViewItems={todoList} />} />
+
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/forgotPassword" element={<ForgotPasswordPage />} />
+
             <Route path="/account" element={<Account />} />
             {buttonData.map((button, index) => (
               <Route key={index} path={button.path} element={button.component} />

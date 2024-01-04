@@ -6,6 +6,7 @@ import { expressApp } from "../../express/src/server";
 import { Request, Response } from "express-serve-static-core";
 import TodoItem from "../../express/src/types/TodoItem";
 import TagItem from "../../express/src/types/TagItem";
+import crypto from "crypto";
 
 // The built directory structure
 //
@@ -350,11 +351,13 @@ expressApp.post("/api/login", async (req: Request, res: Response) => {
       return res.status(400).json({ error: "Missing username or password" });
     }
 
+    // hash the password
+    const hashedPassword = crypto.createHash("sha1").update('password').digest("hex");
+
     // find the user with that username
-    // TODO: hash the password
     const user = await usersCollection.findOne({
       username: username,
-      password: password,
+      password: hashedPassword,
     });
 
     // if user has error key then error if has user key then return user
@@ -363,6 +366,78 @@ expressApp.post("/api/login", async (req: Request, res: Response) => {
     if (hasErrorKey) {
       return res.status(401).json({ error: "Invalid username or password" });
     } else {
+      return res.json({ user });
+    }
+  } catch (error) {
+    console.error("Error adding user:", error);
+    res.status(500).json({ error: "Error adding user" });
+  }
+});
+
+expressApp.post("/api/register", async (req: Request, res: Response) => {
+  try {
+    console.log(req.body);
+    const usersCollection = database.collection("users");
+    const email: string = req.body.email;
+    const username: string = req.body.username;
+    const password: string = req.body.password;
+
+    if (!username || !password || !email) {
+      return res.status(400).json({ error: "Missing username or password" });
+    }
+
+    // hash the password
+    const hashedPassword = crypto.createHash("sha1").update('password').digest("hex");
+
+    // find the user with that username or email
+    const user = await usersCollection.findOne({
+      $or: [{ username: username }, { email: email }],
+    });
+
+    // if user has error key then error if has user key then return user
+    const hasErrorKey = user !== null && Object.keys(user).includes("error");
+
+    if (hasErrorKey) {
+      return res.status(401).json({ error: "Username already exists" });
+    } else {
+      const newUser = {
+        email: email,
+        username: username,
+        password: hashedPassword,
+      };
+
+      await usersCollection.insertOne(newUser);
+      return res.json({ user: newUser });
+    }
+  } catch (error) {
+    console.error("Error adding user:", error);
+    res.status(500).json({ error: "Error adding user" });
+  }
+});
+
+expressApp.get("/api/forgot-password", async (req: Request, res: Response) => {
+  try {
+    const usersCollection = database.collection("users");
+    const username: string = req.body.username;
+    const email: string = req.body.email;
+
+    if (!email) {
+      return res.status(400).json({ error: "Missing email" });
+    }
+
+    // find the user with that email and username
+    const user = await usersCollection.findOne({
+      email: email,
+      username: username,
+    });
+
+    // if user has error key then error if has user key then return user
+    const hasErrorKey = user !== null && Object.keys(user).includes("error");
+
+    if (hasErrorKey) {
+      return res.status(401).json({ error: "Email does not exist" });
+    } else {
+      // TODO: send email with password reset link
       return res.json({ user });
     }
   } catch (error) {

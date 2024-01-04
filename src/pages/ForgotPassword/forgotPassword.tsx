@@ -50,10 +50,10 @@ function ForgotPasswordPage() {
                     </div>
                     <div className="login-form-item-row">
                         <div className="login-form-bottom-left">
-                            <button className="login-form-submit">Reset Password</button>
+                            <button className="login-form-submit" onClick={resetPassword}>Reset Password</button>
                         </div>
                         <div className="login-form-bottom-right">
-                            <Link className="login-form-submit" to="/account" onClick={resetPassword}><button>Login</button></Link>
+                            <Link className="login-form-submit" to="/account"><button>Login</button></Link>
                         </div>
                     </div>
                 </div>

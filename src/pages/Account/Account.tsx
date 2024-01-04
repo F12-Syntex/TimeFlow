@@ -2,14 +2,20 @@ import PageHeader from "@/components/update/PageHeader/pageheader";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import "./account.css";
 import React, { useEffect, useState } from "react";
-
-let isLoggedIn = false;
-
-function getLoginStatus() {
-
-}
+import { ipcRenderer } from "electron";
 
 function Account() {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    function getLoginStatus() {
+        // get data from cookie
+        const cookie = document.cookie;
+        console.log("cookie1:", cookie);
+        if (cookie && cookie.includes("loggedIn=true")) {
+            setIsLoggedIn(true);
+        }
+    }
+
     useEffect(() => {
         getLoginStatus();
     }, []);
@@ -22,10 +28,26 @@ function Account() {
 }
 
 function AccountPage() {
+
+    function logout() {
+        document.cookie.split(";").forEach((cookie) => {
+            const parts = cookie.split("=");
+            const cookieName = parts.shift()
+            document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 GMT;`;
+          });
+        console.log('cookie:', document.cookie);
+        window.location.href = '/';
+    }
+
     return (
         <div className="main-page-container">
-            <PageHeader title="Account" editableView={false} />
-            <p>Account information goes here</p>
+            <div className="header-bar">
+            <h2>Account</h2>
+                <button onClick={logout} >Logout</button>
+            </div>
+            <div className="page-content">
+                <p>Account information goes here</p>
+            </div>
         </div>
     );
 }
@@ -51,10 +73,14 @@ function LoginPage() {
             .then(response => response.json())
             .then(data => {
                 if (data['user'] != null) {
-                    isLoggedIn = true;
-                    window.location.href = '/';
+                    ipcRenderer.on('cookie-from-main', (event, cookieData) => {
+                        console.log('Received cookie in renderer:', cookieData);
+                        document.cookie = cookieData;
+                        console.log('cookie2:', document.cookie);
+                    });
+                    // window.location.href = '/';
                 } else {
-                    alert('Error logging in');
+                    alert('Invalid username or password');
                 }
             })
             .catch((error) => {

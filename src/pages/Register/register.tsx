@@ -35,7 +35,6 @@ function RegisterPage() {
             return;
         }
 
-
         fetch('http://localhost:3000/api/register', {
             method: 'POST',
             headers: {

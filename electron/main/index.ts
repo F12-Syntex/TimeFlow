@@ -124,6 +124,12 @@ async function createWindow() {
 
 app.whenReady().then(createWindow);
 
+app.on("ready", () => {
+  ipcMain.on('send-cookie-to-renderer', (event, cookieData) => {
+    win?.webContents.send('cookie-from-main', cookieData);
+  });
+});
+
 app.on("window-all-closed", () => {
   win = null;
   if (process.platform !== "darwin") app.quit();
@@ -352,12 +358,11 @@ expressApp.post("/api/login", async (req: Request, res: Response) => {
     }
 
     // hash the password
-    const hashedPassword = crypto.createHash("sha1").update('password').digest("hex");
+    const hashedPassword = crypto.createHash("sha1").update(password).digest("hex");
 
-    // find the user with that username
+    // find the user with that username and password
     const user = await usersCollection.findOne({
-      username: username,
-      password: hashedPassword,
+      $and: [{ username: username }, { password: hashedPassword }],
     });
 
     // if user has error key then error if has user key then return user
@@ -366,6 +371,8 @@ expressApp.post("/api/login", async (req: Request, res: Response) => {
     if (hasErrorKey) {
       return res.status(401).json({ error: "Invalid username or password" });
     } else {
+      const cookieData = `${user?._id.toString()} loggedIn=true`;
+      win?.webContents.send('cookie-from-main', cookieData );
       return res.json({ user });
     }
   } catch (error) {
@@ -427,8 +434,7 @@ expressApp.get("/api/forgot-password", async (req: Request, res: Response) => {
 
     // find the user with that email and username
     const user = await usersCollection.findOne({
-      email: email,
-      username: username,
+      $and: [{ email: email }, { username: username }],
     });
 
     // if user has error key then error if has user key then return user

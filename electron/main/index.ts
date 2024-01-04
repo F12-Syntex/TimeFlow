@@ -216,7 +216,7 @@ expressApp.get("/api/sample/tasks", async (req: Request, res: Response) => {
 expressApp.get("/api/sample/tasks/:id", async (req: Request, res: Response) => {
   try {
     const tasksCollection = database.collection("tasks");
-    const task = tasksCollection.findOne({ _id: new ObjectId(req.params.id) });
+    const task = await tasksCollection.findOne({ _id: new ObjectId(req.params.id) });
     res.json({ task });
   } catch (error) {
     console.error("Error fetching task:", error);

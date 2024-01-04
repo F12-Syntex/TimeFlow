@@ -3,6 +3,7 @@ import TodoItem from "../../../../express/src/types/TodoItem";
 import TagItem from "express/src/types/TagItem";
 import { ObjectId } from "mongodb";
 import TodoItemWithTags from "express/src/types/TodoItemWithTags";
+import { Link } from "react-router-dom";
 interface ListItemProps {
   item: TodoItemWithTags;
 }
@@ -104,49 +105,56 @@ const ListItem = ({ item }: ListItemProps) => {
     (label) => label.tag.name
   );
 
+  const [showModal, setShowModal] = useState(false);
+
   function openTask() {
-    alert(
-      `Title: ${item.title}\nDescription: ${
-        item.description
-      }\nDate: ${parseDate(item.date)}\nPriority: ${
-        item.priority
-      }\nLabels: ${labels.join(", ")}
-      Completed: ${item.completed}\nID: ${item._id}`
-    );
+    // alert(
+    //   `Title: ${item.title}\nDescription: ${
+    //     item.description
+    //   }\nDate: ${parseDate(item.date)}\nPriority: ${
+    //     item.priority
+    //   }\nLabels: ${labels.join(", ")}
+    //   Completed: ${item.completed}\nID: ${item._id}`
+    // );
+    setShowModal(true);
   }
 
   return (
-    <div className="list-view-item">
-      <div className="list-view-item-left">
-        <div className="container">
-          <div className="round">
-            <input
-              type="checkbox"
-              id={`checkbox-${item._id}`}
-              checked={check.completed}
-              onChange={handleCheckboxClick}
-            />
-            <label htmlFor={`checkbox-${item._id}`}></label>
+    <Link to={`/task/${item._id}`}>
+        <div className="list-view-item">
+          <div className="list-view-item-left">
+            <div className="container">
+              <div className="round">
+                <input
+                  type="checkbox"
+                  id={`checkbox-${item._id}`}
+                  checked={check.completed}
+                  onChange={handleCheckboxClick}
+                />
+                <label htmlFor={`checkbox-${item._id}`}></label>
+              </div>
+            </div>
+          </div>
+          <div className="list-view-item-right" onClick={openTask}>
+            <div className="list-view-item-top">
+              <div className="list-view-item-title">{item.title}</div>
+              <div className="list-view-item-date">
+                <span>{parseDate(item.date)}</span>
+              </div>
+            </div>
+            <div className="list-view-item-bottom">
+              <div className="list-view-item-description">
+                {item.description}
+              </div>
+              <div className="list-view-item-labels">
+                {labels.map((label) => (
+                  <div className="list-view-item-label">{label}</div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="list-view-item-right" onClick={openTask}>
-        <div className="list-view-item-top">
-          <div className="list-view-item-title">{item.title}</div>
-          <div className="list-view-item-date">
-            <span>{parseDate(item.date)}</span>
-          </div>
-        </div>
-        <div className="list-view-item-bottom">
-          <div className="list-view-item-description">{item.description}</div>
-          <div className="list-view-item-labels">
-            {labels.map((label) => (
-              <div className="list-view-item-label">{label}</div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
+    </Link>
   );
 };
 

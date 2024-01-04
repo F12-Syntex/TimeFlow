@@ -13,6 +13,7 @@ import ForgotPasswordPage from "../../pages/ForgotPassword/forgotPassword";
 import TodoItem from "../../../express/src/types/TodoItem";
 import TagItem from "../../../express/src/types/TagItem";
 import TodoItemWithTags from "../../../express/src/types/TodoItemWithTags";
+import TaskDetails from "../../components/update/TaskDetails/taskDetails";
 import { ObjectId } from "mongodb";
 
 const TimeFlow = () => {
@@ -173,6 +174,7 @@ const TimeFlow = () => {
         <div className="homepage-container">
           <Routes>
           <Route path="/" element={<Inbox listViewItems={todoList} />} />
+          <Route path="/task/:id" element={<TaskDetails />} />
 
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/forgotPassword" element={<ForgotPasswordPage />} />

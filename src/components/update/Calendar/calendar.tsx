@@ -21,12 +21,26 @@ function App() {
   return (
     <React.Fragment>
         <div className="h-screen flex flex-columns">
+            <CalendarHeader />
             <div className="flex flex-1">
-
+                <Sidebar />
+                <Month />
             </div>
         </div>
     </React.Fragment>
   );
+}
+
+function CalendarHeader() {
+    return (<div></div>)
+}
+
+function Sidebar() {
+    return (<div></div>)
+}
+
+function Month() {
+    return (<div></div>)
 }
 
 export default App;

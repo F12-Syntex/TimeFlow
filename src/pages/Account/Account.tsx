@@ -21,6 +21,7 @@ function AccountPage() {
         </div>
     );
 }
+
 function LoginPage() {
 
     function login() {

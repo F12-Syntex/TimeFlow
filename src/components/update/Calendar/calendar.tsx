@@ -1,10 +1,13 @@
-import dayjs from "dayjs"; //import dayjs
-import React from "react";
+import dayjs from "dayjs"; //import dayjs (npm install dayjs)
+import React, { useState } from "react";
+import CalendarHeader from "./CalendarHeader";
+import CalendarSidebar from "./CalendarSidebar";
+import Month from "./Month";
 
-function App() {
-  function getMonth(month = dayjs().month()) {
+function getMonth(month = dayjs().month()) {
+    
     const year = dayjs().year();
-    const firstDayOfMonth = dayjs(new Date(year, month, 1)).day();
+    const firstDayOfMonth = dayjs(new Date(year, month, 1)).day(); 
     let curMonthCounter = 0 - firstDayOfMonth;
 
     const dayMatrix = new Array(5).fill([]).map(() => {
@@ -16,31 +19,20 @@ function App() {
     return dayMatrix;
   }
 
-  console.table(getMonth(3));
-
+function App() {
+ const [currentMonth, setCurrentMonth] = useState(getMonth())
+ const [];
   return (
     <React.Fragment>
         <div className="h-screen flex flex-columns">
-            <CalendarHeader />
+          <CalendarHeader />
             <div className="flex flex-1">
                 <Sidebar />
-                <Month />
+                <Month month={currentMonth} />
             </div>
         </div>
     </React.Fragment>
   );
-}
-
-function CalendarHeader() {
-    return (<div></div>)
-}
-
-function Sidebar() {
-    return (<div></div>)
-}
-
-function Month() {
-    return (<div></div>)
 }
 
 export default App;

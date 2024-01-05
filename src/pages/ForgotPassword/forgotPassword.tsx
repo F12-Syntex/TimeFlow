@@ -23,7 +23,6 @@ function ForgotPasswordPage() {
             .then(response => response.json())
             .then(data => {
                 if (data['user'] != null) {
-                    // isLoggedIn = true;
                     window.location.href = '/';
                 } else {
                     alert('Error resetting password');

@@ -1,4 +1,11 @@
-import { app, BrowserWindow, shell, ipcMain, globalShortcut } from "electron";
+import {
+  app,
+  BrowserWindow,
+  shell,
+  ipcMain,
+  globalShortcut,
+  session,
+} from "electron";
 import { release } from "node:os";
 import { join } from "node:path";
 import { update } from "./update";
@@ -86,6 +93,37 @@ async function createWindow() {
     win.loadFile(indexHtml);
   }
 
+  // Retrieve cookies from the main session
+  // Set a cookie
+  const cookieDetails = {
+    url: "https://myapp.com",
+    name: "cookiel",
+    value: "cookie_value",
+    domain: "myapp.com",
+    expirationDate: 999999999999,
+  };
+
+  // clear all cookies
+  // session.defaultSession.clearStorageData({
+  //   storages: ['cookies']
+  // }).then(() => {
+  //   console.log('All cookies cleared');
+  // }).catch((error) => {
+  //   console.error('Error clearing cookies:', error);
+  // });
+ 
+  // session.defaultSession.cookies.set({}).then(() => {
+  // Get all cookies after setting the new one
+  session.defaultSession.cookies
+    .get({})
+    .then((cookies) => {
+      console.log(cookies);
+    })
+    .catch((error) => {
+      console.error("Error getting cookies:", error);
+    });
+// });
+
   // Function to toggle dev tools
   const toggleDevTools = () => {
     if (win) {
@@ -123,12 +161,6 @@ async function createWindow() {
 }
 
 app.whenReady().then(createWindow);
-
-app.on("ready", () => {
-  ipcMain.on('send-cookie-to-renderer', (event, cookieData) => {
-    win?.webContents.send('cookie-from-main', cookieData);
-  });
-});
 
 app.on("window-all-closed", () => {
   win = null;
@@ -216,7 +248,9 @@ expressApp.get("/api/sample/tasks", async (req: Request, res: Response) => {
 expressApp.get("/api/sample/tasks/:id", async (req: Request, res: Response) => {
   try {
     const tasksCollection = database.collection("tasks");
-    const task = await tasksCollection.findOne({ _id: new ObjectId(req.params.id) });
+    const task = await tasksCollection.findOne({
+      _id: new ObjectId(req.params.id),
+    });
     res.json({ task });
   } catch (error) {
     console.error("Error fetching task:", error);
@@ -238,7 +272,7 @@ expressApp.post(
         completed: req.body.completed,
         labels: [new ObjectId(req.body.labels[0])],
         _id: new ObjectId(),
-      }
+      };
 
       tasksCollection.insertOne(task);
       res.json({ task });
@@ -303,7 +337,9 @@ expressApp.get("/api/sample/tags", async (req: Request, res: Response) => {
 expressApp.get("/api/sample/tags/:id", async (req: Request, res: Response) => {
   try {
     const tagsCollection = database.collection("tags");
-    const tag = await tagsCollection.findOne({ _id: new ObjectId(req.params.id) });
+    const tag = await tagsCollection.findOne({
+      _id: new ObjectId(req.params.id),
+    });
     res.json({ tag });
   } catch (error) {
     console.error("Error fetching tag:", error);
@@ -328,14 +364,16 @@ expressApp.delete(
   async (req: Request, res: Response) => {
     try {
       const tagsCollection = database.collection("tags");
-      const deletionResult = await tagsCollection.deleteOne({ _id: new ObjectId(req.params.id) });
+      const deletionResult = await tagsCollection.deleteOne({
+        _id: new ObjectId(req.params.id),
+      });
 
       const tasksCollection = database.collection("tasks");
 
       const updateResult = await tasksCollection.updateMany(
         { labels: [new ObjectId(req.params.id)] },
         { $set: { labels: [] } }
-      );;
+      );
 
       if (deletionResult && deletionResult.deletedCount === 1) {
         res.json({ deletedId: req.params.id });
@@ -359,7 +397,10 @@ expressApp.post("/api/login", async (req: Request, res: Response) => {
     }
 
     // hash the password
-    const hashedPassword = crypto.createHash("sha1").update(password).digest("hex");
+    const hashedPassword = crypto
+      .createHash("sha1")
+      .update(password)
+      .digest("hex");
 
     // find the user with that username and password
     const user = await usersCollection.findOne({
@@ -371,10 +412,23 @@ expressApp.post("/api/login", async (req: Request, res: Response) => {
 
     if (hasErrorKey) {
       return res.status(401).json({ error: "Invalid username or password" });
-    } else {
-      const cookieData = `${user?._id.toString()} loggedIn=true`;
-      win?.webContents.send('cookie-from-main', cookieData );
-      return res.json({ user });
+    } else if (user) {
+      // set cookie for user._id and isLoggedin
+      const cookieDetails: Electron.CookiesSetDetails = {
+        url: "http://localhost",
+        name: "user",
+        value: user._id.toString(),
+        domain: "localhost",
+        expirationDate: 999999999999,
+      };
+
+      console.log(cookieDetails);
+
+      session.defaultSession.cookies.set(cookieDetails).then(() => {
+        console.log("Cookie set successfully: ", cookieDetails);
+      })
+
+      res.json({ user });
     }
   } catch (error) {
     console.error("Error adding user:", error);
@@ -395,7 +449,10 @@ expressApp.post("/api/register", async (req: Request, res: Response) => {
     }
 
     // hash the password
-    const hashedPassword = crypto.createHash("sha1").update('password').digest("hex");
+    const hashedPassword = crypto
+      .createHash("sha1")
+      .update("password")
+      .digest("hex");
 
     // find the user with that username or email
     const user = await usersCollection.findOne({
@@ -450,5 +507,46 @@ expressApp.get("/api/forgot-password", async (req: Request, res: Response) => {
   } catch (error) {
     console.error("Error adding user:", error);
     res.status(500).json({ error: "Error adding user" });
+  }
+});
+
+expressApp.post("/api/logout", async (req: Request, res: Response) => {
+  try {
+    const cookie: Electron.CookiesSetDetails = {
+      url: "http://localhost",
+      name: "user",
+      value: "",
+      domain: "localhost",
+      expirationDate: 999999999999,
+    };
+
+    session.defaultSession.cookies.set(cookie)
+
+    console.log("Cookie deleted successfully: ");
+    console.log("'" + cookie.value + "'");
+    return res.json({ cookie });
+  } catch (error) {
+    console.error("Error deleting cookie:", error);
+    res.status(500).json({ error: "Error deleting cookie" });
+  }
+});
+
+expressApp.get("/api/get-login-status", async (req: Request, res: Response) => {
+  try {
+    const cookie = await session.defaultSession.cookies.get({
+      url: "http://localhost",
+      name: "user",
+    });
+
+    if (cookie) {
+      console.log("loginStatus: ");
+      console.log("'" + cookie[0].value + "'");
+      return res.json({ cookie });
+    } else {
+      res.status(404).json({ error: "Cookie not found" });
+    }
+  } catch (error) {
+    console.error("Error getting cookie:", error);
+    res.status(500).json({ error: "Error getting cookie" });
   }
 });

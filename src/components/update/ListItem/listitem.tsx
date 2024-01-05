@@ -97,63 +97,73 @@ const ListItem = ({ item }: ListItemProps) => {
     return `${mm}/${dd}/${yyyy}`;
   };
 
-  interface ListItemTags {
-    tag: TagItem;
+  console.log(item.labels); // this is an array of objectIds
+
+  // for each labelId in item.labels, fetch the label name
+  function fetchLabelName(labelId: ObjectId) {
+    fetch(`http://localhost:3000/api/sample/tags/${labelId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (Object.keys(data)[0] === "error") {
+          console.log("No labels found");
+          return null;
+        }
+        console.log(data);
+        return data["tag"].name;
+      })
+      .catch((error) => {
+        console.error("Error fetching label:", error);
+        return null;
+      });
   }
 
-  const labels = (item.labels as unknown as ListItemTags[]).map(
-    (label) => label.tag.name
-  );
+  let labels: string[] = [];
 
-  const [showModal, setShowModal] = useState(false);
-
-  function openTask() {
-    // alert(
-    //   `Title: ${item.title}\nDescription: ${
-    //     item.description
-    //   }\nDate: ${parseDate(item.date)}\nPriority: ${
-    //     item.priority
-    //   }\nLabels: ${labels.join(", ")}
-    //   Completed: ${item.completed}\nID: ${item._id}`
-    // );
-    setShowModal(true);
+  // Fix the below code to display the label names instead of "Tags"
+  try {
+    const parsedLabels = item.labels as unknown as ListItemTags[];
+    console.log(parsedLabels);
+    labels = parsedLabels.map((label) => label.tag.name);
+  } catch (error) {
+    console.error("Error occurred while parsing labels:", error);
+    // Handle the error here, you can assign a default value or perform other actions
+    // For example, setting an empty array as a default value:
+    labels = ["Tags"];
   }
 
   return (
     <Link to={`/task/${item._id}`}>
-        <div className="list-view-item">
-          <div className="list-view-item-left">
-            <div className="container">
-              <div className="round">
-                <input
-                  type="checkbox"
-                  id={`checkbox-${item._id}`}
-                  checked={check.completed}
-                  onChange={handleCheckboxClick}
-                />
-                <label htmlFor={`checkbox-${item._id}`}></label>
-              </div>
-            </div>
-          </div>
-          <div className="list-view-item-right" onClick={openTask}>
-            <div className="list-view-item-top">
-              <div className="list-view-item-title">{item.title}</div>
-              <div className="list-view-item-date">
-                <span>{parseDate(item.date)}</span>
-              </div>
-            </div>
-            <div className="list-view-item-bottom">
-              <div className="list-view-item-description">
-                {item.description}
-              </div>
-              <div className="list-view-item-labels">
-                {labels.map((label) => (
-                  <div className="list-view-item-label">{label}</div>
-                ))}
-              </div>
+      <div className="list-view-item">
+        <div className="list-view-item-left">
+          <div className="container">
+            <div className="round">
+              <input
+                type="checkbox"
+                id={`checkbox-${item._id}`}
+                checked={check.completed}
+                onChange={handleCheckboxClick}
+              />
+              <label htmlFor={`checkbox-${item._id}`}></label>
             </div>
           </div>
         </div>
+        <div className="list-view-item-right">
+          <div className="list-view-item-top">
+            <div className="list-view-item-title">{item.title}</div>
+            <div className="list-view-item-date">
+              <span>{parseDate(item.date)}</span>
+            </div>
+          </div>
+          <div className="list-view-item-bottom">
+            <div className="list-view-item-description">{item.description}</div>
+            <div className="list-view-item-labels">
+              {labels.map((label) => (
+                <div className="list-view-item-label">{label}</div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
     </Link>
   );
 };

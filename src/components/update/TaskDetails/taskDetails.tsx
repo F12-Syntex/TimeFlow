@@ -65,13 +65,13 @@ function TaskDetails() {
                 <input type="date" id="date" name="date" placeholder="Date" />
             </div>
             <div className="add-task-form-item">
-                <select id="priority" name="priority">
-                    <option value="high">High</option>
-                    <option value="normal" selected>
-                    Normal
-                    </option>
-                    <option value="low">Low</option>
-                </select>
+              <select id="priority" name="priority">
+                <option value="high">High</option>
+                <option value="normal" selected>
+                  Normal
+                </option>
+                <option value="low">Low</option>
+              </select>
             </div>
             <div className="add-task-form-item">
                 <input type="checkbox" id="completed" name="completed" placeholder="Completed" />

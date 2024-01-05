@@ -30,7 +30,8 @@ const ListItem = ({ item }: ListItemProps) => {
       .then((response) => response.json())
       .then((data) => {
         // TESTING - cannot deselect checkbox
-        window.location.href = "/";
+        console.log("data: ", data);
+        // window.location.href = "/";
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -130,21 +131,21 @@ const ListItem = ({ item }: ListItemProps) => {
   }
 
   return (
-    <Link to={`/task/${item._id}`}>
-      <div className="list-view-item">
-        <div className="list-view-item-left">
-          <div className="container">
-            <div className="round">
-              <input
-                type="checkbox"
-                id={`checkbox-${item._id}`}
-                checked={check.completed}
-                onChange={handleCheckboxClick}
-              />
-              <label htmlFor={`checkbox-${item._id}`}></label>
-            </div>
+    <div className="list-view-item">
+      <div className="list-view-item-left">
+        <div className="container">
+          <div className="round">
+            <input
+              type="checkbox"
+              id={`checkbox-${item._id}`}
+              checked={check.completed}
+              onChange={handleCheckboxClick}
+            />
+            <label htmlFor={`checkbox-${item._id}`}></label>
           </div>
         </div>
+      </div>
+      <Link to={`/task/${item._id}`}>
         <div className="list-view-item-right">
           <div className="list-view-item-top">
             <div className="list-view-item-title">{item.title}</div>
@@ -161,8 +162,8 @@ const ListItem = ({ item }: ListItemProps) => {
             </div>
           </div>
         </div>
-      </div>
-    </Link>
+      </Link>
+    </div>
   );
 };
 

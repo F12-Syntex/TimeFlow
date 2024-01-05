@@ -62,10 +62,11 @@ async function createWindow() {
     minWidth: 600,
     minHeight: 800,
     // transparent: true,
+    show: false,
     // frame: false,
     hasShadow: true,
     titleBarOverlay: true,
-    titleBarStyle: "default",
+    // titleBarStyle: "hiddenInset",
     // vibrancy: "popover",
     roundedCorners: true,
     webPreferences: {
@@ -79,7 +80,7 @@ async function createWindow() {
     },
   });
 
-  // win.blur()
+  win.blur()
 
   // win.setMenuBarVisibility(false)
   win.removeMenu();
@@ -107,6 +108,10 @@ async function createWindow() {
   // Register global hotkey to toggle dev tools (CmdOrCtrl+Shift+I)
   app.whenReady().then(() => {
     globalShortcut.register("CommandOrControl+Shift+I", toggleDevTools);
+  });
+
+  win.once("ready-to-show", () => {
+    win?.show();
   });
 
   // Unregister the hotkey when the app is about to quit
@@ -209,7 +214,6 @@ expressApp.get("/api/sample/tasks", async (req: Request, res: Response) => {
     const taskCollection = database.collection("tasks");
     const tasks = await taskCollection.find({ user: userObjectId }).toArray();
 
-    console.log(tasks);
     res.json({ tasks });
   } catch (error) {
     console.error("Error fetching tasks:", error);
@@ -270,11 +274,15 @@ expressApp.patch(
 
       const tasksCollection = database.collection("tasks");
       const taskId = req.params.id;
-      const updateData = req.body;
-
-      // Remove the _id field from the update data
-      delete updateData._id;
-      delete updateData.labels;
+      const updateData: Partial<TodoItem> = {
+        title: req.body.title,
+        description: req.body.description,
+        date: req.body.date,
+        priority: req.body.priority,
+        completed: req.body.completed,
+        // labels: [new ObjectId(req.body.labels[0])],
+        // user: userObjectId,
+      };
 
       // Perform the update using $set to update specific fields
       await tasksCollection.updateOne(

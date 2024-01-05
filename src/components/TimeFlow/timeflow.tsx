@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import "./timeflow.css";
+import "../../pages/pages.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Inbox from "../../pages/Inbox/Inbox";
 import Search from "../../pages/Search/Search";
@@ -209,6 +210,15 @@ const TimeFlow = () => {
 
   return (
     <Router>
+  {/* <div class="title-bar">
+    <div class="title">Your App Title</div>
+    <!-- Add buttons, icons, or controls for window actions (minimize, maximize, close) -->
+    <div class="window-controls">
+      <div class="window-button" id="minimize">&#x2014;</div>
+      <div class="window-button" id="maximize">&#x2750;</div>
+      <div class="window-button" id="close">&#x2715;</div>
+    </div>
+  </div> */}
       <div className="main-container">
         <div className="sidebar">
           <div className="sidebar-top">

@@ -4,8 +4,8 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    padding: 4rem 1rem 1rem 1rem;
-    height: 100vh;
+    padding: 5rem 1rem 1rem 1rem;
+    height: 100%;
     overflow: hidden;
     background-color: #0a0a0a;
 }
@@ -88,4 +88,74 @@
 a {
     text-decoration: none;
     color: inherit;
+}
+
+@media (prefers-color-scheme: light) {
+    .sidebar {
+        background-color: #f9f9f9;
+    }
+
+    .sidebar-button, .sidebar-add {
+        background-color: #f0f0f0;
+    }
+
+    .sidebar-add-selected {
+        background-color: rgb(218, 101, 101);
+
+        &:hover {
+            background-color: rgb(127, 78, 77)
+        }
+
+        &:active, &:focus {
+            background-color: rgb(214, 78, 78);
+        }
+
+        &.sidebar-add-selected {
+            &:hover {
+              background-color: rgb(187, 81, 81)
+            }
+          }
+    }
+
+    .sidebar-button {
+        &:hover {
+            background-color: rgb(179, 210, 229);
+        }
+
+        &:active, &:focus {
+            background-color: rgb(67, 149, 197);
+        }
+    }
+    
+    .sidebar-selected {
+        background-color: rgb(53, 142, 195);
+
+        &:hover {
+            background-color: rgb(179, 210, 229);
+        }
+
+        &:active, &:focus {
+            background-color: rgb(64, 108, 133)
+        }
+
+        &.sidebar-selected {
+            &:hover {
+              background-color: rgb(40, 74, 94)
+            }
+          }
+    }
+
+    .sidebar-add-selected, .sidebar-selected {
+        .bi {
+            color: white;
+        }
+    }
+
+    .sidebar-button:hover {
+        background-color: rgb(106, 146, 169);
+    }
+
+    a:hover {
+        color: white;
+    }
 }

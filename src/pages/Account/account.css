@@ -44,3 +44,15 @@
     align-items: flex-start;
     justify-content: center;
 }
+
+@media (prefers-color-scheme: light) {
+    .login-form {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .login-form-item {
+        input {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+    }
+}

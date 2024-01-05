@@ -1,54 +1,99 @@
 .main-page-container {
-    height: 100vh;
-    width: calc(100vw - 96px);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: #161616;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #161616;
 }
 
 .auth-page-container {
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: #161616;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #161616;
 }
 
-.page-content, .search-page-content {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: top;
-    align-items: center;
-    width: calc(100vw - 96px);
-    overflow-y: auto;
-    overflow-x: hidden;
-    height: calc(100vh);
-    user-select: none;
-    padding-bottom: 36px;
+.title-bar {
+  background-color: #0a0a0a;
+  height: 32px;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  -webkit-app-region: drag; /* Allows dragging the window */
 }
 
-#root {    
-    margin: 0 !important;
-    padding: 0 !important;
+.title-bar-title {
+  font-size: 14px;
+}
+
+.page-content,
+.search-page-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: top;
+  align-items: center;
+  width: calc(100vw - 96px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%;
+  user-select: none;
+  padding-bottom: 36px;
+}
+
+#root {
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 ::-webkit-scrollbar {
-    position: absolute;
-    z-index: 1000;
-    width: 10px;
+  position: absolute;
+  z-index: 1000;
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #262626;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2f2f2f;
+  border-radius: 4px;
+}
+
+@media (prefers-color-scheme: light) {
+  .main-page-container {
+    background-color: #ffffff;
+  }
+
+  .auth-page-container {
+    background-color: #ffffff;
+  }
+
+  .title-bar {
+    background-color: #ffffff;
+  }
+
+  .page-content,
+  .search-page-content {
+    background-color: #ffffff;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #262626; 
-    border-radius: 4px;
+    background: #f9f9f9;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: #2f2f2f; 
-    border-radius: 4px;
+    background: #f1f1f1;
   }
+  
+}

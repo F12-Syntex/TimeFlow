@@ -7,17 +7,11 @@ interface ListViewProps {
   listViewItems: TagItem[];
 }
 
-function ListView({
-  listViewItems,
-}: ListViewProps) {
-
+function ListView({ listViewItems }: ListViewProps) {
   return (
-    <div>
-      {(listViewItems.length === 0 && (
-		<NoItems name="tag" />
-      )) ||
-		  listViewItems.map((item) => <TagListItem item={item}/>)
-    }
+    <div className="list-view-container">
+      {(listViewItems.length === 0 && <NoItems name="tag" />) ||
+        listViewItems.map((item) => <TagListItem item={item} />)}
     </div>
   );
 }

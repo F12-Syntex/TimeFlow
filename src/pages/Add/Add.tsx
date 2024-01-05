@@ -5,8 +5,20 @@ import TagItem from "express/src/types/TagItem";
 import TodoItem from "express/src/types/TodoItem";
 import React, { useEffect, useState } from "react";
 import { ObjectId } from "mongodb";
+import { useNavigate } from "react-router-dom";
 
 function App() {
+  // get user from cookie
+  function getUserID() {
+    const cookies = document.cookie.split(";");
+    const userCookie = cookies.find((cookie) => cookie.includes("user"));
+    if (userCookie) {
+      return new ObjectId(userCookie.split("=")[1]);
+    } else {
+      return new ObjectId();
+    }
+  }
+
   const addTask = () => {
     // make sure all fields are filled out
     if ((document.getElementById("name") as HTMLInputElement)?.value === "") {
@@ -48,7 +60,7 @@ function App() {
     }
 
     const task: TodoItem = {
-      user: "",
+      user: getUserID(),
       title: (document.getElementById("name") as HTMLInputElement)?.value ?? "",
       description:
         (document.getElementById("description") as HTMLInputElement)?.value ??
@@ -58,7 +70,11 @@ function App() {
       ),
       priority:
         (document.getElementById("priority") as HTMLInputElement)?.value ?? "",
-      labels: [new ObjectId((document.getElementById("labels") as HTMLInputElement)?.value ?? "")],
+      labels: [
+        new ObjectId(
+          (document.getElementById("labels") as HTMLInputElement)?.value ?? ""
+        ),
+      ],
       completed: false,
       _id: new ObjectId(),
     };
@@ -73,7 +89,8 @@ function App() {
       // then alert the user that the task was added and redirect to the inbox
       .then((response) => {
         if (response.status === 200) {
-          window.location.href = "/inbox";
+          useNavigate()("/inbox");
+          // window.location.href = "/inbox";
         } else {
           alert("Error adding task");
         }
@@ -82,13 +99,17 @@ function App() {
 
   const addTag = () => {
     // make sure all fields are filled out
-    if ((document.getElementById("tag-name") as HTMLInputElement)?.value === "") {
+    if (
+      (document.getElementById("tag-name") as HTMLInputElement)?.value === ""
+    ) {
       alert("Please enter a tag name");
       return;
     }
 
     const tag: TagItem = {
-      name: (document.getElementById("tag-name") as HTMLInputElement)?.value ?? "",
+      user: getUserID(),
+      name:
+        (document.getElementById("tag-name") as HTMLInputElement)?.value ?? "",
       _id: new ObjectId(),
     };
 
@@ -102,7 +123,8 @@ function App() {
       // then alert the user that the task was added and redirect to the inbo
       .then((response) => {
         if (response.status === 200) {
-          window.location.href = "/tags";
+          // window.location.href = "/tags";
+          useNavigate()("/tags");
         } else {
           alert("Error adding tag");
         }
@@ -148,7 +170,7 @@ function App() {
   return (
     <div className="main-page-container">
       <div className="page-content">
-      <PageHeader title="Add Task" editableView={false} />
+        <PageHeader title="Add Task" editableView={false} />
         <div className="add-task-form">
           <div className="add-task-form-item">
             <input type="text" id="name" name="name" placeholder="Name" />

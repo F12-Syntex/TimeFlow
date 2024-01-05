@@ -8,11 +8,8 @@ interface ListItemProps {
 }
 
 const ListItem = ({ item }: ListItemProps) => {
-
   function openTag() {
-    alert(
-      `Title: ${item.name}\nID: ${item._id}`
-    );
+    alert(`Title: ${item.name}\nID: ${item._id}`);
   }
 
   function deleteTag() {
@@ -21,7 +18,7 @@ const ListItem = ({ item }: ListItemProps) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        window.location.href = "/tags";
+        window.location.reload();
       })
       .catch((error) => {
         console.error("Error:", error);

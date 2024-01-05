@@ -80,7 +80,7 @@ async function createWindow() {
     },
   });
 
-  win.blur()
+  win.blur();
 
   // win.setMenuBarVisibility(false)
   win.removeMenu();
@@ -306,7 +306,9 @@ expressApp.delete(
       const userObjectId = await fetchUserObjectID();
 
       const tasksCollection = database.collection("tasks");
-      tasksCollection.deleteOne({ $and: [{ _id: new ObjectId(req.params.id) }, { user: userObjectId }] });
+      tasksCollection.deleteOne({
+        $and: [{ _id: new ObjectId(req.params.id) }, { user: userObjectId }],
+      });
       res.json({ tasks: [] });
     } catch (error) {
       console.error("Error deleting task:", error);
@@ -347,13 +349,13 @@ expressApp.get("/api/sample/tags/:id", async (req: Request, res: Response) => {
 expressApp.post("/api/sample/tags/add", async (req: Request, res: Response) => {
   try {
     const userObjectId = await fetchUserObjectID();
-    
+
     const tagsCollection = database.collection("tags");
     const tag: TagItem = {
       user: userObjectId,
       name: req.body.name,
       _id: new ObjectId(),
-    }
+    };
     tagsCollection.insertOne(tag);
     res.json({ tag });
   } catch (error) {
@@ -367,7 +369,7 @@ expressApp.delete(
   async (req: Request, res: Response) => {
     try {
       const userObjectId = await fetchUserObjectID();
-      
+
       const tagsCollection = database.collection("tags");
       const deletionResult = await tagsCollection.deleteOne({
         _id: new ObjectId(req.params.id),
@@ -376,7 +378,12 @@ expressApp.delete(
       const tasksCollection = database.collection("tasks");
 
       const updateResult = await tasksCollection.updateMany(
-        { $and: [{ user: userObjectId }, { labels: [new ObjectId(req.params.id)] }] },
+        {
+          $and: [
+            { user: userObjectId },
+            { labels: [new ObjectId(req.params.id)] },
+          ],
+        },
         { $set: { labels: [] } }
       );
 
@@ -520,7 +527,7 @@ expressApp.post("/api/logout", async (req: Request, res: Response) => {
       expirationDate: 999999999999,
     };
 
-    session.defaultSession.cookies.set(cookie)
+    session.defaultSession.cookies.set(cookie);
 
     return res.json({ cookie });
   } catch (error) {
@@ -548,10 +555,13 @@ expressApp.get("/api/get-login-status", async (req: Request, res: Response) => {
 });
 
 async function fetchUserObjectID() {
-  const loginStatusResponse = await fetch("http://localhost:3000/api/get-login-status", {
-    method: "GET",
-    credentials: "include",
-  });
+  const loginStatusResponse = await fetch(
+    "http://localhost:3000/api/get-login-status",
+    {
+      method: "GET",
+      credentials: "include",
+    }
+  );
 
   const loginStatusData = await loginStatusResponse.json();
   const userValue = loginStatusData.cookie[0].value;

@@ -31,7 +31,7 @@ const ListItem = ({ item }: ListItemProps) => {
       .then((data) => {
         // TESTING - cannot deselect checkbox
         console.log("data: ", data);
-        // window.location.href = "/";
+        window.location.reload();
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -145,21 +145,19 @@ const ListItem = ({ item }: ListItemProps) => {
           </div>
         </div>
       </div>
-      <Link to={`/task/${item._id}`}>
-        <div className="list-view-item-right">
-          <div className="list-view-item-top">
-            <div className="list-view-item-title">{item.title}</div>
-            <div className="list-view-item-date">
-              <span>{parseDate(item.date)}</span>
-            </div>
+      <Link to={`/task/${item._id}`} className="list-view-item-right">
+        <div className="list-view-item-top">
+          <div className="list-view-item-title">{item.title}</div>
+          <div className="list-view-item-date">
+            <span>{parseDate(item.date)}</span>
           </div>
-          <div className="list-view-item-bottom">
-            <div className="list-view-item-description">{item.description}</div>
-            <div className="list-view-item-labels">
-              {labels.map((label) => (
-                <div className="list-view-item-label">{label}</div>
-              ))}
-            </div>
+        </div>
+        <div className="list-view-item-bottom">
+          <div className="list-view-item-description">{item.description}</div>
+          <div className="list-view-item-labels">
+            {labels.map((label) => (
+              <div className="list-view-item-label">{label}</div>
+            ))}
           </div>
         </div>
       </Link>

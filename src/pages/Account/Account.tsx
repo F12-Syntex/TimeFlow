@@ -38,7 +38,6 @@ function Account() {
   } else {
     return <LoginPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />;
   }
-
 }
 
 function AccountPage({ isLoggedIn, setIsLoggedIn }: any) {
@@ -112,7 +111,7 @@ function LoginPage({ isLoggedIn, setIsLoggedIn }: any) {
   return (
     <div className="auth-page-container">
       <PageHeader title="Login" editableView={false} />
-      <div className="page-content">
+      <div className="auth-page-content">
         <div className="login-form">
           <div className="login-form-item">
             <input

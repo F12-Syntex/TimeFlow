@@ -1,16 +1,14 @@
 .main-page-container {
-  height: 100vh;
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: #161616;
 }
 
 .auth-page-container {
-  height: 100vh;
   width: 100vw;
+}
+
+.auth-page-container,
+.main-page-container {
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -36,14 +34,23 @@
 
 .page-content,
 .search-page-content {
+  width: calc(100vw - 96px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.auth-page-content {
+  width: calc(100vw - 64px);
+}
+
+.page-content,
+.search-page-content,
+.auth-page-content {
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: top;
   align-items: center;
-  width: calc(100vw - 96px);
-  overflow-y: auto;
-  overflow-x: hidden;
   height: 100%;
   user-select: none;
   padding-bottom: 36px;
@@ -95,5 +102,4 @@
   ::-webkit-scrollbar-thumb:hover {
     background: #f1f1f1;
   }
-  
 }

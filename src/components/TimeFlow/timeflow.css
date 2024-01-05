@@ -1,161 +1,196 @@
 .sidebar {
-    width: 64px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    padding: 5rem 1rem 1rem 1rem;
-    height: 100%;
-    overflow: hidden;
-    background-color: #0a0a0a;
+  width: 64px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5rem 1rem 1rem 1rem;
+  height: 100%;
+  overflow: hidden;
+  background-color: #131313;
+}
+
+.sidebar-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.icon-text-container {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Adjust the space between icon and text */
 }
 
 .sidebar-bottom {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
-    height: 100%;
-    padding-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  height: 100%;
+  padding-bottom: 32px;
 }
 
-.sidebar-button, .sidebar-add {
-    width: 64px;
-    height: 64px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    border: none;
-    border-radius: 50%;
-    margin-bottom: 1rem;
-    transition: all 0.25s;
+.sidebar-button,
+.sidebar-add {
+  width: 64px;
+  height: 64px;
+  /* width: 100%; */
+  /* height: 48px; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: none;
+  border-radius: 50%;
+  /* border-radius: 32px; */
+  margin-bottom: 1rem;
+  transition: all 0.25s;
 
-    i {
-        font-size: 1.2rem;
-    }
+  i {
+    font-size: 1.2rem;
+  }
 
-    &:hover, &:active, &:focus {
-        border-radius: 45%;
-        outline: none;
-    }
+  &:hover,
+  &:active,
+  &:focus {
+    border-radius: 45%;
+    /* border-radius: 24px; */
+    outline: none;
+  }
 }
 
 .sidebar-button {
-    background-color: rgb(24, 24, 24);
-  
+  background-color: rgb(24, 24, 24);
+
+  &:hover {
+    background-color: rgb(29, 38, 52);
+  }
+
+  &.sidebar-selected {
     &:hover {
-      background-color: rgb(29, 38, 52);
-    }
-  
-    &.sidebar-selected {
-      &:hover {
-        background-color: rgba(0, 115, 255, 0.8);
-      }
-    }
-  
-    &:active, &:focus {
-      background-color: rgb(0, 115, 255);
+      background-color: rgba(0, 115, 255, 0.8);
     }
   }
 
+  &:active,
+  &:focus {
+    background-color: rgb(0, 115, 255);
+  }
+}
+
 .sidebar-add {
-    background-color: rgba(148, 63, 60, 0.4);
+  background-color: rgba(148, 63, 60, 0.4);
 
-    i {
-        font-size: 1.8rem;
-    }
+  i {
+    font-size: 1.8rem;
+  }
 
-    &:hover {
-        background-color: rgba(148, 63, 60, 0.8);
-    }
+  &:hover {
+    background-color: rgba(148, 63, 60, 0.8);
+  }
 
-    &:active, &:focus {
-        background-color: rgb(148, 63, 60);
-    }
+  &:active,
+  &:focus {
+    background-color: rgb(148, 63, 60);
+  }
 }
 
 .sidebar-selected {
-    background-color: rgb(0, 115, 255);
-    border-radius: 45%;
+  background-color: rgb(0, 115, 255);
+  border-radius: 45%;
+  /* border-radius: 24px; */
 }
 
 .sidebar-add-selected {
-    background-color: rgb(148, 63, 60);
-    border-radius: 45%;
+  background-color: rgb(148, 63, 60);
+  border-radius: 45%;
+  /* border-radius: 24px; */
 }
 
 a {
-    text-decoration: none;
-    color: inherit;
+  text-decoration: none;
+  color: inherit;
 }
 
 @media (prefers-color-scheme: light) {
-    .sidebar {
-        background-color: #f9f9f9;
+  .sidebar {
+    background-color: #f9f9f9;
+  }
+
+  .sidebar-button,
+  .sidebar-add {
+    background-color: #f0f0f0;
+  }
+
+  .sidebar-button:hover,
+  .sidebar-add:hover {
+    .bi {
+      color: white;
+    }
+  }
+
+  .sidebar-add-selected {
+    background-color: rgb(218, 101, 101);
+
+    &:hover {
+      background-color: rgb(127, 78, 77);
     }
 
-    .sidebar-button, .sidebar-add {
-        background-color: #f0f0f0;
+    &:active,
+    &:focus {
+      background-color: rgb(214, 78, 78);
     }
 
-    .sidebar-add-selected {
-        background-color: rgb(218, 101, 101);
+    &.sidebar-add-selected {
+      &:hover {
+        background-color: rgb(187, 81, 81);
+      }
+    }
+  }
 
-        &:hover {
-            background-color: rgb(127, 78, 77)
-        }
-
-        &:active, &:focus {
-            background-color: rgb(214, 78, 78);
-        }
-
-        &.sidebar-add-selected {
-            &:hover {
-              background-color: rgb(187, 81, 81)
-            }
-          }
+  .sidebar-button {
+    &:hover {
+      background-color: rgb(179, 210, 229);
     }
 
-    .sidebar-button {
-        &:hover {
-            background-color: rgb(179, 210, 229);
-        }
-
-        &:active, &:focus {
-            background-color: rgb(67, 149, 197);
-        }
+    &:active,
+    &:focus {
+      background-color: rgb(67, 149, 197);
     }
-    
-    .sidebar-selected {
-        background-color: rgb(53, 142, 195);
+  }
 
-        &:hover {
-            background-color: rgb(179, 210, 229);
-        }
+  .sidebar-selected {
+    background-color: rgb(53, 142, 195);
 
-        &:active, &:focus {
-            background-color: rgb(64, 108, 133)
-        }
-
-        &.sidebar-selected {
-            &:hover {
-              background-color: rgb(40, 74, 94)
-            }
-          }
+    &:hover {
+      background-color: rgb(179, 210, 229);
     }
 
-    .sidebar-add-selected, .sidebar-selected {
-        .bi {
-            color: white;
-        }
+    &:active,
+    &:focus {
+      background-color: rgb(64, 108, 133);
     }
 
-    .sidebar-button:hover {
-        background-color: rgb(106, 146, 169);
+    &.sidebar-selected {
+      &:hover {
+        background-color: rgb(40, 74, 94);
+      }
     }
+  }
 
-    a:hover {
-        color: white;
+  .sidebar-add-selected,
+  .sidebar-selected {
+    .bi {
+      color: white;
     }
+  }
+
+  .sidebar-button:hover {
+    background-color: rgb(106, 146, 169);
+  }
+
+  a:hover {
+    color: white;
+  }
 }

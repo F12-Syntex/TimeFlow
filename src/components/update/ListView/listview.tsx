@@ -53,13 +53,10 @@ function ListView({
   }
 
   return (
-    <div>
-      {(filteredItems.length === 0 && (
-		<NoItems name="task" />
-      )) ||
-      filteredItems.map((item) => <ListItem item={item} />)
-	  }
-	</div>
+    <div className="list-view-container">
+      {(filteredItems.length === 0 && <NoItems name="task" />) ||
+        filteredItems.map((item) => <ListItem item={item} />)}
+    </div>
   );
 }
 

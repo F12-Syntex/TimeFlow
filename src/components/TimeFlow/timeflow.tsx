@@ -210,15 +210,6 @@ const TimeFlow = () => {
 
   return (
     <Router>
-  {/* <div class="title-bar">
-    <div class="title">Your App Title</div>
-    <!-- Add buttons, icons, or controls for window actions (minimize, maximize, close) -->
-    <div class="window-controls">
-      <div class="window-button" id="minimize">&#x2014;</div>
-      <div class="window-button" id="maximize">&#x2750;</div>
-      <div class="window-button" id="close">&#x2715;</div>
-    </div>
-  </div> */}
       <div className="main-container">
         <div className="sidebar">
           <div className="sidebar-top">
@@ -238,9 +229,34 @@ const TimeFlow = () => {
           </div>
           <div className="sidebar-bottom">{handlePersonButtonClick()}</div>
         </div>
+        {/* <div className="sidebar">
+          <div className="sidebar-top">
+            <div className="sidebar-buttons">
+              {buttonData.map((button, index) => (
+                <Link
+                  to={button.path}
+                  className={getButtonClassName(index, index === selectedIndex)}
+                  onClick={() => setSelectedIndex(index)}
+                >
+                  <div className="icon-text-container">
+                    <i
+                      className={getIconClassName(
+                        index,
+                        index === selectedIndex
+                      )}
+                    ></i>
+                    <p className="icon-text">
+                      {button.name.charAt(0).toUpperCase() +
+                        button.name.slice(1)}
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+          <div className="sidebar-bottom">{handlePersonButtonClick()}</div>
+        </div> */}
         <div className="homepage-container">
-          {/* when any route selected select the index */}
-
           <Routes>
             <Route
               path="/"

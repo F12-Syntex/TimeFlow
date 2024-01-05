@@ -4,10 +4,10 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 5rem 1rem 1rem 1rem;
+  padding: 6rem 1rem 1rem 1rem;
   height: 100%;
   overflow: hidden;
-  background-color: #131313;
+  background-color: #121212;
 }
 
 .sidebar-buttons {
@@ -28,7 +28,7 @@
   justify-content: flex-end;
   align-items: center;
   height: 100%;
-  padding-bottom: 32px;
+  padding-bottom: 40px;
 }
 
 .sidebar-button,
@@ -193,4 +193,9 @@ a {
   a:hover {
     color: white;
   }
+}
+
+.sidebar {
+    -webkit-user-drag: none;
+    -webkit-app-region: drag;
 }

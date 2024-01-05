@@ -15,7 +15,6 @@ function Account() {
     })
       .then((response) => response.json())
       .then(async (data) => {
-        console.log(data["cookie"][0].value);
         if (data["cookie"][0].value != "" && data["cookie"][0].value != null) {
           setIsLoggedIn(true);
         } else {
@@ -51,7 +50,6 @@ function AccountPage({ isLoggedIn, setIsLoggedIn }: any) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data["cookie"]);
         if (data["cookie"].name === "user") {
           if (data["cookie"].value === "") {
             setIsLoggedIn(false);
@@ -67,7 +65,7 @@ function AccountPage({ isLoggedIn, setIsLoggedIn }: any) {
         <button onClick={logout}>Logout</button>
       </div>
       <div className="page-content">
-        <p>Account information goes here</p>
+        <p>Account information and settings go here.</p>
       </div>
     </div>
   );
@@ -94,7 +92,6 @@ function LoginPage({ isLoggedIn, setIsLoggedIn }: any) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         if (data["user"] != null) {
           setIsLoggedIn(true);
           // window.location.reload();

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import PageHeader from '../PageHeader/pageheader';
 import TodoItem from "express/src/types/TodoItem";
+import TagItem from "express/src/types/TagItem";
 import { ObjectId } from "mongodb";
 
 
@@ -32,6 +33,7 @@ function TaskDetails() {
                 (document.getElementById('title') as HTMLInputElement).value = data["task"].title;
                 (document.getElementById('description') as HTMLInputElement).value = data["task"].description;
                 (document.getElementById('tags') as HTMLInputElement).value = data["task"].labels.toString();
+                // get the tag name from the id in later version
                 (document.getElementById('date') as HTMLInputElement).value = formatDate(data["task"].date);
                 (document.getElementById('priority') as HTMLInputElement).value = data["task"].priority.toString();
                 (document.getElementById('completed') as HTMLInputElement).checked = data["task"].completed;
@@ -45,7 +47,31 @@ function TaskDetails() {
 
     useEffect(() => {
         getTaskDetails();
+        getTags();
     }, []);
+
+    const [tagList, setTagList] = useState<TagItem[]>([]);
+
+    const getTags = () => {
+        fetch("http://localhost:3000/api/sample/tags")
+          .then((response) => response.json())
+          .then((data) => {
+            // Check if data.tags is an array
+            if (Array.isArray(data.tags)) {
+              // Manipulate the data to get TagItem array
+              const parsedTagList: TagItem[] = data.tags.map((tag: any) => ({
+                name: tag.name,
+                _id: tag._id,
+              }));
+              setTagList(parsedTagList);
+            } else {
+              console.error("Invalid data format for tags");
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching tags:", error);
+          });
+      };
 
     return (
         <div className="main-page-container">
@@ -59,7 +85,12 @@ function TaskDetails() {
                 <input type="text" id="description" name="description" placeholder="Description" />
             </div>
             <div className="add-task-form-item">
-                <input type="text" id="tags" name="tags" placeholder="Tags" />
+              <select id="labels" name="labels">
+                <option value="none">None</option>
+                {tagList.map((tag) => (
+                  <option value={tag._id.toString()}>{tag.name}</option>
+                ))}
+              </select>
             </div>
             <div className="add-task-form-item">
                 <input type="date" id="date" name="date" placeholder="Date" />

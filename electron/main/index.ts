@@ -103,27 +103,6 @@ async function createWindow() {
     expirationDate: 999999999999,
   };
 
-  // clear all cookies
-  // session.defaultSession.clearStorageData({
-  //   storages: ['cookies']
-  // }).then(() => {
-  //   console.log('All cookies cleared');
-  // }).catch((error) => {
-  //   console.error('Error clearing cookies:', error);
-  // });
- 
-  // session.defaultSession.cookies.set({}).then(() => {
-  // Get all cookies after setting the new one
-  session.defaultSession.cookies
-    .get({})
-    .then((cookies) => {
-      console.log(cookies);
-    })
-    .catch((error) => {
-      console.error("Error getting cookies:", error);
-    });
-// });
-
   // Function to toggle dev tools
   const toggleDevTools = () => {
     if (win) {
@@ -350,7 +329,10 @@ expressApp.get("/api/sample/tags/:id", async (req: Request, res: Response) => {
 expressApp.post("/api/sample/tags/add", async (req: Request, res: Response) => {
   try {
     const tagsCollection = database.collection("tags");
-    const tag: TagItem = req.body;
+    const tag: TagItem = {
+      name: req.body.name,
+      _id: new ObjectId(),
+    }
     tagsCollection.insertOne(tag);
     res.json({ tag });
   } catch (error) {
@@ -422,11 +404,7 @@ expressApp.post("/api/login", async (req: Request, res: Response) => {
         expirationDate: 999999999999,
       };
 
-      console.log(cookieDetails);
-
-      session.defaultSession.cookies.set(cookieDetails).then(() => {
-        console.log("Cookie set successfully: ", cookieDetails);
-      })
+      session.defaultSession.cookies.set(cookieDetails);
 
       res.json({ user });
     }
@@ -438,7 +416,6 @@ expressApp.post("/api/login", async (req: Request, res: Response) => {
 
 expressApp.post("/api/register", async (req: Request, res: Response) => {
   try {
-    console.log(req.body);
     const usersCollection = database.collection("users");
     const email: string = req.body.email;
     const username: string = req.body.username;
@@ -522,8 +499,6 @@ expressApp.post("/api/logout", async (req: Request, res: Response) => {
 
     session.defaultSession.cookies.set(cookie)
 
-    console.log("Cookie deleted successfully: ");
-    console.log("'" + cookie.value + "'");
     return res.json({ cookie });
   } catch (error) {
     console.error("Error deleting cookie:", error);
@@ -539,8 +514,6 @@ expressApp.get("/api/get-login-status", async (req: Request, res: Response) => {
     });
 
     if (cookie) {
-      console.log("loginStatus: ");
-      console.log("'" + cookie[0].value + "'");
       return res.json({ cookie });
     } else {
       res.status(404).json({ error: "Cookie not found" });

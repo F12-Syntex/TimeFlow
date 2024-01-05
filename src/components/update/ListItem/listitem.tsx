@@ -29,7 +29,6 @@ const ListItem = ({ item }: ListItemProps) => {
     fetch(url, { method, body, headers })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Success:", data);
         // TESTING - cannot deselect checkbox
         window.location.href = "/";
       })
@@ -100,15 +99,17 @@ const ListItem = ({ item }: ListItemProps) => {
   console.log(item.labels); // this is an array of objectIds
 
   // for each labelId in item.labels, fetch the label name
-  function fetchLabelName(labelId: ObjectId) {
+  function fetchLabelName(labelId: string) {
+    console.log("labelid: ", labelId);
     fetch(`http://localhost:3000/api/sample/tags/${labelId}`)
       .then((response) => response.json())
       .then((data) => {
+        console.log("data: ", data);
         if (Object.keys(data)[0] === "error") {
           console.log("No labels found");
           return null;
         }
-        console.log(data);
+        console.log("data[tag]: ", data["tag"].name);
         return data["tag"].name;
       })
       .catch((error) => {
@@ -126,9 +127,6 @@ const ListItem = ({ item }: ListItemProps) => {
     labels = parsedLabels.map((label) => label.tag.name);
   } catch (error) {
     console.error("Error occurred while parsing labels:", error);
-    // Handle the error here, you can assign a default value or perform other actions
-    // For example, setting an empty array as a default value:
-    labels = ["Tags"];
   }
 
   return (

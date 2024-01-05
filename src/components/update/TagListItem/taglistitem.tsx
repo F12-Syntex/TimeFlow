@@ -21,13 +21,11 @@ const ListItem = ({ item }: ListItemProps) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('Success:', data);
-        // window.location.href = "/tags";
+        window.location.href = "/tags";
       })
       .catch((error) => {
         console.error("Error:", error);
       });
-
   }
 
   return (

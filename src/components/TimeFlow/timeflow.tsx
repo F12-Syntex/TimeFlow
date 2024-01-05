@@ -1,5 +1,10 @@
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+} from "react-router-dom";
 import "./timeflow.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Inbox from "../../pages/Inbox/Inbox";
@@ -32,36 +37,41 @@ const TimeFlow = () => {
       .then((data) => {
         const tasks: TodoItem[] = data["tasks"];
         console.log(tasks.map((task) => task.labels));
-        const fetchLabelPromises: Promise<TagItem[]>[] = tasks.map((task: TodoItem) =>
-          Promise.all(
-            task.labels.map((labelId: ObjectId) =>
-              fetch(`http://localhost:3000/api/sample/tags/${labelId}`)
-                .then((response) => response.json())
-                .then((labelData: TagItem) => {
-                  console.log(labelData);
-                  return labelData;
-                })
-                .catch((error) => {
-                  console.error("Error fetching label:", error);
-                  return null;
-                })
+        const fetchLabelPromises: Promise<TagItem[]>[] = tasks.map(
+          (task: TodoItem) =>
+            Promise.all(
+              task.labels.map((labelId: ObjectId) =>
+                fetch(`http://localhost:3000/api/sample/tags/${labelId}`)
+                  .then((response) => response.json())
+                  .then((labelData: TagItem) => {
+                    console.log(labelData);
+                    return labelData;
+                  })
+                  .catch((error) => {
+                    console.error("Error fetching label:", error);
+                    return null;
+                  })
+              )
+            ).then(
+              (labelResults: (TagItem | null)[]) =>
+                labelResults.filter((label) => label !== null) as TagItem[]
             )
-          )
-          .then((labelResults: (TagItem | null)[]) => labelResults.filter((label) => label !== null) as TagItem[])
         );
-  
+
         Promise.all(fetchLabelPromises)
           .then((labelResults: TagItem[][]) => {
-            const updatedTodoList: TodoItemWithTags[] = tasks.map((task: TodoItem, index: number) => ({
-              user: "", // Add the missing user property
-              title: task.title,
-              description: task.description,
-              date: new Date(task.date),
-              priority: task.priority,
-              labels: labelResults[index],
-              completed: task.completed,
-              _id: task._id,
-            }));
+            const updatedTodoList: TodoItemWithTags[] = tasks.map(
+              (task: TodoItem, index: number) => ({
+                user: "", // Add the missing user property
+                title: task.title,
+                description: task.description,
+                date: new Date(task.date),
+                priority: task.priority,
+                labels: labelResults[index],
+                completed: task.completed,
+                _id: task._id,
+              })
+            );
             setTodoList(updatedTodoList);
           })
           .catch((error) => {
@@ -72,8 +82,7 @@ const TimeFlow = () => {
         console.error("Error fetching tasks:", error);
       });
   };
-  
-  
+
   const fetchTagList = () => {
     fetch("http://localhost:3000/api/sample/tags")
       .then((response) => response.json())
@@ -93,13 +102,33 @@ const TimeFlow = () => {
 
   const buttonData = [
     { name: "plus", selectedName: "plus", path: "/add", component: <Add /> },
-    { name: "search", selectedName: "search", path: "/search", component: <Search listViewItems={todoList} /> },
-    { name: "inbox", selectedName: "inbox-fill", path: "/inbox", component: <Inbox listViewItems={todoList} /> },
-    { name: "calendar", selectedName: "calendar-fill", path: "/calendar", component: <Calendar listViewItems={todoList} /> },
-    { name: "tag", selectedName: "tag-fill", path: "/tags", component: <Tags listViewItems={tagList} /> },
+    {
+      name: "search",
+      selectedName: "search",
+      path: "/search",
+      component: <Search listViewItems={todoList} />,
+    },
+    {
+      name: "inbox",
+      selectedName: "inbox-fill",
+      path: "/inbox",
+      component: <Inbox listViewItems={todoList} />,
+    },
+    {
+      name: "calendar",
+      selectedName: "calendar-fill",
+      path: "/calendar",
+      component: <Calendar listViewItems={todoList} />,
+    },
+    {
+      name: "tag",
+      selectedName: "tag-fill",
+      path: "/tags",
+      component: <Tags listViewItems={tagList} />,
+    },
   ];
 
-    // gets the classes for the icon
+  // gets the classes for the icon
   function getIconClassName(index: number, selected: boolean) {
     if (selected) {
       return `bi bi-${buttonData[index].selectedName}`;
@@ -121,34 +150,16 @@ const TimeFlow = () => {
     return `sidebar-button`;
   }
 
-  // gets a single button for the sidebar
-  function getButton(index: number, selected: boolean) {
-    return (
-      <a
-        className={getButtonClassName(index, selected)}
-        onClick={() => setSelectedIndex(index)}
-      >
-        <i className={getIconClassName(index, selected)}></i>
-      </a>
-    );
-  }
-
-  // gets all the buttons for the sidebar
-  function getButtons() {
-    return (
-      <div className="sidebar-buttons">
-        {buttonData.map((button, index) => {
-          // Use buttonData instead of undefined icons
-          return getButton(index, index === selectedIndex);
-        })}
-      </div>
-    );
-  }
-
   const handlePersonButtonClick = () => {
-    const classes = `sidebar-account-button sidebar-button ${selectedIndex === 5 ? "sidebar-selected" : ""}`;
+    const classes = `sidebar-account-button sidebar-button ${
+      selectedIndex === 5 ? "sidebar-selected" : ""
+    }`;
     return (
-      <Link to="/account" className={classes} onClick={() => setSelectedIndex(5)}>
+      <Link
+        to="/account"
+        className={classes}
+        onClick={() => setSelectedIndex(5)}
+      >
         <i className="bi bi-person-fill"></i>
       </Link>
     );
@@ -161,27 +172,50 @@ const TimeFlow = () => {
           <div className="sidebar-top">
             <div className="sidebar-buttons">
               {buttonData.map((button, index) => (
-                <Link to={button.path} className={getButtonClassName(index, index === selectedIndex)} onClick={() => setSelectedIndex(index)}>
-                  <i className={getIconClassName(index, index === selectedIndex)}></i>
+                <Link
+                  to={button.path}
+                  className={getButtonClassName(index, index === selectedIndex)}
+                  onClick={() => setSelectedIndex(index)}
+                >
+                  <i
+                    className={getIconClassName(index, index === selectedIndex)}
+                  ></i>
                 </Link>
               ))}
             </div>
           </div>
-          <div className="sidebar-bottom">
-            {handlePersonButtonClick()}
-          </div>
+          <div className="sidebar-bottom">{handlePersonButtonClick()}</div>
         </div>
         <div className="homepage-container">
+          {/* when any route selected select the index */}
+
           <Routes>
-          <Route path="/" element={<Inbox listViewItems={todoList} />} />
-          <Route path="/task/:id" element={<TaskDetails />} />
+            <Route
+              path="/"
+              element={<Inbox listViewItems={todoList} />}
+              key={2}
+            />
+            <Route
+              path="/task/:id"
+              element={<TaskDetails />}
+              key={selectedIndex}
+            />
 
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/forgotPassword" element={<ForgotPasswordPage />} />
+            <Route path="/register" element={<RegisterPage />} key={5} />
+            <Route
+              path="/forgotPassword"
+              element={<ForgotPasswordPage />}
+              key={5}
+            />
 
-            <Route path="/account" element={<Account />} />
+            <Route path="/account" element={<Account />} key={5} />
+
             {buttonData.map((button, index) => (
-              <Route key={index} path={button.path} element={button.component} />
+              <Route
+                key={index}
+                path={button.path}
+                element={button.component}
+              />
             ))}
           </Routes>
         </div>

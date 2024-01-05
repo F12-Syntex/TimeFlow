@@ -37,7 +37,7 @@ function ForgotPasswordPage() {
     }
     
     return (
-        <div className="main-page-container">
+        <div className="auth-page-container">
             <PageHeader title="Forgot Password" editableView={false} />
             <div className="page-content">
                 <div className="login-form">

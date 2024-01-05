@@ -59,7 +59,7 @@ function RegisterPage() {
 
     }
     return (
-        <div className="main-page-container">
+        <div className="auth-page-container">
             <PageHeader title="Register" editableView={false} />
             <div className="page-content">
                 <div className="login-form">

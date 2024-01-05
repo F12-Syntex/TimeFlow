@@ -38,6 +38,7 @@ function Account() {
   } else {
     return <LoginPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />;
   }
+
 }
 
 function AccountPage({ isLoggedIn, setIsLoggedIn }: any) {
@@ -53,6 +54,7 @@ function AccountPage({ isLoggedIn, setIsLoggedIn }: any) {
         if (data["cookie"].name === "user") {
           if (data["cookie"].value === "") {
             setIsLoggedIn(false);
+            window.location.reload();
           }
         }
       });
@@ -94,7 +96,7 @@ function LoginPage({ isLoggedIn, setIsLoggedIn }: any) {
       .then((data) => {
         if (data["user"] != null) {
           setIsLoggedIn(true);
-          // window.location.reload();
+          window.location.reload();
         } else {
           alert("Invalid username or password");
         }
@@ -108,7 +110,7 @@ function LoginPage({ isLoggedIn, setIsLoggedIn }: any) {
   }
 
   return (
-    <div className="main-page-container">
+    <div className="auth-page-container">
       <PageHeader title="Login" editableView={false} />
       <div className="page-content">
         <div className="login-form">

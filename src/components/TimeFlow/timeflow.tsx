@@ -1,10 +1,5 @@
 import { useState, useEffect } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Link,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import "./timeflow.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Inbox from "../../pages/Inbox/Inbox";
@@ -62,7 +57,7 @@ const TimeFlow = () => {
           .then((labelResults: TagItem[][]) => {
             const updatedTodoList: TodoItemWithTags[] = tasks.map(
               (task: TodoItem, index: number) => ({
-                user: "", // Add the missing user property
+                user: task.user,
                 title: task.title,
                 description: task.description,
                 date: new Date(task.date),
@@ -165,6 +160,53 @@ const TimeFlow = () => {
     );
   };
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  function getLoginStatus() {
+    fetch("http://localhost:3000/api/get-login-status", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then(async (data) => {
+        if (data["cookie"][0].value != "" && data["cookie"][0].value != null) {
+          setIsLoggedIn(true);
+        } else {
+          setIsLoggedIn(false);
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        setIsLoggedIn(false);
+      });
+  }
+
+  useEffect(() => {
+    getLoginStatus();
+  });
+
+  if (!isLoggedIn) {
+    return (
+      <Router>
+        <Routes>
+          <Route path="/" element={<Account />} key={5} />
+          <Route path="/account" element={<Account />} key={5} />
+          <Route path="/register" element={<RegisterPage />} key={5} />
+          <Route
+            path="/forgotPassword"
+            element={<ForgotPasswordPage />}
+            key={5}
+          />
+          {buttonData.map((button, index) => (
+            <Route key={index} path={button.path} element={button.component} />
+          ))}
+        </Routes>
+      </Router>
+    );
+  }
+
   return (
     <Router>
       <div className="main-container">
@@ -207,7 +249,7 @@ const TimeFlow = () => {
               element={<ForgotPasswordPage />}
               key={5}
             />
-
+            <Route path="/login" element={<Account />} key={5} />
             <Route path="/account" element={<Account />} key={5} />
 
             {buttonData.map((button, index) => (

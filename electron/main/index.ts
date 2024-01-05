@@ -93,16 +93,6 @@ async function createWindow() {
     win.loadFile(indexHtml);
   }
 
-  // Retrieve cookies from the main session
-  // Set a cookie
-  const cookieDetails = {
-    url: "https://myapp.com",
-    name: "cookiel",
-    value: "cookie_value",
-    domain: "myapp.com",
-    expirationDate: 999999999999,
-  };
-
   // Function to toggle dev tools
   const toggleDevTools = () => {
     if (win) {
@@ -214,9 +204,12 @@ const database = client.db("TimeFlow");
 // Define an Express route to get tasks from the database
 expressApp.get("/api/sample/tasks", async (req: Request, res: Response) => {
   try {
-    // Retrieve tasks from the database
+    const userObjectId = await fetchUserObjectID();
+
     const taskCollection = database.collection("tasks");
-    const tasks = await taskCollection.find({}).toArray();
+    const tasks = await taskCollection.find({ user: userObjectId }).toArray();
+
+    console.log(tasks);
     res.json({ tasks });
   } catch (error) {
     console.error("Error fetching tasks:", error);
@@ -224,11 +217,14 @@ expressApp.get("/api/sample/tasks", async (req: Request, res: Response) => {
   }
 });
 
+// make sure only logged in user can access this route
 expressApp.get("/api/sample/tasks/:id", async (req: Request, res: Response) => {
   try {
+    const userObjectId = await fetchUserObjectID();
+
     const tasksCollection = database.collection("tasks");
     const task = await tasksCollection.findOne({
-      _id: new ObjectId(req.params.id),
+      $and: [{ user: userObjectId }, { _id: new ObjectId(req.params.id) }],
     });
     res.json({ task });
   } catch (error) {
@@ -237,13 +233,16 @@ expressApp.get("/api/sample/tasks/:id", async (req: Request, res: Response) => {
   }
 });
 
+// make sure only logged in user can access this route
 expressApp.post(
   "/api/sample/tasks/add",
   async (req: Request, res: Response) => {
     try {
+      const userObjectId = await fetchUserObjectID();
       const tasksCollection = database.collection("tasks");
+
       const task: TodoItem = {
-        user: req.body.user,
+        user: userObjectId,
         title: req.body.title,
         description: req.body.description,
         date: req.body.date,
@@ -262,10 +261,13 @@ expressApp.post(
   }
 );
 
+// make sure only logged in user can access this route
 expressApp.patch(
   "/api/sample/tasks/update/:id",
   async (req: Request, res: Response) => {
     try {
+      const userObjectId = await fetchUserObjectID();
+
       const tasksCollection = database.collection("tasks");
       const taskId = req.params.id;
       const updateData = req.body;
@@ -276,7 +278,7 @@ expressApp.patch(
 
       // Perform the update using $set to update specific fields
       await tasksCollection.updateOne(
-        { _id: new ObjectId(taskId) },
+        { $and: [{ _id: new ObjectId(taskId) }, { user: userObjectId }] },
         { $set: updateData }
       );
 
@@ -288,12 +290,15 @@ expressApp.patch(
   }
 );
 
+// make sure only logged in user can access this route
 expressApp.delete(
   "/api/sample/tasks/delete/:id",
   async (req: Request, res: Response) => {
     try {
+      const userObjectId = await fetchUserObjectID();
+
       const tasksCollection = database.collection("tasks");
-      tasksCollection.deleteOne({ _id: new ObjectId(req.params.id) });
+      tasksCollection.deleteOne({ $and: [{ _id: new ObjectId(req.params.id) }, { user: userObjectId }] });
       res.json({ tasks: [] });
     } catch (error) {
       console.error("Error deleting task:", error);
@@ -302,10 +307,13 @@ expressApp.delete(
   }
 );
 
+// make sure only logged in user can access this route
 expressApp.get("/api/sample/tags", async (req: Request, res: Response) => {
   try {
+    const userObjectId = await fetchUserObjectID();
+
     const tagsCollection = database.collection("tags");
-    const tags = await tagsCollection.find({}).toArray();
+    const tags = await tagsCollection.find({ user: userObjectId }).toArray();
     res.json({ tags });
   } catch (error) {
     console.error("Error fetching tags:", error);
@@ -315,9 +323,11 @@ expressApp.get("/api/sample/tags", async (req: Request, res: Response) => {
 
 expressApp.get("/api/sample/tags/:id", async (req: Request, res: Response) => {
   try {
+    const userObjectId = await fetchUserObjectID();
+
     const tagsCollection = database.collection("tags");
     const tag = await tagsCollection.findOne({
-      _id: new ObjectId(req.params.id),
+      $and: [{ user: userObjectId }, { _id: new ObjectId(req.params.id) }],
     });
     res.json({ tag });
   } catch (error) {
@@ -328,8 +338,11 @@ expressApp.get("/api/sample/tags/:id", async (req: Request, res: Response) => {
 
 expressApp.post("/api/sample/tags/add", async (req: Request, res: Response) => {
   try {
+    const userObjectId = await fetchUserObjectID();
+    
     const tagsCollection = database.collection("tags");
     const tag: TagItem = {
+      user: userObjectId,
       name: req.body.name,
       _id: new ObjectId(),
     }
@@ -345,6 +358,8 @@ expressApp.delete(
   "/api/sample/tags/delete/:id",
   async (req: Request, res: Response) => {
     try {
+      const userObjectId = await fetchUserObjectID();
+      
       const tagsCollection = database.collection("tags");
       const deletionResult = await tagsCollection.deleteOne({
         _id: new ObjectId(req.params.id),
@@ -353,7 +368,7 @@ expressApp.delete(
       const tasksCollection = database.collection("tasks");
 
       const updateResult = await tasksCollection.updateMany(
-        { labels: [new ObjectId(req.params.id)] },
+        { $and: [{ user: userObjectId }, { labels: [new ObjectId(req.params.id)] }] },
         { $set: { labels: [] } }
       );
 
@@ -523,3 +538,14 @@ expressApp.get("/api/get-login-status", async (req: Request, res: Response) => {
     res.status(500).json({ error: "Error getting cookie" });
   }
 });
+
+async function fetchUserObjectID() {
+  const loginStatusResponse = await fetch("http://localhost:3000/api/get-login-status", {
+    method: "GET",
+    credentials: "include",
+  });
+
+  const loginStatusData = await loginStatusResponse.json();
+  const userValue = loginStatusData.cookie[0].value;
+  return new ObjectId(userValue);
+}

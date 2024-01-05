@@ -5,7 +5,6 @@ import TodoItem from "express/src/types/TodoItem";
 import TagItem from "express/src/types/TagItem";
 import { ObjectId } from "mongodb";
 
-
 function TaskDetails() {
     const { id } = useParams();
     const navigate = useNavigate();

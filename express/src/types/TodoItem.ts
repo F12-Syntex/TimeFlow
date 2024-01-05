@@ -3,7 +3,7 @@ import TagItem from "./TagItem"
 
 interface TodoItem {
     _id: ObjectId;
-    user: string;
+    user: ObjectId;
     title: string;
     description: string;
     date: Date;

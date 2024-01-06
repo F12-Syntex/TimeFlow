@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import PageHeader from "../PageHeader/pageheader";
-import TodoItem from "express/src/types/TodoItem";
 import TagItem from "express/src/types/TagItem";
 import { ObjectId } from "mongodb";
 
-function TaskDetails() {
+function TagDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [task, setTask] = useState<TodoItem>({} as TodoItem);
+  const [tag, setTag] = useState<TagItem>({} as TagItem);
 
   function formatDate(date: Date): string {
     const formattedDate = new Date(date);
@@ -18,8 +17,8 @@ function TaskDetails() {
     return `${yyyy}-${mm}-${dd}`;
   }
 
-  function getTaskDetails() {
-    const url = `http://localhost:3000/api/sample/tasks/${id}`;
+  function getTagDetails() {
+    const url = `http://localhost:3000/api/sample/tags/${id}`;
     const method = "GET";
     const headers = {
       "Content-Type": "application/json",
@@ -28,22 +27,11 @@ function TaskDetails() {
     fetch(url, { method, headers })
       .then((response) => response.json())
       .then((data) => {
-        setTask(data["task"]);
-        (document.getElementById("title") as HTMLInputElement).value =
-          data["task"].title;
-        (document.getElementById("description") as HTMLInputElement).value =
-          data["task"].description;
-        (document.getElementById("tags") as HTMLInputElement).value =
-          data["task"].labels.toString();
-        // get the tag name from the id in later version
-        (document.getElementById("date") as HTMLInputElement).value =
-          formatDate(data["task"].date);
-        (document.getElementById("priority") as HTMLInputElement).value =
-          data["task"].priority.toString();
-        (document.getElementById("completed") as HTMLInputElement).checked =
-          data["task"].completed;
+        setTag(data["tag"]);
+        (document.getElementById("name") as HTMLInputElement).value =
+            data["tag"].name;
         (document.getElementById("id") as HTMLInputElement).value =
-          data["task"]._id;
+          data["tag"]._id;
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -51,7 +39,7 @@ function TaskDetails() {
   }
 
   useEffect(() => {
-    getTaskDetails();
+    getTagDetails();
     getTags();
   }, []);
 
@@ -80,47 +68,11 @@ function TaskDetails() {
 
   return (
     <div className="main-page-container">
-      <PageHeader title={task.title} editableView={false} />
+      <PageHeader title={tag.name} editableView={false} />
       <div className="page-content">
         <div className="add-task-form">
           <div className="add-task-form-item">
-            <input type="text" id="title" name="title" placeholder="Title" />
-          </div>
-          <div className="add-task-form-item">
-            <input
-              type="text"
-              id="description"
-              name="description"
-              placeholder="Description"
-            />
-          </div>
-          <div className="add-task-form-item">
-            <select id="labels" name="labels">
-              <option value="none">None</option>
-              {tagList.map((tag) => (
-                <option value={tag._id.toString()}>{tag.name}</option>
-              ))}
-            </select>
-          </div>
-          <div className="add-task-form-item">
-            <input type="date" id="date" name="date" placeholder="Date" />
-          </div>
-          <div className="add-task-form-item">
-            <select id="priority" name="priority" defaultValue="normal">
-              <option value="high">High</option>
-              <option value="normal">
-                Normal
-              </option>
-              <option value="low">Low</option>
-            </select>
-          </div>
-          <div className="add-task-form-item">
-            <input
-              type="checkbox"
-              id="completed"
-              name="completed"
-              placeholder="Completed"
-            />
+            <input type="text" id="name" name="title" placeholder="Title" />
           </div>
           <div className="add-task-form-item">
             <input type="hidden" id="id" name="id" />
@@ -143,4 +95,4 @@ function TaskDetails() {
   );
 }
 
-export default TaskDetails;
+export default TagDetails;

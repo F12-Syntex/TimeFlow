@@ -11,7 +11,7 @@ function ListView({ listViewItems }: ListViewProps) {
   return (
     <div className="list-view-container">
       {(listViewItems.length === 0 && <NoItems name="tag" />) ||
-        listViewItems.map((item) => <TagListItem item={item} />)}
+        listViewItems.map((item) => <TagListItem key={String(item._id)} item={item} />)}
     </div>
   );
 }

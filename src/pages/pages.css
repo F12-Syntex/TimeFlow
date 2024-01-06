@@ -77,6 +77,10 @@
   border-radius: 4px;
 }
 
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
 @media (prefers-color-scheme: light) {
   .main-page-container {
     background-color: #ffffff;

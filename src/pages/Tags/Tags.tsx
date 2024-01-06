@@ -1,20 +1,20 @@
-import './tags.css'
-import '../pages.css'
-import PageHeader from '../../components/update/PageHeader/pageheader'
-import TagListView from '../../components/update/TagListView/taglistview'
-import { useState, useEffect } from 'react'
-import TagItem from 'express/src/types/TagItem'
+import "./tags.css";
+import "../pages.css";
+import PageHeader from "@/components/update/PageHeader/pageheader";
+import TagListView from "@/components/update/TagListView/taglistview";
+import useFetchTagList from "@/components/Functions/FetchTagList/fetchTagList";
 
-function App({ listViewItems }: { listViewItems: TagItem[] }) {
+function App() {
+  const tagList = useFetchTagList();
 
   return (
-    <div className='main-page-container'>
-      <PageHeader title='Tags' editableView={true}/>
+    <div className="main-page-container">
+      <PageHeader title="Tags" editableView={true} />
       <div className="page-content">
-        <TagListView listViewItems={listViewItems} />
+        <TagListView listViewItems={tagList} />
       </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

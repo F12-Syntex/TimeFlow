@@ -30,8 +30,8 @@ const ListItem = ({ item }: ListItemProps) => {
       .then((response) => response.json())
       .then((data) => {
         // TESTING - cannot deselect checkbox
-        console.log("data: ", data);
-        window.location.reload();
+        // console.log("[ListItem] UpdateTask", data);
+        // window.location.reload();
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -97,37 +97,17 @@ const ListItem = ({ item }: ListItemProps) => {
     return `${mm}/${dd}/${yyyy}`;
   };
 
-  console.log(item.labels); // this is an array of objectIds
-
-  // for each labelId in item.labels, fetch the label name
-  function fetchLabelName(labelId: string) {
-    console.log("labelid: ", labelId);
-    fetch(`http://localhost:3000/api/sample/tags/${labelId}`)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("data: ", data);
-        if (Object.keys(data)[0] === "error") {
-          console.log("No labels found");
-          return null;
-        }
-        console.log("data[tag]: ", data["tag"].name);
-        return data["tag"].name;
-      })
-      .catch((error) => {
-        console.error("Error fetching label:", error);
-        return null;
-      });
-  }
+  // console.log("[ListItem] ItemLabels", item.labels); // this is an objectId
 
   let labels: string[] = [];
 
   // Fix the below code to display the label names instead of "Tags"
   try {
     const parsedLabels = item.labels as unknown as ListItemTags[];
-    console.log(parsedLabels);
     labels = parsedLabels.map((label) => label.tag.name);
   } catch (error) {
-    console.error("Error occurred while parsing labels:", error);
+    // console.error("Error occurred while parsing labels:", error);
+    labels = ["Tags"];
   }
 
   return (

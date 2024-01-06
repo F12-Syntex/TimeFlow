@@ -2,7 +2,7 @@ import dayjs from "dayjs"; //import dayjs (npm install dayjs)
 import React, { useState } from "react";
 import CalendarHeader from "./CalendarHeader";
 import CalendarSidebar from "./CalendarSidebar";
-import Month from "./Month";
+// import Month from "./Month";
 
 function getMonth(month = dayjs().month()) {
     
@@ -21,14 +21,14 @@ function getMonth(month = dayjs().month()) {
 
 function App() {
  const [currentMonth, setCurrentMonth] = useState(getMonth())
- const [];
+//  const [];
   return (
     <React.Fragment>
         <div className="h-screen flex flex-columns">
-          {/* <CalendarHeader /> */}
+          <CalendarHeader />
             <div className="flex flex-1">
-                {/* <Sidebar />
-                <Month month={currentMonth} /> */}
+                <CalendarSidebar />
+                {/* <Month month={currentMonth} /> */}
             </div>
         </div>
     </React.Fragment>

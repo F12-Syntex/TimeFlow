@@ -29,9 +29,7 @@ const ListItem = ({ item }: ListItemProps) => {
     fetch(url, { method, body, headers })
       .then((response) => response.json())
       .then((data) => {
-        // TESTING - cannot deselect checkbox
-        // console.log("[ListItem] UpdateTask", data);
-        // window.location.reload();
+        // console.log("Success:", data);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -119,7 +117,7 @@ const ListItem = ({ item }: ListItemProps) => {
     labels = parsedLabels.map((label) => label.tag.name);
   } catch (error) {
     // console.error("Error occurred while parsing labels:", error);
-    labels = ["Tags"];
+    labels = [];
   }
 
   return (

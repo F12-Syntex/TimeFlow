@@ -41,7 +41,6 @@ function TagDetails() {
     fetch(`http://localhost:3000/api/sample/tags/${id}/tasks`)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         if (Array.isArray(data.tasks)) {
             setTaskList(data.tasks);
         } else {

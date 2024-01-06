@@ -3,27 +3,20 @@ import { Link } from "react-router-dom";
 import TagItem from "express/src/types/TagItem";
 import "./taglistitem.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import { defaultProps } from "react-select/dist/declarations/src/Select";
 
 interface ListItemProps {
   item: TagItem;
+  handleTagDelete: (id: string) => void;
 }
 
-const ListItem = ({ item }: ListItemProps) => {
+const ListItem = ({ item, handleTagDelete}: ListItemProps) => {
   function openTag() {
     alert(`Title: ${item.name}\nID: ${item._id}`);
   }
 
   function deleteTag() {
-    fetch(`http://localhost:3000/api/sample/tags/delete/${item._id}`, {
-      method: "DELETE",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        // window.location.reload();
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    handleTagDelete(item._id.toString());
   }
 
   return (

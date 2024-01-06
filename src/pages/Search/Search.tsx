@@ -7,7 +7,6 @@ import TodoItemWithTags from "express/src/types/TodoItemWithTags";
 import useFetchTaskList from "../../components/Functions/FetchTaskList/fetchTaskList";
 import useFetchTagList from "@/components/Functions/FetchTagList/fetchTagList";
 import TagListView from "@/components/update/TagListView/taglistview";
-import PageSubheader from "@/components/update/PageSubheader/pagesubheader";
 
 function App({ listViewItems }: { listViewItems: TodoItemWithTags[] }) {
   const todoList = useFetchTaskList();
@@ -107,17 +106,17 @@ function App({ listViewItems }: { listViewItems: TodoItemWithTags[] }) {
           <PageHeader title="Tasks" editableView={false} />
         </div>
         <ListView listViewItems={filteredList} />
-        {/* <div
+        <div
           style={{
             display: "flex",
             flexDirection: "row",
             width: "calc(100% - 64px)",
-            marginTop: "-12px",
+            marginTop: "-8px",
           }}
-        > */}
+        >
           <PageHeader title="Tags" editableView={false} />
-        {/* </div> */}
-        <TagListView listViewItems={filteredTagList} />
+        </div>
+        <TagListView />
       </div>
     </div>
   );

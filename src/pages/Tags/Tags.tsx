@@ -9,9 +9,11 @@ function App() {
 
   return (
     <div className="main-page-container">
-      <PageHeader title="Tags" editableView={true} />
       <div className="page-content">
-        <TagListView listViewItems={tagList} />
+        <PageHeader title="Tags" editableView={true} />
+        <TagListView />
+        <PageHeader title="Priorities" editableView={false} />
+        <TagListView />
       </div>
     </div>
   );

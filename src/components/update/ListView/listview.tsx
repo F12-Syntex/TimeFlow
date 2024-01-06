@@ -6,7 +6,7 @@ import NoItems from "../NoItems/noitems";
 import TodoItemWithTags from "express/src/types/TodoItemWithTags";
 
 interface ListViewProps {
-  listViewItems: TodoItemWithTags[];
+  listViewItems: (TodoItemWithTags | TodoItem)[];
   filterDate?: Date | null;
   filterInverseDate?: Date | null;
   filterCompleted?: boolean;

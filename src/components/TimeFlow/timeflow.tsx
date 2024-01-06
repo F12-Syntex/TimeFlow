@@ -22,12 +22,12 @@ const TimeFlow = () => {
   const [selectedIndex, setSelectedIndex] = useState(2);
 
   const todoList = useFetchTaskList();
-  const tagList = useFetchTagList();
 
   useEffect(() => {
     getLoginStatus();
   }, []);
 
+  // array of button data
   const buttonData = [
     { name: "plus", selectedName: "plus", path: "/add", component: <Add /> },
     {

@@ -98,7 +98,7 @@ function TaskDetails() {
             <select id="labels" name="labels">
               <option value="none">None</option>
               {tagList.map((tag) => (
-                <option value={tag._id.toString()}>{tag.name}</option>
+                <option key={tag._id.toString()} value={tag._id.toString()}>{tag.name}</option>
               ))}
             </select>
           </div>

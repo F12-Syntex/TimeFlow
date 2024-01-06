@@ -5,7 +5,7 @@ import { ObjectId } from "mongodb";
 import TodoItemWithTags from "express/src/types/TodoItemWithTags";
 import { Link } from "react-router-dom";
 interface ListItemProps {
-  item: TodoItemWithTags;
+  item: TodoItemWithTags | TodoItem;
 }
 
 interface ListItemTags {
@@ -42,22 +42,32 @@ const ListItem = ({ item }: ListItemProps) => {
     // send request to timeflow.tsx to update the list
   };
 
-  const parseDate = (date: Date): string => {
+  const parseDate = (dateString: string): string => {
+    const date = new Date(dateString);
+  
     const currentDate = new Date();
     const oneDay = 24 * 60 * 60 * 1000; // milliseconds in a day
-
+  
     // Check if the date is today
-    if (date.toDateString() === currentDate.toDateString()) {
-      return "Today";
+    if (
+      date.getFullYear() === currentDate.getFullYear() &&
+      date.getMonth() === currentDate.getMonth() &&
+      date.getDate() === currentDate.getDate()
+    ) {
+      return 'Today';
     }
-
+  
     // Check if the date is tomorrow
     const tomorrow = new Date(currentDate);
     tomorrow.setDate(currentDate.getDate() + 1);
-    if (date.toDateString() === tomorrow.toDateString()) {
-      return "Tomorrow";
+    if (
+      date.getFullYear() === tomorrow.getFullYear() &&
+      date.getMonth() === tomorrow.getMonth() &&
+      date.getDate() === tomorrow.getDate()
+    ) {
+      return 'Tomorrow';
     }
-
+  
     // Check if the date is within the next 7 days
     const nextWeek = new Date(currentDate);
     nextWeek.setDate(currentDate.getDate() + 7);
@@ -66,38 +76,40 @@ const ListItem = ({ item }: ListItemProps) => {
       date.getTime() > currentDate.getTime()
     ) {
       const dayOfWeek = [
-        "Sunday",
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
+        'Sunday',
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
       ];
       return dayOfWeek[date.getDay()];
     } else if (date.getTime() < currentDate.getTime()) {
       // return yesterday or date like 30/12/2023
       const yesterday = new Date(currentDate);
       yesterday.setDate(currentDate.getDate() - 1);
-      if (date.toDateString() === yesterday.toDateString()) {
-        return "Yesterday";
+      if (
+        date.getFullYear() === yesterday.getFullYear() &&
+        date.getMonth() === yesterday.getMonth() &&
+        date.getDate() === yesterday.getDate()
+      ) {
+        return 'Yesterday';
       }
       if (date.getFullYear() === currentDate.getFullYear()) {
-        const mm = String(date.getMonth() + 1).padStart(2, "0");
-        const dd = String(date.getDate()).padStart(2, "0");
+        const mm = String(date.getMonth() + 1).padStart(2, '0');
+        const dd = String(date.getDate()).padStart(2, '0');
         return `${mm}/${dd}`;
       }
     }
-
+  
     // Return the date as mm/dd/yyyy for dates outside the range
     const formattedDate = new Date(date);
-    const mm = String(formattedDate.getMonth() + 1).padStart(2, "0");
-    const dd = String(formattedDate.getDate()).padStart(2, "0");
+    const mm = String(formattedDate.getMonth() + 1).padStart(2, '0');
+    const dd = String(formattedDate.getDate()).padStart(2, '0');
     const yyyy = formattedDate.getFullYear();
     return `${mm}/${dd}/${yyyy}`;
   };
-
-  // console.log("[ListItem] ItemLabels", item.labels); // this is an objectId
 
   let labels: string[] = [];
 
@@ -129,14 +141,14 @@ const ListItem = ({ item }: ListItemProps) => {
         <div className="list-view-item-top">
           <div className="list-view-item-title">{item.title}</div>
           <div className="list-view-item-date">
-            <span>{parseDate(item.date)}</span>
+            <span>{parseDate(String(item.date))}</span>
           </div>
         </div>
         <div className="list-view-item-bottom">
           <div className="list-view-item-description">{item.description}</div>
           <div className="list-view-item-labels">
             {labels.map((label) => (
-              <div className="list-view-item-label">{label}</div>
+              <div key={label} className="list-view-item-label">{label}</div>
             ))}
           </div>
         </div>

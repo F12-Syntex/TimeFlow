@@ -25,10 +25,10 @@ function App() {
   return (
     <React.Fragment>
         <div className="h-screen flex flex-columns">
-          <CalendarHeader />
+          {/* <CalendarHeader /> */}
             <div className="flex flex-1">
-                <Sidebar />
-                <Month month={currentMonth} />
+                {/* <Sidebar />
+                <Month month={currentMonth} /> */}
             </div>
         </div>
     </React.Fragment>

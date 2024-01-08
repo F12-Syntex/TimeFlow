@@ -398,6 +398,47 @@ expressApp.delete(
   }
 );
 
+// get tasks with specific tag
+expressApp.get(
+  "/api/sample/tags/:id/tasks",
+  async (req: Request, res: Response) => {
+    try {
+      const userObjectId = await fetchUserObjectID();
+
+      const tasksCollection = database.collection("tasks");
+      const tasks = await tasksCollection
+        .find({
+          $and: [
+            { user: userObjectId },
+            // { labels: [new ObjectId(req.params.id)] },
+          ],
+        })
+        .toArray();
+
+        console.log("tasks:", tasks);
+
+        const filteredTasks = tasks.filter((task) => {
+          if (task.labels.length > 0) {
+            return task.labels.some((label: ObjectId) => {
+              // Assuming new ObjectId(req.params.id) is the instance of ObjectId you want to compare
+              const labelId = new ObjectId(label);
+              const requestId = new ObjectId(req.params.id);
+              return labelId.equals(requestId);
+            });
+          } else {
+            return false;
+          }
+        });
+        
+        res.json({ tasks: filteredTasks });
+        
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+      res.status(500).json({ error: "Error fetching tasks" });
+    }
+  }
+);
+
 expressApp.post("/api/login", async (req: Request, res: Response) => {
   try {
     const usersCollection = database.collection("users");

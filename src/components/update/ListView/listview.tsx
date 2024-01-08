@@ -6,7 +6,7 @@ import NoItems from "../NoItems/noitems";
 import TodoItemWithTags from "express/src/types/TodoItemWithTags";
 
 interface ListViewProps {
-  listViewItems: TodoItemWithTags[];
+  listViewItems: (TodoItemWithTags | TodoItem)[];
   filterDate?: Date | null;
   filterInverseDate?: Date | null;
   filterCompleted?: boolean;
@@ -55,7 +55,7 @@ function ListView({
   return (
     <div className="list-view-container">
       {(filteredItems.length === 0 && <NoItems name="task" />) ||
-        filteredItems.map((item) => <ListItem item={item} />)}
+        filteredItems.map((item) => <ListItem key={String(item._id)} item={item} />)}
     </div>
   );
 }

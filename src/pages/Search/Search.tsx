@@ -3,13 +3,17 @@ import "../pages.css";
 import PageHeader from "../../components/update/PageHeader/pageheader";
 import ListView from "../../components/update/ListView/listview";
 import { useState, useEffect } from "react";
-import TodoItem from "../../../express/src/types/TodoItem";
-import Spinner from "../../components/update/Spinner/spinner";
 import TodoItemWithTags from "express/src/types/TodoItemWithTags";
+import useFetchTaskList from "../../components/Functions/FetchTaskList/fetchTaskList";
+import useFetchTagList from "@/components/Functions/FetchTagList/fetchTagList";
+import TagListView from "@/components/update/TagListView/taglistview";
 
 function App({ listViewItems }: { listViewItems: TodoItemWithTags[] }) {
-  const [loading, setLoading] = useState(false);
-  const [filteredList, setFilteredList] = useState(listViewItems);
+  const todoList = useFetchTaskList();
+  const tagList = useFetchTagList();
+
+  const [filteredList, setFilteredList] = useState(todoList);
+  const [filteredTagList, setFilteredTagList] = useState(tagList);
 
   const parseDate = (date: Date): string => {
     const currentDate = new Date();
@@ -55,41 +59,65 @@ function App({ listViewItems }: { listViewItems: TodoItemWithTags[] }) {
     const searchText = event.target.value.toLowerCase();
     // Filter the list of items based on the search text
     setFilteredList(
-      listViewItems.filter((item) => {
+      todoList.filter((item) => {
         return (
           item.title.toLowerCase().includes(searchText) ||
           item.description.toLowerCase().includes(searchText) ||
           item.priority.toLowerCase().includes(searchText) ||
-          // item.labels.some((label) =>
-          // label.name.toLowerCase().includes(searchText)
-          // ) ||
+          item.labels.some((label) =>
+            label.name.toLowerCase().includes(searchText)
+          ) ||
           parseDate(item.date).toLowerCase().includes(searchText) ||
           item.completed.toString().toLowerCase().includes(searchText)
         );
       }, [])
     );
+    // Filter the list of tags based on the search text
+    setFilteredTagList(
+      tagList.filter((tag) => {
+        return tag.name.toLowerCase().includes(searchText);
+      }, [])
+    );
   };
 
   useEffect(() => {
-    setFilteredList(listViewItems);
-  }, [listViewItems]);
+    setFilteredList(todoList); // Update the filtered list whenever todoList changes
+    setFilteredTagList(tagList); // Update the filtered list whenever tagList changes
+  }, [todoList, tagList]);
 
   return (
     <div className="main-page-container">
-      {loading ? ( // Conditionally render the spinner when loading is true
-        <Spinner />
-      ) : (
-        <div className="search-page-content">
-          <PageHeader title="Search" editableView={true} />
-          <input
-            type="text"
-            className="search-search-bar"
-            placeholder="Search"
-            onChange={handleSearch}
-          />
-          <ListView listViewItems={filteredList} />
+      <div className="search-page-content">
+        <PageHeader title="Search" editableView={true} />
+        <input
+          type="text"
+          className="search-search-bar"
+          placeholder="Search"
+          onChange={handleSearch}
+        />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            width: "calc(100% - 64px)",
+            marginTop: "-20px",
+          }}
+        >
+          <PageHeader title="Tasks" editableView={false} />
         </div>
-      )}
+        <ListView listViewItems={filteredList} />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            width: "calc(100% - 64px)",
+            marginTop: "-8px",
+          }}
+        >
+          <PageHeader title="Tags" editableView={false} />
+        </div>
+        <TagListView />
+      </div>
     </div>
   );
 }

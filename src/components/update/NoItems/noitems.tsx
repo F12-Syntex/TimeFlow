@@ -1,12 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function noItems(props: { name: string }) {
-  function openAddTask() {}
-
+function NoItems(props: { name: string }) {
   return (
-    <Link to="/add">
-      <div className="list-view-item" onClick={() => openAddTask()}>
+    <Link to="/add" style={{ textDecoration: "none" }}>
+      <div className="list-view-item">
         <div className="list-view-item-left">
           <div className="container">
             <div className="round"></div>
@@ -27,4 +25,4 @@ function noItems(props: { name: string }) {
   );
 }
 
-export default noItems;
+export default NoItems;

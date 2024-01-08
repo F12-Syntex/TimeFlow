@@ -1,13 +1,22 @@
 .tag-list-view-item-left {
-    margin-left: 24px;
-    display: flex;
-    align-items: center;
+  padding-left: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .tag-list-view-item-right {
-    margin-left: auto;
+  margin-left: auto;
 }
 
 .bi-trash3-fill {
-    color: #ff3e3e;
+  color: #ff3e3e;
+}
+
+.tag-list-view-item {
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }

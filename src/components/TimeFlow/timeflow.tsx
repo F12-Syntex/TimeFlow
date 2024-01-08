@@ -11,91 +11,23 @@ import Tags from "../../pages/Tags/Tags";
 import Account from "../../pages/Account/Account";
 import RegisterPage from "../../pages/Register/register";
 import ForgotPasswordPage from "../../pages/ForgotPassword/forgotPassword";
-import TodoItem from "../../../express/src/types/TodoItem";
-import TagItem from "../../../express/src/types/TagItem";
-import TodoItemWithTags from "../../../express/src/types/TodoItemWithTags";
-import TaskDetails from "../../components/update/TaskDetails/taskDetails";
-import { ObjectId } from "mongodb";
+import TaskDetails from "../update/TaskDetails/taskDetails";
+import TagDetails from "../update/TagDetails/tagDetails";
+import useFetchTaskList from '../../components/Functions/FetchTaskList/fetchTaskList'
+import useFetchTagList from '../../components/Functions/FetchTagList/fetchTagList'
 
 const TimeFlow = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   const [selectedIndex, setSelectedIndex] = useState(2);
-  const [todoList, setTodoList] = useState<TodoItemWithTags[]>([]);
-  const [tagList, setTagList] = useState<TagItem[]>([]);
+
+  const todoList = useFetchTaskList();
 
   useEffect(() => {
-    fetchTaskList();
-    fetchTagList();
+    getLoginStatus();
   }, []);
 
-  const fetchTaskList = () => {
-    fetch("http://localhost:3000/api/sample/tasks")
-      .then((response) => response.json())
-      .then((data) => {
-        const tasks: TodoItem[] = data["tasks"];
-        console.log(tasks.map((task) => task.labels));
-        const fetchLabelPromises: Promise<TagItem[]>[] = tasks.map(
-          (task: TodoItem) =>
-            Promise.all(
-              task.labels.map((labelId: ObjectId) =>
-                fetch(`http://localhost:3000/api/sample/tags/${labelId}`)
-                  .then((response) => response.json())
-                  .then((labelData: TagItem) => {
-                    console.log(labelData);
-                    return labelData;
-                  })
-                  .catch((error) => {
-                    console.error("Error fetching label:", error);
-                    return null;
-                  })
-              )
-            ).then(
-              (labelResults: (TagItem | null)[]) =>
-                labelResults.filter((label) => label !== null) as TagItem[]
-            )
-        );
-
-        Promise.all(fetchLabelPromises)
-          .then((labelResults: TagItem[][]) => {
-            const updatedTodoList: TodoItemWithTags[] = tasks.map(
-              (task: TodoItem, index: number) => ({
-                user: task.user,
-                title: task.title,
-                description: task.description,
-                date: new Date(task.date),
-                priority: task.priority,
-                labels: labelResults[index],
-                completed: task.completed,
-                _id: task._id,
-              })
-            );
-            setTodoList(updatedTodoList);
-          })
-          .catch((error) => {
-            console.error("Error:", error);
-          });
-      })
-      .catch((error) => {
-        console.error("Error fetching tasks:", error);
-      });
-  };
-
-  const fetchTagList = () => {
-    fetch("http://localhost:3000/api/sample/tags")
-      .then((response) => response.json())
-      .then((data) => {
-        const updatedTagList: TagItem[] = data["tags"].map(
-          (element: TagItem) => ({
-            name: element.name,
-            _id: element._id,
-          })
-        );
-        setTagList(updatedTagList);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  };
-
+  // array of button data
   const buttonData = [
     { name: "plus", selectedName: "plus", path: "/add", component: <Add /> },
     {
@@ -114,13 +46,13 @@ const TimeFlow = () => {
       name: "calendar",
       selectedName: "calendar-fill",
       path: "/calendar",
-      component: <Calendar listViewItems={todoList} />,
+      component: <Calendar />,
     },
     {
       name: "tag",
       selectedName: "tag-fill",
       path: "/tags",
-      component: <Tags listViewItems={tagList} />,
+      component: <Tags />,
     },
   ];
 
@@ -161,8 +93,6 @@ const TimeFlow = () => {
     );
   };
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
   function getLoginStatus() {
     fetch("http://localhost:3000/api/get-login-status", {
       method: "GET",
@@ -183,10 +113,6 @@ const TimeFlow = () => {
         setIsLoggedIn(false);
       });
   }
-
-  useEffect(() => {
-    getLoginStatus();
-  });
 
   if (!isLoggedIn) {
     return (
@@ -216,6 +142,7 @@ const TimeFlow = () => {
             <div className="sidebar-buttons">
               {buttonData.map((button, index) => (
                 <Link
+                  key={index} // Add the key prop with a unique value (in this case, the index)
                   to={button.path}
                   className={getButtonClassName(index, index === selectedIndex)}
                   onClick={() => setSelectedIndex(index)}
@@ -258,14 +185,15 @@ const TimeFlow = () => {
         </div> */}
         <div className="homepage-container">
           <Routes>
-            <Route
-              path="/"
-              element={<Inbox listViewItems={todoList} />}
-              key={2}
-            />
+            <Route path="/" element={<Inbox listViewItems={todoList} />} />
             <Route
               path="/task/:id"
               element={<TaskDetails />}
+              key={selectedIndex}
+            />
+            <Route
+              path="/tag/:id"
+              element={<TagDetails />}
               key={selectedIndex}
             />
 

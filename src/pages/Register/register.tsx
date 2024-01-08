@@ -37,7 +37,6 @@ function RegisterPage() {
       alert("Username can only contain letters, numbers, and underscores");
       return;
     }
-
     fetch("http://localhost:3000/api/register", {
       method: "POST",
       headers: {

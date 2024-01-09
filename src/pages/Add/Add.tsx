@@ -6,6 +6,7 @@ import TodoItem from "express/src/types/TodoItem";
 import React, { useEffect, useState } from "react";
 import { ObjectId } from "mongodb";
 import { useNavigate } from "react-router-dom";
+import { resolveFiles } from "electron-updater/out/providers/Provider";
 
 function App() {
   // get user from cookie
@@ -88,13 +89,27 @@ function App() {
     })
       // then alert the user that the task was added and redirect to the inbox
       .then((response) => {
+        console.log("hello" + response.status);
         if (response.status === 200) {
           useNavigate()("/inbox");
+          
           // window.location.href = "/inbox";
         } else {
           alert("Error adding task");
         }
       });
+
+      //setting all the values to empty
+      const labels = document.getElementById("labels") as HTMLInputElement;
+      labels.value = "";
+      const priority = document.getElementById("priority") as HTMLInputElement;
+      priority.value = "";
+      const date = document.getElementById("date") as HTMLInputElement;
+      date.value = "";
+      const description = document.getElementById("description") as HTMLInputElement;
+      description.value = "";
+      const name = document.getElementById("name") as HTMLInputElement;
+      name.value = "";
   };
 
   const addTag = () => {
@@ -193,12 +208,11 @@ function App() {
                 defaultValue={new Date().toISOString().substr(0, 10)}
               />
             </div>
-            <div className="add-task-form-item">
-              <select id="priority" name="priority" defaultValue="normal">
+            <div className="add-task-form-item">       
+              <select id="priority" name="priority">         
+                <option disabled selected value="">Priority</option>
                 <option value="high">High</option>
-                <option value="normal">
-                  Normal
-                </option>
+                <option value="normal">Normal</option>
                 <option value="low">Low</option>
               </select>
             </div>

@@ -72,7 +72,7 @@ function App({ listViewItems }: { listViewItems: TodoItemWithTags[] }) {
               : label.name.toLowerCase().includes(searchText)
           ) ||
           parseDate(item.date).toLowerCase().includes(searchText) ||
-          item.completed.toString().toLowerCase().includes(searchText)
+          String(item.completed).toLowerCase().includes(searchText)
         );
       }, [])
     );

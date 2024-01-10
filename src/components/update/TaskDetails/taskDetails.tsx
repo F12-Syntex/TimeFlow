@@ -98,7 +98,9 @@ function TaskDetails() {
             <select id="labels" name="labels">
               <option value="none">None</option>
               {tagList.map((tag) => (
-                <option key={tag._id.toString()} value={tag._id.toString()}>{tag.name}</option>
+                <option key={tag._id.toString()} value={tag._id.toString()}>
+                  {tag.name}
+                </option>
               ))}
             </select>
           </div>
@@ -106,11 +108,12 @@ function TaskDetails() {
             <input type="date" id="date" name="date" placeholder="Date" />
           </div>
           <div className="add-task-form-item">
-            <select id="priority" name="priority" defaultValue="normal">
-              <option value="high">High</option>
-              <option value="normal">
-                Normal
+            <select id="priority" name="priority" defaultValue="priority">
+              <option value="priority" disabled>
+                Priority
               </option>
+              <option value="high">High</option>
+              <option value="normal">Normal</option>
               <option value="low">Low</option>
             </select>
           </div>

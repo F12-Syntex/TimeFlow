@@ -6,6 +6,7 @@ import TodoItem from "express/src/types/TodoItem";
 import React, { useEffect, useState } from "react";
 import { ObjectId } from "mongodb";
 import { useNavigate } from "react-router-dom";
+import { resolveFiles } from "electron-updater/out/providers/Provider";
 import { defaultProps } from "react-select/dist/declarations/src/Select";
 
 // type: task tag priority all
@@ -101,8 +102,11 @@ function App({
     })
       // then alert the user that the task was added and redirect to the inbox
       .then((response) => {
+        console.log("hello" + response.status);
         if (response.status === 200) {
+          alert("Task added successfully");
           useNavigate()("/inbox");
+          
           // window.location.href = "/inbox";
         } else {
           alert("Error adding task");

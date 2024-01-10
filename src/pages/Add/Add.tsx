@@ -91,6 +91,7 @@ function App() {
       .then((response) => {
         console.log("hello" + response.status);
         if (response.status === 200) {
+          alert("Task added successfully");
           useNavigate()("/inbox");
           
           // window.location.href = "/inbox";

@@ -1,5 +1,5 @@
 import PageHeader from "@/components/update/PageHeader/pageheader";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./account.css";
 import React, { useEffect, useState } from "react";
 

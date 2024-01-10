@@ -1,6 +1,7 @@
-import { Children, useState } from "react";
+import { useState } from "react";
+import Add from "../../../pages/Add/Add";
 
-const Modal = ({ closeModal, children }: any) => {
+const AddModal = ({ closeModal, type }: any) => {
   const [closing, setClosing] = useState(false);
 
   const handleCloseModal = () => {
@@ -26,11 +27,11 @@ const Modal = ({ closeModal, children }: any) => {
           <i className="bi bi-x"></i>
         </button>
         <div className="modal-content">
-            {children}
+          <Add modal={true} closeModal={handleCloseModal} type={type} />
         </div>
       </div>
     </div>
   );
 };
 
-export default Modal;
+export default AddModal;

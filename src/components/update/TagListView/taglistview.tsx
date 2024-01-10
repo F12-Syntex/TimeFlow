@@ -1,36 +1,26 @@
-// import React, { useState } from "react";
-// import TagListItem from "../TagListItem/taglistitem";
-// import TagItem from "../../../../express/src/types/TagItem";
-// import NoItems from "../NoItems/noitems";
-
-// interface ListViewProps {
-//   listViewItems: TagItem[];
-// }
-
-// function ListView({ listViewItems }: ListViewProps) {
-
-//   return (
-//     <div className="list-view-container">
-//       {(listViewItems.length === 0 && <NoItems name="tag" />) ||
-//         listViewItems.map((item) => <TagListItem key={String(item._id)} item={item} />)}
-//     </div>
-//   );
-// }
-
-// export default ListView;
-
 import React, { useState, useEffect } from "react";
 import TagItem from "express/src/types/TagItem";
 import TagListItem from "../TagListItem/taglistitem";
 import NoItems from "../NoItems/noitems";
 
-const TagList = () => {
+// optional prop tagListViewItems, use this if you want to pass in a list of tags to display
+// otherwise, fetch the list of tags from the server
+interface TagListProps {
+  tagListViewItems?: TagItem[]; // Optional prop for the list of tags to display
+}
+
+const TagList: React.FC<TagListProps> = ({ tagListViewItems }) => {
   const [tagList, setTagList] = useState<TagItem[]>([]);
 
   useEffect(() => {
+    if (tagListViewItems) {
+      // If the tagListViewItems prop is passed in, use that
+      setTagList(tagListViewItems);
+      return;
+    }
     // Fetch tag list on initial load
     fetchTagList();
-  }, []);
+  }, [tagListViewItems]); // Re-run this effect if the tagListViewItems prop changes
 
   const fetchTagList = () => {
     fetch("http://localhost:3000/api/sample/tags")

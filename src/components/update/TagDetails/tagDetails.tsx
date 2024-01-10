@@ -69,7 +69,6 @@ function TagDetails() {
           <div className="add-task-form-item-row">
             <button className="add-task-form-submit">Save</button>
             <button className="add-task-form-submit">Delete</button>
-            {/* link to whatever page came before (not static) */}
             <button
               className="add-task-form-submit"
               onClick={() => navigate(-1)}

@@ -11,7 +11,7 @@ function App({ listViewItems }: { listViewItems: any }) {
   const filterDate: Date = new Date();
 
   const todoList = useFetchTaskList();
-  
+
   return (
     <div className="main-page-container">
       <div className="page-content">

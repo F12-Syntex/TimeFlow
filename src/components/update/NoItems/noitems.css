@@ -1,0 +1,82 @@
+/* Modal.css */
+
+/* Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.25); /* Semi-transparent background */
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal */
+.modal {
+  border-radius: 16px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  background-color: #161616;
+  position: relative;
+  overflow: auto;
+  opacity: 0;
+}
+
+.modal.fade-in {
+  animation: fade-in 0.25s ease forwards;
+}
+
+.modal.fade-out {
+  animation: fade-out 0.25s ease forwards;
+}
+
+.modal-overlay.fade-in {
+  opacity: 1;
+  transition: opacity 0.25s ease;
+}
+
+.modal-overlay.fade-out {
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(100px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.9) translateY(100px);
+  }
+}
+
+/* Close button */
+.modal-close {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  color: #888;
+  padding: 0;
+  line-height: 1;
+  outline: none;
+  z-index: 1000;
+}

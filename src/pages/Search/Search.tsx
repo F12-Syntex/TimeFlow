@@ -60,12 +60,16 @@ function App({ listViewItems }: { listViewItems: TodoItemWithTags[] }) {
     // Filter the list of items based on the search text
     setFilteredList(
       todoList.filter((item) => {
+        // is array item.labels
+
         return (
           item.title.toLowerCase().includes(searchText) ||
           item.description.toLowerCase().includes(searchText) ||
           item.priority.toLowerCase().includes(searchText) ||
           item.labels.some((label) =>
-            label.name.toLowerCase().includes(searchText)
+            label.name == null
+              ? false
+              : label.name.toLowerCase().includes(searchText)
           ) ||
           parseDate(item.date).toLowerCase().includes(searchText) ||
           item.completed.toString().toLowerCase().includes(searchText)
@@ -116,7 +120,7 @@ function App({ listViewItems }: { listViewItems: TodoItemWithTags[] }) {
         >
           <PageHeader title="Tags" editableView={false} />
         </div>
-        <TagListView />
+        <TagListView tagListViewItems={filteredTagList} />
       </div>
     </div>
   );

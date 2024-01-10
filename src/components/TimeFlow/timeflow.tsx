@@ -46,16 +46,18 @@ const TimeFlow = () => {
 
   const [previousSelectedIndex, setPreviousSelectedIndex] = useState(2);
 
+  // on change of either 
+
   // Open Add modal
-  const openAddModal = () => {
+  function openAddModal() {
     setPreviousSelectedIndex(selectedIndex);
-    setIsAddModalOpen(true);
     setSelectedIndex(0);
+    setIsAddModalOpen(true);
   };
 
-  const closeAddModal = () => () => {
-    setIsAddModalOpen(false);
+  function closeAddModal() {
     setSelectedIndex(previousSelectedIndex);
+    setIsAddModalOpen(false);
   };
 
   // array of button data
@@ -63,7 +65,7 @@ const TimeFlow = () => {
     {
       name: "plus",
       selectedName: "plus",
-      path: "/add",
+      path: "",
       component: <Add modal={true} closeModal={closeAddModal} type="all" />,
     },
     {

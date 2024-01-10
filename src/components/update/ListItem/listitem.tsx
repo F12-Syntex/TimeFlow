@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import TodoItem from "../../../../express/src/types/TodoItem";
 import TagItem from "express/src/types/TagItem";
-import { ObjectId } from "mongodb";
 import TodoItemWithTags from "express/src/types/TodoItemWithTags";
-import { Link } from "react-router-dom";
+import Modal from "../Modal/modal";
+import TaskDetails from "../TaskDetails/taskDetails";
 interface ListItemProps {
   item: TodoItemWithTags | TodoItem;
   handleTaskDelete: (id: string) => void;
@@ -120,48 +120,54 @@ const ListItem = ({ item, handleTaskDelete }: ListItemProps) => {
   }
 
   const deleteTask = (e: React.MouseEvent<HTMLButtonElement>) => {
-    handleTaskDelete(item._id.toString())
+    handleTaskDelete(item._id.toString());
   };
 
+  const [showModal, setShowModal] = useState(false);
+
   return (
-    <div className="list-view-item">
-      <div className="list-view-item-left">
-        <div className="container">
-          <div className="round">
-            <input
-              type="checkbox"
-              id={`checkbox-${item._id}`}
-              checked={check.completed}
-              onChange={handleCheckboxClick}
-            />
-            <label htmlFor={`checkbox-${item._id}`}></label>
+    <>
+      {showModal && <Modal closeModal={() => setShowModal(false)}>
+        <TaskDetails id={String(item._id)} />
+      </Modal>}
+      <div className="list-view-item">
+        <div className="list-view-item-left">
+          <div className="container">
+            <div className="round">
+              <input
+                type="checkbox"
+                id={`checkbox-${item._id}`}
+                checked={check.completed}
+                onChange={handleCheckboxClick}
+              />
+              <label htmlFor={`checkbox-${item._id}`}></label>
+            </div>
           </div>
         </div>
+        {/* <Link to={`/task/${item._id}`} className="list-view-item-right"> */}
+        <div className="list-view-item-right" onClick={() => setShowModal(true)}>
+          <div className="list-view-item-top">
+            <div className="list-view-item-title">{item.title}</div>
+            <div className="list-view-item-date">
+              <span>{parseDate(String(item.date))}</span>
+            </div>
+          </div>
+          <div className="list-view-item-bottom">
+            <div className="list-view-item-description">{item.description}</div>
+            <div className="list-view-item-labels">
+              {labels.map((label) => (
+                <div key={label} className="list-view-item-label">
+                  {label}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        {/* </Link> */}
+        {/* </div> */}
+        <button onClick={deleteTask} className="bi bi-trash3-fill"></button>
       </div>
-      <Link to={`/task/${item._id}`} className="list-view-item-right">
-        <div className="list-view-item-top">
-          <div className="list-view-item-title">{item.title}</div>
-          <div className="list-view-item-date">
-            <span>{parseDate(String(item.date))}</span>
-          </div>
-        </div>
-        <div className="list-view-item-bottom">
-          <div className="list-view-item-description">{item.description}</div>
-          <div className="list-view-item-labels">
-            {labels.map((label) => (
-              <div key={label} className="list-view-item-label">
-                {label}
-              </div>
-            ))}
-          </div>
-        </div>
-      </Link>
-      {/* </div> */}
-      <button
-        onClick={deleteTask}
-        className="bi bi-trash3-fill"
-      ></button>
-    </div>
+    </>
   );
 };
 

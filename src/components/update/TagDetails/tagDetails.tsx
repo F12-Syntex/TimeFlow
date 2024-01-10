@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
 import PageHeader from "../PageHeader/pageheader";
 import TagItem from "express/src/types/TagItem";
 import TodoItem from "express/src/types/TodoItem";
 import ListView from "../ListView/listview";
 
-function TagDetails() {
-  const { id } = useParams();
-  const navigate = useNavigate();
+function TagDetails({ id }: { id: string}) {
   const [tag, setTag] = useState<TagItem>({} as TagItem);
 
   function getTagDetails() {
@@ -55,7 +52,7 @@ function TagDetails() {
     const [taskList, setTaskList] = useState<TodoItem[]>([]);
 
   return (
-    <div className="main-page-container">
+    <div className="modal-container">
       <div className="page-content">
         <PageHeader title={tag.name} editableView={false} />
         <div className="add-task-form">
@@ -71,7 +68,6 @@ function TagDetails() {
             <button className="add-task-form-submit">Delete</button>
             <button
               className="add-task-form-submit"
-              onClick={() => navigate(-1)}
             >
               Cancel
             </button>

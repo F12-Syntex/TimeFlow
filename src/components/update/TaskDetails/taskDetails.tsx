@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
 import PageHeader from "../PageHeader/pageheader";
 import TodoItem from "express/src/types/TodoItem";
 import TagItem from "express/src/types/TagItem";
-import { ObjectId } from "mongodb";
 
-function TaskDetails() {
-  const { id } = useParams();
-  const navigate = useNavigate();
+function TaskDetails({ id }: { id: string}) {
   const [task, setTask] = useState<TodoItem>({} as TodoItem);
 
   function formatDate(date: Date): string {
@@ -28,13 +24,18 @@ function TaskDetails() {
     fetch(url, { method, headers })
       .then((response) => response.json())
       .then((data) => {
+        console.log(data["task"].labels.toString());
         setTask(data["task"]);
         (document.getElementById("title") as HTMLInputElement).value =
           data["task"].title;
         (document.getElementById("description") as HTMLInputElement).value =
           data["task"].description;
-        (document.getElementById("tags") as HTMLInputElement).value =
+        (document.getElementById("labels") as HTMLInputElement).value =
           data["task"].labels.toString();
+        if (data["task"].labels.toString() === "") {
+          (document.getElementById("labels") as HTMLInputElement).value =
+            "none";
+        }
         // get the tag name from the id in later version
         (document.getElementById("date") as HTMLInputElement).value =
           formatDate(data["task"].date);
@@ -79,9 +80,9 @@ function TaskDetails() {
   };
 
   return (
-    <div className="main-page-container">
-      <PageHeader title={task.title} editableView={false} />
+    <div className="modal-container">
       <div className="page-content">
+        <PageHeader title={task.title} editableView={false} />
         <div className="add-task-form">
           <div className="add-task-form-item">
             <input type="text" id="title" name="title" placeholder="Title" />
@@ -95,8 +96,8 @@ function TaskDetails() {
             />
           </div>
           <div className="add-task-form-item">
-            <select id="labels" name="labels">
-              <option value="none">None</option>
+            <select id="labels" name="labels" defaultValue="none">
+              <option value="none">No Tag</option>
               {tagList.map((tag) => (
                 <option key={tag._id.toString()} value={tag._id.toString()}>
                   {tag.name}
@@ -135,7 +136,6 @@ function TaskDetails() {
             {/* link to whatever page came before (not static) */}
             <button
               className="add-task-form-submit"
-              onClick={() => navigate(-1)}
             >
               Cancel
             </button>

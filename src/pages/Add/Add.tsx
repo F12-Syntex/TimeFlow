@@ -6,10 +6,6 @@ import TodoItem from "express/src/types/TodoItem";
 import React, { useEffect, useState } from "react";
 import { ObjectId } from "mongodb";
 import { useNavigate } from "react-router-dom";
-import { resolveFiles } from "electron-updater/out/providers/Provider";
-import { defaultProps } from "react-select/dist/declarations/src/Select";
-
-// type: task tag priority all
 
 function App({
   modal,
@@ -20,7 +16,6 @@ function App({
   closeModal: () => void;
   type: string;
 }) {
-  // { setSelectedIndex }: { setSelectedIndex: any }) {
 
   // get user from cookie
   function getUserID() {
@@ -106,7 +101,7 @@ function App({
         if (response.status === 200) {
           alert("Task added successfully");
           useNavigate()("/inbox");
-          
+
           // window.location.href = "/inbox";
         } else {
           alert("Error adding task");
@@ -216,14 +211,18 @@ function App({
                   />
                 </div>
                 <div className="add-task-form-item">
-                  <select id="priority" name="priority" defaultValue="normal">
+                  <select id="priority" name="priority" defaultValue="priority">
+                    <option value="priority" disabled>
+                      Priority
+                    </option>
                     <option value="high">High</option>
                     <option value="normal">Normal</option>
                     <option value="low">Low</option>
                   </select>
                 </div>
                 <div className="add-task-form-item">
-                  <select id="labels" name="labels">
+                  <select id="labels" name="labels" defaultValue="none">
+                    <option value="none">No Tag</option>
                     {tagList.map((tag) => (
                       <option
                         key={tag._id.toString()}

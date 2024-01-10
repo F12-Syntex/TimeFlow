@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import TagItem from "express/src/types/TagItem";
 import TagListItem from "../TagListItem/taglistitem";
 import NoItems from "../NoItems/noitems";
+import Modal from "../Modal/modal";
 
 // optional prop tagListViewItems, use this if you want to pass in a list of tags to display
 // otherwise, fetch the list of tags from the server
@@ -34,6 +35,10 @@ const TagList: React.FC<TagListProps> = ({ tagListViewItems }) => {
   };
 
   const handleTagDelete = (tagId: string) => {
+    if (!window.confirm("Are you sure you want to delete this tag?")) {
+      return;
+    }
+
     fetch(`http://localhost:3000/api/sample/tags/delete/${tagId}`, {
       method: "DELETE",
     })
@@ -43,16 +48,23 @@ const TagList: React.FC<TagListProps> = ({ tagListViewItems }) => {
         setTagList((prevTagList) =>
           prevTagList.filter((tag) => tag._id.toString() !== tagId)
         );
+        alert("Tag deleted successfully");
       })
       .catch((error) => {
-        console.error("Error deleting tag:", error);
+        alert("Error deleting tag: " + error);
       });
   };
 
   return (
     <div className="list-view-container">
       {(tagList.length === 0 && <NoItems name="tag" />) ||
-        tagList.map((item) => <TagListItem key={String(item._id)} item={item} handleTagDelete={handleTagDelete} />)}
+        tagList.map((item) => (
+          <TagListItem
+            key={String(item._id)}
+            item={item}
+            handleTagDelete={handleTagDelete}
+          />
+        ))}
     </div>
   );
 };

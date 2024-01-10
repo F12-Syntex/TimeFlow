@@ -8,7 +8,7 @@ import useFetchTaskList from "../../components/Functions/FetchTaskList/fetchTask
 import useFetchTagList from "@/components/Functions/FetchTagList/fetchTagList";
 import TagListView from "@/components/update/TagListView/taglistview";
 
-function App({ listViewItems }: { listViewItems: TodoItemWithTags[] }) {
+function Search({ listViewItems }: { listViewItems: TodoItemWithTags[] }) {
   const todoList = useFetchTaskList();
   const tagList = useFetchTagList();
 
@@ -126,4 +126,4 @@ function App({ listViewItems }: { listViewItems: TodoItemWithTags[] }) {
   );
 }
 
-export default App;
+export default Search;

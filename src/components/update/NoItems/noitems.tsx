@@ -22,8 +22,6 @@ function NoItems(props: { name: string }) {
     setShowModal(true);
   };
 
-  // type: task tag priority all
-
   return (
     <>
       {/* <Link to="/add" style={{ textDecoration: "none" }}> */}

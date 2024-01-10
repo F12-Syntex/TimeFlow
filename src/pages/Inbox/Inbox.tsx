@@ -2,10 +2,10 @@ import "./inbox.css";
 import "../pages.css";
 import PageHeader from "../../components/update/PageHeader/pageheader";
 import ListView from "../../components/update/ListView/listview";
-import { useEffect, useState } from "react";
 import useFetchTaskList from '../../components/Functions/FetchTaskList/fetchTaskList'
+import TodoItemWithTags from "express/src/types/TodoItemWithTags";
 
-function App({ listViewItems }: { listViewItems: any }) {
+function Inbox({ listViewItems }: { listViewItems: TodoItemWithTags[] }) {
   
   const filterCompleted: boolean = false;
   const filterDate: Date = new Date();
@@ -24,4 +24,4 @@ function App({ listViewItems }: { listViewItems: any }) {
   );
 }
 
-export default App;
+export default Inbox;

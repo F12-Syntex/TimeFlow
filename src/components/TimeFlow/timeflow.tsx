@@ -11,10 +11,7 @@ import Tags from "../../pages/Tags/Tags";
 import Account from "../../pages/Account/Account";
 import RegisterPage from "../../pages/Register/register";
 import ForgotPasswordPage from "../../pages/ForgotPassword/forgotPassword";
-import TaskDetails from "../update/TaskDetails/taskDetails";
-import TagDetails from "../update/TagDetails/tagDetails";
 import useFetchTaskList from "../../components/Functions/FetchTaskList/fetchTaskList";
-import useFetchTagList from "../../components/Functions/FetchTagList/fetchTagList";
 import AddModal from "../../components/update/AddModal/addmodal";
 
 const TimeFlow = () => {
@@ -56,8 +53,7 @@ const TimeFlow = () => {
     setSelectedIndex(0);
   };
 
-  // Close Add modal
-  const closeAddModal = () => {
+  const closeAddModal = () => () => {
     setIsAddModalOpen(false);
     setSelectedIndex(previousSelectedIndex);
   };
@@ -221,14 +217,13 @@ const TimeFlow = () => {
           <div className="sidebar-bottom">{handlePersonButtonClick()}</div>
         </div>
         {isAddModalOpen && (
-          <div className="add-modal">
-            <AddModal
-              modal={isAddModalOpen}
-              closeModal={closeAddModal}
-              type="all"
-            />
-          </div>
+          <AddModal
+            modal={isAddModalOpen}
+            closeModal={closeAddModal}
+            type="all"
+          />
         )}
+
         <Routes>
           {/* Add route for Account/Login/Register/Forgot Password */}
           <Route path="/login" element={<Account />} key="login" />
@@ -241,9 +236,30 @@ const TimeFlow = () => {
           />
 
           {/* Add routes for other main sections */}
-          <Route path="/inbox/*" element={<Inbox listViewItems={todoList} />} />
-          <Route path="/task/:id" element={<TaskDetails />} />
-          <Route path="/tag/:id" element={<TagDetails />} />
+          <Route
+            path="/inbox/*"
+            element={
+              <Inbox
+                listViewItems={todoList}
+              />
+            }
+          />
+          <Route
+            path="/task/:id"
+            // element={
+            //   <Modal closeModal={closeModal("taskDetail")}>
+            //     <TaskDetails />
+            //   </Modal>
+            // }
+          />
+          <Route
+            path="/tag/:id"
+            // element={
+            //   <Modal closeModal={closeModal("tagDetail")}>
+            //     <TagDetails />
+            //   </Modal>
+            // }
+          />
 
           {/* Add routes for Add/Search/Calendar/Tags */}
           {buttonData.map((button, index) => (
@@ -255,7 +271,14 @@ const TimeFlow = () => {
           ))}
 
           {/* Catch-all route (should be at the end) */}
-          <Route path="/*" element={<Inbox listViewItems={todoList} />} />
+          <Route
+            path="/*"
+            element={
+              <Inbox
+                listViewItems={todoList}
+              />
+            }
+          />
         </Routes>
       </div>
     </Router>

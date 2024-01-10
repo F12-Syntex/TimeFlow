@@ -59,6 +59,10 @@ function ListView({
   }, [listViewItems, filterDate, filterInverseDate, filterCompleted]);
 
   function handleTaskDelete(id: string) {
+    if (!window.confirm("Are you sure you want to delete this task?")) {
+      return;
+    }
+
     const url = `http://localhost:3000/api/sample/tasks/delete/${id}`;
     const method = "DELETE";
     const headers = {
@@ -71,9 +75,10 @@ function ListView({
         setFilteredItems((prevFilteredItems) =>
           prevFilteredItems.filter((item) => item._id.toString() !== id)
         );
+        alert("Task deleted successfully");
       })
       .catch((error) => {
-        console.error("Error:", error);
+        alert("Error deleting task: " + error);
       });
   }
 

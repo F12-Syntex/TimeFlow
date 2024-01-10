@@ -3,7 +3,7 @@ import PageHeader from "../PageHeader/pageheader";
 import TodoItem from "express/src/types/TodoItem";
 import TagItem from "express/src/types/TagItem";
 
-function TaskDetails({ id }: { id: string}) {
+function TaskDetails({ id, deleteTask, closeModal }: { id: string, deleteTask: (e: React.MouseEvent<HTMLDivElement | HTMLButtonElement, MouseEvent>) => void, closeModal: () => void}) {
   const [task, setTask] = useState<TodoItem>({} as TodoItem);
 
   function formatDate(date: Date): string {
@@ -79,6 +79,38 @@ function TaskDetails({ id }: { id: string}) {
       });
   };
 
+  function saveTask() {
+    const url = `http://localhost:3000/api/sample/tasks/update/${id}`;
+    const method = "PATCH";
+    const body = JSON.stringify({
+      title: (document.getElementById("title") as HTMLInputElement).value,
+      description: (document.getElementById(
+        "description"
+      ) as HTMLInputElement).value,
+      labels: (document.getElementById("labels") as HTMLInputElement).value,
+      date: (document.getElementById("date") as HTMLInputElement).value,
+      priority: parseInt(
+        (document.getElementById("priority") as HTMLInputElement).value
+      ),
+      completed: (document.getElementById(
+        "completed"
+      ) as HTMLInputElement).checked,
+    });
+    const headers = {
+      "Content-Type": "application/json",
+    };
+
+    fetch(url, { method, body, headers })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+    closeModal();
+  }
+
   return (
     <div className="modal-container">
       <div className="page-content">
@@ -131,11 +163,11 @@ function TaskDetails({ id }: { id: string}) {
           </div>
 
           <div className="add-task-form-item-row">
-            <button className="add-task-form-submit">Save</button>
-            <button className="add-task-form-submit">Delete</button>
-            {/* link to whatever page came before (not static) */}
+          <button className="add-task-form-submit" onClick={saveTask}>Save</button>
+            <button className="add-task-form-submit" onClick={deleteTask}>Delete</button>
             <button
               className="add-task-form-submit"
+              onClick={closeModal}
             >
               Cancel
             </button>

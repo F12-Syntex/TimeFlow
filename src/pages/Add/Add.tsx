@@ -17,6 +17,8 @@ function App({
   type: string;
 }) {
 
+  const navigate = useNavigate();
+
   // get user from cookie
   function getUserID() {
     const cookies = document.cookie.split(";");
@@ -79,11 +81,16 @@ function App({
       ),
       priority:
         (document.getElementById("priority") as HTMLInputElement)?.value ?? "",
-      labels: [
-        new ObjectId(
-          (document.getElementById("labels") as HTMLInputElement)?.value ?? ""
-        ),
-      ],
+      labels:
+        (document.getElementById("labels") as HTMLInputElement)?.value ===
+        "none"
+          ? []
+          : [
+              new ObjectId(
+                (document.getElementById("labels") as HTMLInputElement)
+                  ?.value ?? ""
+              ),
+            ],
       completed: false,
       _id: new ObjectId(),
     };
@@ -99,8 +106,8 @@ function App({
       .then((response) => {
         console.log("hello" + response.status);
         if (response.status === 200) {
-          alert("Task added successfully");
-          useNavigate()("/inbox");
+          // alert("Task added successfully");
+          navigate("/inbox");
 
           // window.location.href = "/inbox";
         } else {
@@ -137,7 +144,7 @@ function App({
       .then((response) => {
         if (response.status === 200) {
           // window.location.href = "/tags";
-          useNavigate()("/tags");
+          navigate("/tags");
         } else {
           alert("Error adding tag");
         }

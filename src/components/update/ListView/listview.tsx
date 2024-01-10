@@ -75,7 +75,7 @@ function ListView({
         setFilteredItems((prevFilteredItems) =>
           prevFilteredItems.filter((item) => item._id.toString() !== id)
         );
-        alert("Task deleted successfully");
+        // alert("Task deleted successfully");
       })
       .catch((error) => {
         alert("Error deleting task: " + error);

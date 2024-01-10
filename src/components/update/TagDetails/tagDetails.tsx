@@ -4,7 +4,7 @@ import TagItem from "express/src/types/TagItem";
 import TodoItem from "express/src/types/TodoItem";
 import ListView from "../ListView/listview";
 
-function TagDetails({ id }: { id: string}) {
+function TagDetails({ id, deleteTag, closeModal }: { id: string, deleteTag: (e: React.MouseEvent<HTMLDivElement | HTMLButtonElement, MouseEvent>) => void, closeModal: () => void}) {
   const [tag, setTag] = useState<TagItem>({} as TagItem);
 
   function getTagDetails() {
@@ -51,6 +51,27 @@ function TagDetails({ id }: { id: string}) {
 
     const [taskList, setTaskList] = useState<TodoItem[]>([]);
 
+  function saveTag() {
+    const url = `http://localhost:3000/api/sample/tags/update/${id}`;
+    const method = "PATCH";
+    const body = JSON.stringify({
+      name: (document.getElementById("name") as HTMLInputElement).value,
+    });
+    const headers = {
+      "Content-Type": "application/json",
+    };
+
+    fetch(url, { method, body, headers })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+    closeModal();
+  }
+
   return (
     <div className="modal-container">
       <div className="page-content">
@@ -64,10 +85,11 @@ function TagDetails({ id }: { id: string}) {
           </div>
 
           <div className="add-task-form-item-row">
-            <button className="add-task-form-submit">Save</button>
-            <button className="add-task-form-submit">Delete</button>
+            <button className="add-task-form-submit" onClick={saveTag}>Save</button>
+            <button className="add-task-form-submit" onClick={deleteTag}>Delete</button>
             <button
               className="add-task-form-submit"
+              onClick={closeModal}
             >
               Cancel
             </button>

@@ -119,7 +119,7 @@ const ListItem = ({ item, handleTaskDelete }: ListItemProps) => {
     labels = [];
   }
 
-  const deleteTask = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const deleteTask = (e: React.MouseEvent<HTMLButtonElement | HTMLDivElement, MouseEvent>) => {
     handleTaskDelete(item._id.toString());
   };
 
@@ -128,7 +128,7 @@ const ListItem = ({ item, handleTaskDelete }: ListItemProps) => {
   return (
     <>
       {showModal && <Modal closeModal={() => setShowModal(false)}>
-        <TaskDetails id={String(item._id)} />
+        <TaskDetails id={String(item._id)} deleteTask={deleteTask} closeModal={() => setShowModal(false)} />
       </Modal>}
       <div className="list-view-item">
         <div className="list-view-item-left">

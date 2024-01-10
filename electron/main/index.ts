@@ -331,6 +331,36 @@ expressApp.get("/api/sample/tags", async (req: Request, res: Response) => {
   }
 });
 
+expressApp.patch(
+  "/api/sample/tags/update/:id",
+  async (req: Request, res: Response) => {
+    try {
+      const userObjectId = await fetchUserObjectID();
+
+      const tagsCollection = database.collection("tags");
+      const tagId = req.params.id;
+      const updateData: Partial<TagItem> = {
+        name: req.body.name,
+      };
+
+      console.log("updateData:", updateData);
+
+      // Perform the update using $set to update specific fields
+      let result = await tagsCollection.updateOne(
+        { $and: [{ _id: new ObjectId(tagId) }, { user: userObjectId }] },
+        { $set: updateData }
+      );
+
+      console.log("result:", result);
+
+      res.json({ message: "Tag updated successfully" });
+    } catch (error) {
+      console.error("Error updating tag:", error);
+      res.status(500).json({ error: "Error updating tag" });
+    }
+  }
+);
+
 expressApp.get("/api/sample/tags/:id", async (req: Request, res: Response) => {
   try {
     const userObjectId = await fetchUserObjectID();

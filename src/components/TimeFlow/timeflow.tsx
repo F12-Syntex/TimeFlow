@@ -26,9 +26,7 @@ const TimeFlow = () => {
 
     // check which page is currently being viewed and set the selected index accordingly
     const currentPath = window.location.pathname;
-    if (currentPath === "/add") {
-      setSelectedIndex(0);
-    } else if (currentPath === "/search") {
+    if (currentPath === "/search") {
       setSelectedIndex(1);
     } else if (currentPath === "/inbox") {
       setSelectedIndex(2);
@@ -46,19 +44,19 @@ const TimeFlow = () => {
 
   const [previousSelectedIndex, setPreviousSelectedIndex] = useState(2);
 
-  // on change of either 
+  // on change of either
 
   // Open Add modal
   function openAddModal() {
     setPreviousSelectedIndex(selectedIndex);
     setSelectedIndex(0);
     setIsAddModalOpen(true);
-  };
+  }
 
   function closeAddModal() {
     setSelectedIndex(previousSelectedIndex);
     setIsAddModalOpen(false);
-  };
+  }
 
   // array of button data
   const buttonData = [
@@ -66,7 +64,7 @@ const TimeFlow = () => {
       name: "plus",
       selectedName: "plus",
       path: "",
-      component: <Add modal={true} closeModal={closeAddModal} type="all" />,
+      component: <></>,
     },
     {
       name: "search",
@@ -237,31 +235,11 @@ const TimeFlow = () => {
             key="forgotPassword"
           />
 
+          {/* default page inbox */}
+          <Route path="/" element={<Inbox listViewItems={todoList} />} />
+
           {/* Add routes for other main sections */}
-          <Route
-            path="/inbox/*"
-            element={
-              <Inbox
-                listViewItems={todoList}
-              />
-            }
-          />
-          <Route
-            path="/task/:id"
-            // element={
-            //   <Modal closeModal={closeModal("taskDetail")}>
-            //     <TaskDetails />
-            //   </Modal>
-            // }
-          />
-          <Route
-            path="/tag/:id"
-            // element={
-            //   <Modal closeModal={closeModal("tagDetail")}>
-            //     <TagDetails />
-            //   </Modal>
-            // }
-          />
+          <Route path="/inbox/*" element={<Inbox listViewItems={todoList} />} />
 
           {/* Add routes for Add/Search/Calendar/Tags */}
           {buttonData.map((button, index) => (
@@ -273,14 +251,7 @@ const TimeFlow = () => {
           ))}
 
           {/* Catch-all route (should be at the end) */}
-          <Route
-            path="/*"
-            element={
-              <Inbox
-                listViewItems={todoList}
-              />
-            }
-          />
+          <Route path="/*" element={<Inbox listViewItems={todoList} />} />
         </Routes>
       </div>
     </Router>

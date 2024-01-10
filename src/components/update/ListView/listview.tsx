@@ -1,5 +1,5 @@
 import "../ListView/listview.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ListItem from "../ListItem/listitem";
 import TodoItem from "../../../../express/src/types/TodoItem";
 import NoItems from "../NoItems/noitems";
@@ -18,44 +18,75 @@ function ListView({
   filterInverseDate,
   filterCompleted,
 }: ListViewProps) {
-  let filteredItems = listViewItems;
+  const [filteredItems, setFilteredItems] = useState(listViewItems);
 
-  if (filterDate) {
-    filteredItems = filteredItems.filter((item) => {
-      const itemDate = new Date(item.date);
-      const selectedDate = new Date(filterDate);
+  useEffect(() => {
+    let updatedItems = [...listViewItems];
 
-      return (
-        itemDate.getDate() === selectedDate.getDate() &&
-        itemDate.getMonth() === selectedDate.getMonth() &&
-        itemDate.getFullYear() === selectedDate.getFullYear()
+    if (filterDate) {
+      updatedItems = updatedItems.filter((item) => {
+        const itemDate = new Date(item.date);
+        const selectedDate = new Date(filterDate);
+
+        return (
+          itemDate.getDate() === selectedDate.getDate() &&
+          itemDate.getMonth() === selectedDate.getMonth() &&
+          itemDate.getFullYear() === selectedDate.getFullYear()
+        );
+      });
+    }
+
+    if (filterCompleted !== undefined) {
+      updatedItems = updatedItems.filter(
+        (item) => item.completed === filterCompleted
       );
-    });
-  }
+    }
 
-  if (filterCompleted !== undefined) {
-    filteredItems = filteredItems.filter(
-      (item) => item.completed === filterCompleted
-    );
-  }
+    if (filterInverseDate) {
+      updatedItems = updatedItems.filter((item) => {
+        const itemDate = new Date(item.date);
+        const selectedDate = new Date(filterInverseDate);
 
-  if (filterInverseDate) {
-    filteredItems = filteredItems.filter((item) => {
-      const itemDate = new Date(item.date);
-      const selectedDate = new Date(filterInverseDate);
+        return (
+          itemDate.getDate() !== selectedDate.getDate() ||
+          itemDate.getMonth() !== selectedDate.getMonth() ||
+          itemDate.getFullYear() !== selectedDate.getFullYear()
+        );
+      });
+    }
 
-      return (
-        itemDate.getDate() !== selectedDate.getDate() ||
-        itemDate.getMonth() !== selectedDate.getMonth() ||
-        itemDate.getFullYear() !== selectedDate.getFullYear()
-      );
-    });
+    setFilteredItems(updatedItems);
+  }, [listViewItems, filterDate, filterInverseDate, filterCompleted]);
+
+  function handleTaskDelete(id: string) {
+    const url = `http://localhost:3000/api/sample/tasks/delete/${id}`;
+    const method = "DELETE";
+    const headers = {
+      "Content-Type": "application/json",
+    };
+
+    fetch(url, { method, headers })
+      .then((response) => response.json())
+      .then((data) => {
+        setFilteredItems((prevFilteredItems) =>
+          prevFilteredItems.filter((item) => item._id.toString() !== id)
+        );
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   }
 
   return (
     <div className="list-view-container">
       {(filteredItems.length === 0 && <NoItems name="task" />) ||
-        filteredItems.map((item) => <ListItem key={String(item._id)} item={item} />)}
+        filteredItems.map((item) => (
+          <ListItem
+            key={String(item._id)}
+            item={item}
+            handleTaskDelete={handleTaskDelete}
+          />
+        ))}
     </div>
   );
 }

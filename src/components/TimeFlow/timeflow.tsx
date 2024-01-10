@@ -26,19 +26,40 @@ const TimeFlow = () => {
 
   useEffect(() => {
     getLoginStatus();
+
+    // check which page is currently being viewed and set the selected index accordingly
+    const currentPath = window.location.pathname;
+    if (currentPath === "/add") {
+      setSelectedIndex(0);
+    } else if (currentPath === "/search") {
+      setSelectedIndex(1);
+    } else if (currentPath === "/inbox") {
+      setSelectedIndex(2);
+    } else if (currentPath === "/calendar") {
+      setSelectedIndex(3);
+    } else if (currentPath === "/tags") {
+      setSelectedIndex(4);
+    } else if (currentPath === "/account") {
+      setSelectedIndex(5);
+    }
   }, []);
 
   // State for Add modal
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
+  const [previousSelectedIndex, setPreviousSelectedIndex] = useState(2);
+
   // Open Add modal
   const openAddModal = () => {
+    setPreviousSelectedIndex(selectedIndex);
     setIsAddModalOpen(true);
+    setSelectedIndex(0);
   };
 
   // Close Add modal
   const closeAddModal = () => {
     setIsAddModalOpen(false);
+    setSelectedIndex(previousSelectedIndex);
   };
 
   // array of button data

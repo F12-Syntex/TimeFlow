@@ -6,13 +6,14 @@ import TodoItemWithTags from "express/src/types/TodoItemWithTags";
 import { Link } from "react-router-dom";
 interface ListItemProps {
   item: TodoItemWithTags | TodoItem;
+  handleTaskDelete: (id: string) => void;
 }
 
 interface ListItemTags {
   tag: TagItem;
 }
 
-const ListItem = ({ item }: ListItemProps) => {
+const ListItem = ({ item, handleTaskDelete }: ListItemProps) => {
   const [check, setCheck] = useState(item);
 
   const handleCheckboxClick = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,25 +37,23 @@ const ListItem = ({ item }: ListItemProps) => {
       });
 
     setCheck(updatedItem);
-
-    // send request to timeflow.tsx to update the list
   };
 
   const parseDate = (dateString: string): string => {
     const date = new Date(dateString);
-  
+
     const currentDate = new Date();
     const oneDay = 24 * 60 * 60 * 1000; // milliseconds in a day
-  
+
     // Check if the date is today
     if (
       date.getFullYear() === currentDate.getFullYear() &&
       date.getMonth() === currentDate.getMonth() &&
       date.getDate() === currentDate.getDate()
     ) {
-      return 'Today';
+      return "Today";
     }
-  
+
     // Check if the date is tomorrow
     const tomorrow = new Date(currentDate);
     tomorrow.setDate(currentDate.getDate() + 1);
@@ -63,9 +62,9 @@ const ListItem = ({ item }: ListItemProps) => {
       date.getMonth() === tomorrow.getMonth() &&
       date.getDate() === tomorrow.getDate()
     ) {
-      return 'Tomorrow';
+      return "Tomorrow";
     }
-  
+
     // Check if the date is within the next 7 days
     const nextWeek = new Date(currentDate);
     nextWeek.setDate(currentDate.getDate() + 7);
@@ -74,13 +73,13 @@ const ListItem = ({ item }: ListItemProps) => {
       date.getTime() > currentDate.getTime()
     ) {
       const dayOfWeek = [
-        'Sunday',
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday',
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
       ];
       return dayOfWeek[date.getDay()];
     } else if (date.getTime() < currentDate.getTime()) {
@@ -92,19 +91,19 @@ const ListItem = ({ item }: ListItemProps) => {
         date.getMonth() === yesterday.getMonth() &&
         date.getDate() === yesterday.getDate()
       ) {
-        return 'Yesterday';
+        return "Yesterday";
       }
       if (date.getFullYear() === currentDate.getFullYear()) {
-        const mm = String(date.getMonth() + 1).padStart(2, '0');
-        const dd = String(date.getDate()).padStart(2, '0');
+        const mm = String(date.getMonth() + 1).padStart(2, "0");
+        const dd = String(date.getDate()).padStart(2, "0");
         return `${mm}/${dd}`;
       }
     }
-  
+
     // Return the date as mm/dd/yyyy for dates outside the range
     const formattedDate = new Date(date);
-    const mm = String(formattedDate.getMonth() + 1).padStart(2, '0');
-    const dd = String(formattedDate.getDate()).padStart(2, '0');
+    const mm = String(formattedDate.getMonth() + 1).padStart(2, "0");
+    const dd = String(formattedDate.getDate()).padStart(2, "0");
     const yyyy = formattedDate.getFullYear();
     return `${mm}/${dd}/${yyyy}`;
   };
@@ -119,6 +118,10 @@ const ListItem = ({ item }: ListItemProps) => {
     // console.error("Error occurred while parsing labels:", error);
     labels = [];
   }
+
+  const deleteTask = (e: React.MouseEvent<HTMLButtonElement>) => {
+    handleTaskDelete(item._id.toString())
+  };
 
   return (
     <div className="list-view-item">
@@ -146,11 +149,18 @@ const ListItem = ({ item }: ListItemProps) => {
           <div className="list-view-item-description">{item.description}</div>
           <div className="list-view-item-labels">
             {labels.map((label) => (
-              <div key={label} className="list-view-item-label">{label}</div>
+              <div key={label} className="list-view-item-label">
+                {label}
+              </div>
             ))}
           </div>
         </div>
       </Link>
+      {/* </div> */}
+      <button
+        onClick={deleteTask}
+        className="bi bi-trash3-fill"
+      ></button>
     </div>
   );
 };

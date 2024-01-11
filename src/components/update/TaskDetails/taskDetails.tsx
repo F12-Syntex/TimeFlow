@@ -170,13 +170,25 @@ function TaskDetails({
           </div>
 
           <div className="add-task-form-item-row">
-            <button className="add-task-form-submit" onClick={saveTask}>
+            <button
+              className="add-task-form-item add-task-form-submit"
+              onClick={saveTask}
+              style={{ marginRight: "4px" }}
+            >
               Save
             </button>
-            <button className="add-task-form-submit" onClick={deleteTask}>
+            <button
+              className="add-task-form-item add-task-form-submit"
+              onClick={deleteTask}
+              style={{ marginRight: "4px", marginLeft: "4px" }}
+            >
               Delete
             </button>
-            <button className="add-task-form-submit" onClick={closeModal}>
+            <button
+              className="add-task-form-item add-task-form-submit"
+              onClick={closeModal}
+              style={{ marginLeft: "4px" }}
+            >
               Cancel
             </button>
           </div>

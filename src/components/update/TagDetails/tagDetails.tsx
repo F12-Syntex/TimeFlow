@@ -90,18 +90,27 @@ function TagDetails({
           <div className="add-task-form-item">
             <input type="text" id="name" name="title" placeholder="Title" />
           </div>
-          <div className="add-task-form-item">
-            <input type="hidden" id="id" name="id" />
-          </div>
 
           <div className="add-task-form-item-row">
-            <button className="add-task-form-submit" onClick={saveTag}>
+            <button
+              className="add-task-form-item add-task-form-submit"
+              onClick={saveTag}
+              style={{ marginRight: "4px" }}
+            >
               Save
             </button>
-            <button className="add-task-form-submit" onClick={deleteTag}>
+            <button
+              className="add-task-form-item add-task-form-submit"
+              onClick={deleteTag}
+              style={{ marginRight: "4px", marginLeft: "4px" }}
+            >
               Delete
             </button>
-            <button className="add-task-form-submit" onClick={closeModal}>
+            <button
+              className="add-task-form-item add-task-form-submit"
+              onClick={closeModal}
+              style={{ marginLeft: "4px" }}
+            >
               Cancel
             </button>
           </div>

@@ -4,7 +4,17 @@ import TagItem from "express/src/types/TagItem";
 import TodoItem from "express/src/types/TodoItem";
 import ListView from "../ListView/listview";
 
-function TagDetails({ id, deleteTag, closeModal }: { id: string, deleteTag: (e: React.MouseEvent<HTMLDivElement | HTMLButtonElement, MouseEvent>) => void, closeModal: () => void}) {
+function TagDetails({
+  id,
+  deleteTag,
+  closeModal,
+}: {
+  id: string;
+  deleteTag: (
+    e: React.MouseEvent<HTMLDivElement | HTMLButtonElement, MouseEvent>
+  ) => void;
+  closeModal: () => void;
+}) {
   const [tag, setTag] = useState<TagItem>({} as TagItem);
 
   function getTagDetails() {
@@ -21,7 +31,7 @@ function TagDetails({ id, deleteTag, closeModal }: { id: string, deleteTag: (e: 
         (document.getElementById("name") as HTMLInputElement).value =
           data["tag"].name;
         (document.getElementById("id") as HTMLInputElement).value =
-            data["tag"]._id.toString();
+          data["tag"]._id.toString();
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -33,13 +43,13 @@ function TagDetails({ id, deleteTag, closeModal }: { id: string, deleteTag: (e: 
     getTasks();
   }, []);
 
-//   fetch tasks with tag id
+  //   fetch tasks with tag id
   const getTasks = () => {
     fetch(`http://localhost:3000/api/sample/tags/${id}/tasks`)
       .then((response) => response.json())
       .then((data) => {
         if (Array.isArray(data.tasks)) {
-            setTaskList(data.tasks);
+          setTaskList(data.tasks);
         } else {
           console.error("Invalid data format for tasks");
         }
@@ -47,9 +57,9 @@ function TagDetails({ id, deleteTag, closeModal }: { id: string, deleteTag: (e: 
       .catch((error) => {
         console.error("Error fetching tasks:", error);
       });
-  }
+  };
 
-    const [taskList, setTaskList] = useState<TodoItem[]>([]);
+  const [taskList, setTaskList] = useState<TodoItem[]>([]);
 
   function saveTag() {
     const url = `http://localhost:3000/api/sample/tags/update/${id}`;
@@ -85,18 +95,19 @@ function TagDetails({ id, deleteTag, closeModal }: { id: string, deleteTag: (e: 
           </div>
 
           <div className="add-task-form-item-row">
-            <button className="add-task-form-submit" onClick={saveTag}>Save</button>
-            <button className="add-task-form-submit" onClick={deleteTag}>Delete</button>
-            <button
-              className="add-task-form-submit"
-              onClick={closeModal}
-            >
+            <button className="add-task-form-submit" onClick={saveTag}>
+              Save
+            </button>
+            <button className="add-task-form-submit" onClick={deleteTag}>
+              Delete
+            </button>
+            <button className="add-task-form-submit" onClick={closeModal}>
               Cancel
             </button>
           </div>
         </div>
         <PageHeader title="Related Tasks" editableView={false} />
-            <ListView listViewItems={taskList} />
+        <ListView listViewItems={taskList} />
         <div className="task-list"></div>
       </div>
     </div>

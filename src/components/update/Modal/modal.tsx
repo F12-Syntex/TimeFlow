@@ -1,10 +1,14 @@
-import { Children, useState } from "react";
+import React, { useState, useEffect } from "react";
 
-const Modal = ({ closeModal, children }: any) => {
-  const [closing, setClosing] = useState(false);
+const Modal = ({ closeModal, children, closing }: any) => {
+  const [closingContainer, setClosingContainer] = useState(false);
+
+  useEffect(() => {
+    setClosingContainer(closing);
+  }, [closing]);
 
   const handleCloseModal = () => {
-    setClosing(true);
+    setClosingContainer(true);
     setTimeout(() => {
       closeModal();
     }, 300);
@@ -18,15 +22,15 @@ const Modal = ({ closeModal, children }: any) => {
 
   return (
     <div
-      className={`modal-overlay ${closing ? "fade-out" : "fade-in"}`}
+      className={`modal-overlay ${closingContainer ? "fade-out" : "fade-in"}`}
       onClick={handleOverlayClick}
     >
-      <div className={`modal ${closing ? "fade-out" : "fade-in"}`}>
+      <div className={`modal ${closingContainer ? "fade-out" : "fade-in"}`}>
         <button className="modal-close" onClick={handleCloseModal}>
           <i className="bi bi-x"></i>
         </button>
         <div className="modal-content">
-            {children}
+          {children}
         </div>
       </div>
     </div>

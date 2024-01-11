@@ -124,11 +124,20 @@ const ListItem = ({ item, handleTaskDelete }: ListItemProps) => {
   };
 
   const [showModal, setShowModal] = useState(false);
+  const [closing, setClosing] = useState(false);
+
+  function closeModal() {
+    setClosing(true);
+    setTimeout(() => {
+      setShowModal(false);
+      setClosing(false);
+    }, 300);
+  }
 
   return (
     <>
-      {showModal && <Modal closeModal={() => setShowModal(false)}>
-        <TaskDetails id={String(item._id)} deleteTask={deleteTask} closeModal={() => setShowModal(false)} />
+      {showModal && <Modal closeModal={closeModal} closing={closing}>
+        <TaskDetails id={String(item._id)} deleteTask={deleteTask} closeModal={closeModal} />
       </Modal>}
       <div className="list-view-item">
         <div className="list-view-item-left">

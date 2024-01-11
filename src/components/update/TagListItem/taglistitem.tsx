@@ -13,6 +13,7 @@ interface ListItemProps {
 
 const ListItem = ({ item, handleTagDelete }: ListItemProps) => {
   const [showModal, setShowModal] = useState(false);
+  const [closing, setClosing] = useState(false);
 
   function deleteTag(
     e: React.MouseEvent<HTMLDivElement | HTMLButtonElement, MouseEvent>
@@ -22,14 +23,22 @@ const ListItem = ({ item, handleTagDelete }: ListItemProps) => {
     handleTagDelete(item._id.toString());
   }
 
+  function closeModal() {
+    setClosing(true);
+    setTimeout(() => {
+      setShowModal(false);
+      setClosing(false);
+    }, 300);
+  }
+
   return (
     <>
       {showModal && (
-        <Modal closeModal={() => setShowModal(false)}>
+        <Modal closeModal={closeModal} closing={closing}>
           <TagDetails
             id={String(item._id)}
             deleteTag={deleteTag}
-            closeModal={() => setShowModal(false)}
+            closeModal={closeModal}
           />
         </Modal>
       )}

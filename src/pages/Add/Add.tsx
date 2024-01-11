@@ -94,8 +94,6 @@ function App({
       _id: new ObjectId(),
     };
 
-    console.log(task);
-
     fetch("http://localhost:3000/api/sample/tasks/add", {
       method: "POST",
       headers: {

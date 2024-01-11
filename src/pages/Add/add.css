@@ -1,190 +1,191 @@
 .add-task-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: calc(100% - 64px);
-    padding-bottom: 16px;
-    padding-top: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: calc(100% - 64px);
+  padding-bottom: 16px;
+  padding-top: 24px;
+  border-radius: 16px;
+  /* background-color: rgba(255, 255, 255, 0.05); */
+  /* background-color: transparent; */
+  background-color: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.add-task-form-item-row {
+  display: flex;
+  flex-direction: row;
+  align-items: space-between;
+  justify-content: center;
+  width: calc(100% - 52px);
+
+  input {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  input:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  select,
+  select#labels,
+  select#priority {
+    background-color: rgba(255, 255, 255, 0.05);
     border-radius: 16px;
-    /* background-color: rgba(255, 255, 255, 0.05); */
-    /* background-color: transparent; */
-    background-color: rgba(255, 255, 255, 0.025);
+    height: 42px;
+    padding-left: 16px;
+    outline: none;
     border: 1px solid rgba(255, 255, 255, 0.08);
   }
 
-  .add-task-form-item-row {
-    display: flex;
-    flex-direction: row;
-    align-items: space-between;
-    justify-content: center;
-    width: calc(100% - 52px);
-
-    input {
-        background-color: rgba(255, 255, 255, 0.05);
-    }
-
-    input:hover {
-        background-color: rgba(255, 255, 255, 0.1);
-    }
-
-    select {
-        background-color: rgba(255, 255, 255, 0.05);
-        border-radius: 16px;
-        border: none;
-        height: 40px;
-        padding-left: 16px;
-        padding-right: 16px;
-        outline: none; 
-        border: none;
-    }
-
-    select:hover {
-        background-color: rgba(255, 255, 255, 0.1);
-    }
+  select:hover,
+  select#labels:hover,
+  select#priority:hover,
+  button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
   }
-  
-  .add-task-form-item-top {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 10px;
-    input {
-        background-color: rgba(255, 255, 255, 0.05);
-        width: calc(100%);
-    }
+}
 
-    input:hover {
-        background-color: rgba(255, 255, 255, 0.1);
-    }
-
-    select {
-        background-color: rgba(255, 255, 255, 0.05);
-        border-radius: 16px;
-        border: none;
-        height: 40px;
-        outline: none; 
-        border: none;
-    }
-
-    select:hover {
-        background-color: rgba(255, 255, 255, 0.1);
-    }
-  }
-  .add-task-form-item {
-    margin-bottom: 10px; /* Adjust spacing between form items */
-    width: calc(100% - 52px);
-    input {
-        background-color: rgba(255, 255, 255, 0.05);
-        width: calc(100% - 40px);
-    }
-
-    input:hover {
-        background-color: rgba(255, 255, 255, 0.1);
-    }
-
-    select {
-        background-color: rgba(255, 255, 255, 0.05);
-        width: calc(100% - 8px);
-        border-radius: 16px;
-        border: none;
-        height: 40px;
-        padding-left: 16px;
-        padding-right: 16px;
-        outline: none; 
-        border: none;
-    }
-
-    select:hover {
-        background-color: rgba(255, 255, 255, 0.1);
-    }
-  }
-
-  .date {
-    margin-right: 8px;
-  }
-  
-  .add-task-form-submit {
+.add-task-form-item-top {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  input {
     background-color: rgba(255, 255, 255, 0.05);
     width: calc(100%);
   }
 
-  .add-task-form-submit:hover {
+  input:hover {
     background-color: rgba(255, 255, 255, 0.1);
   }
 
-  .dropdown {
-    position: relative;
-    display: inline-block;
+  select {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    height: 40px;
+    outline: none;
+    border: none;
   }
 
-  /* light mode */
-  @media (prefers-color-scheme: light) {
-    .add-task-form {
-      background-color: rgba(0, 0, 0, 0.025);
-    }
-
-    .add-task-form {
-      background-color: rgb(0, 0, 0, 0.025);
-      border: 1px solid rgba(0, 0, 0, 0.08);
+  select:hover {
+    background-color: rgba(255, 255, 255, 0.1);
   }
-  
-    .add-task-form-item-row {
-      input {
-          background-color: rgba(0, 0, 0, 0.05);
-      }
-  
-      input:hover {
-          background-color: rgb(255, 255, 255);
-      }
-  
-      select {
-          background-color: rgba(0, 0, 0, 0.05);
-      }
-  
-      select:hover {
-          background-color: rgb(255, 255, 255);
-      }
-    }
-    
-    .add-task-form-item-top {
-      input {
-          background-color: rgba(0, 0, 0, 0.05);
-      }
-  
-      input:hover {
-        background-color: rgb(255, 255, 255);
-      }
-  
-      select {
-          background-color: rgba(0, 0, 0, 0.05);
-      }
-  
-      select:hover {
-        background-color: rgb(255, 255, 255);
-      }
-    }
-  
-    .add-task-form-item {
-      input {
-          background-color: rgba(0, 0, 0, 0.05);
-      }
-  
-      input:hover {
-        background-color: rgb(255, 255, 255);
-      }
-  
-      select {
-          background-color: rgba(0, 0, 0, 0.05);
-      }
-  
-      select:hover {
-        background-color: rgb(255, 255, 255);
-      }
-    }
-  
-    .add-task-form-submit {
+}
+.add-task-form-item {
+  margin-bottom: 10px; /* Adjust spacing between form items */
+  width: calc(100% - 52px);
+  input {
+    background-color: rgba(255, 255, 255, 0.05);
+    width: calc(100% - 40px);
+  }
+
+  input:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  select {
+    background-color: rgba(255, 255, 255, 0.05);
+    width: calc(100% - 8px);
+    border-radius: 16px;
+    height: 40px;
+    padding-left: 16px;
+    padding-right: 16px;
+    outline: none;
+    border: none;
+  }
+
+  select:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.date {
+  margin-right: 8px;
+}
+
+.add-task-form-submit {
+  background-color: rgba(255, 255, 255, 0.05);
+  width: calc(100%);
+}
+
+.add-task-form-submit:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* light mode */
+@media (prefers-color-scheme: light) {
+  .add-task-form {
+    background-color: rgba(0, 0, 0, 0.025);
+  }
+
+  .add-task-form {
+    background-color: rgb(0, 0, 0, 0.025);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  .add-task-form-item-row {
+    input {
       background-color: rgba(0, 0, 0, 0.05);
     }
+
+    input:hover {
+      background-color: rgb(255, 255, 255);
+    }
+
+    select {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    select:hover {
+      background-color: rgb(255, 255, 255);
+    }
   }
+
+  .add-task-form-item-top {
+    input {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    input:hover {
+      background-color: rgb(255, 255, 255);
+    }
+
+    select {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    select:hover {
+      background-color: rgb(255, 255, 255);
+    }
+  }
+
+  .add-task-form-item {
+    input {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    input:hover {
+      background-color: rgb(255, 255, 255);
+    }
+
+    select {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    select:hover {
+      background-color: rgb(255, 255, 255);
+    }
+  }
+
+  .add-task-form-submit {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+}

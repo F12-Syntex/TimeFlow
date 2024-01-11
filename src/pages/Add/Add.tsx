@@ -16,7 +16,6 @@ function App({
   closeModal: () => void;
   type: string;
 }) {
-
   const navigate = useNavigate();
 
   // get user from cookie
@@ -94,6 +93,8 @@ function App({
       completed: false,
       _id: new ObjectId(),
     };
+
+    console.log(task);
 
     fetch("http://localhost:3000/api/sample/tasks/add", {
       method: "POST",

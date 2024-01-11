@@ -14,7 +14,9 @@ interface ListItemProps {
 const ListItem = ({ item, handleTagDelete }: ListItemProps) => {
   const [showModal, setShowModal] = useState(false);
 
-  function deleteTag(e: React.MouseEvent<HTMLDivElement | HTMLButtonElement, MouseEvent>) {
+  function deleteTag(
+    e: React.MouseEvent<HTMLDivElement | HTMLButtonElement, MouseEvent>
+  ) {
     e.preventDefault();
     setShowModal(false);
     handleTagDelete(item._id.toString());
@@ -24,8 +26,11 @@ const ListItem = ({ item, handleTagDelete }: ListItemProps) => {
     <>
       {showModal && (
         <Modal closeModal={() => setShowModal(false)}>
-          {/* tag details with url id */}
-          <TagDetails id={String(item._id)} deleteTag={deleteTag} closeModal={() => setShowModal(false)} />
+          <TagDetails
+            id={String(item._id)}
+            deleteTag={deleteTag}
+            closeModal={() => setShowModal(false)}
+          />
         </Modal>
       )}
       <div

@@ -65,7 +65,6 @@ async function createWindow() {
     show: false,
     frame: false,
     hasShadow: true,
-    titleBarOverlay: true,
     titleBarStyle: "hiddenInset",
     // vibrancy: "sidebar",
     roundedCorners: true,
@@ -252,7 +251,10 @@ expressApp.post(
         date: req.body.date,
         priority: req.body.priority,
         completed: req.body.completed,
-        labels: [new ObjectId(req.body.labels[0])],
+        labels:
+          req.body.labels.length === 0
+            ? []
+            : [new ObjectId(req.body.labels[0])],
         _id: new ObjectId(),
       };
 
@@ -343,15 +345,11 @@ expressApp.patch(
         name: req.body.name,
       };
 
-      console.log("updateData:", updateData);
-
       // Perform the update using $set to update specific fields
       let result = await tagsCollection.updateOne(
         { $and: [{ _id: new ObjectId(tagId) }, { user: userObjectId }] },
         { $set: updateData }
       );
-
-      console.log("result:", result);
 
       res.json({ message: "Tag updated successfully" });
     } catch (error) {
@@ -445,23 +443,20 @@ expressApp.get(
         })
         .toArray();
 
-        console.log("tasks:", tasks);
+      const filteredTasks = tasks.filter((task) => {
+        if (task.labels.length > 0) {
+          return task.labels.some((label: ObjectId) => {
+            // Assuming new ObjectId(req.params.id) is the instance of ObjectId you want to compare
+            const labelId = new ObjectId(label);
+            const requestId = new ObjectId(req.params.id);
+            return labelId.equals(requestId);
+          });
+        } else {
+          return false;
+        }
+      });
 
-        const filteredTasks = tasks.filter((task) => {
-          if (task.labels.length > 0) {
-            return task.labels.some((label: ObjectId) => {
-              // Assuming new ObjectId(req.params.id) is the instance of ObjectId you want to compare
-              const labelId = new ObjectId(label);
-              const requestId = new ObjectId(req.params.id);
-              return labelId.equals(requestId);
-            });
-          } else {
-            return false;
-          }
-        });
-        
-        res.json({ tasks: filteredTasks });
-        
+      res.json({ tasks: filteredTasks });
     } catch (error) {
       console.error("Error fetching tasks:", error);
       res.status(500).json({ error: "Error fetching tasks" });

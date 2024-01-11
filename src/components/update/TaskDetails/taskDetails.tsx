@@ -2,8 +2,19 @@ import React, { useEffect, useState } from "react";
 import PageHeader from "../PageHeader/pageheader";
 import TodoItem from "express/src/types/TodoItem";
 import TagItem from "express/src/types/TagItem";
+import "@/components/update/TaskDetails/taskDetails.css";
 
-function TaskDetails({ id, deleteTask, closeModal }: { id: string, deleteTask: (e: React.MouseEvent<HTMLDivElement | HTMLButtonElement, MouseEvent>) => void, closeModal: () => void}) {
+function TaskDetails({
+  id,
+  deleteTask,
+  closeModal,
+}: {
+  id: string;
+  deleteTask: (
+    e: React.MouseEvent<HTMLDivElement | HTMLButtonElement, MouseEvent>
+  ) => void;
+  closeModal: () => void;
+}) {
   const [task, setTask] = useState<TodoItem>({} as TodoItem);
 
   function formatDate(date: Date): string {
@@ -24,7 +35,6 @@ function TaskDetails({ id, deleteTask, closeModal }: { id: string, deleteTask: (
     fetch(url, { method, headers })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data["task"].labels.toString());
         setTask(data["task"]);
         (document.getElementById("title") as HTMLInputElement).value =
           data["task"].title;
@@ -32,15 +42,14 @@ function TaskDetails({ id, deleteTask, closeModal }: { id: string, deleteTask: (
           data["task"].description;
         (document.getElementById("labels") as HTMLInputElement).value =
           data["task"].labels.toString();
-        if (data["task"].labels.toString() === "") {
+        if (data["task"].labels.toString() == "") {
           (document.getElementById("labels") as HTMLInputElement).value =
             "none";
         }
-        // get the tag name from the id in later version
         (document.getElementById("date") as HTMLInputElement).value =
           formatDate(data["task"].date);
         (document.getElementById("priority") as HTMLInputElement).value =
-          data["task"].priority.toString();
+          String(data["task"].priority);
         (document.getElementById("completed") as HTMLInputElement).checked =
           data["task"].completed;
         (document.getElementById("id") as HTMLInputElement).value =
@@ -84,17 +93,15 @@ function TaskDetails({ id, deleteTask, closeModal }: { id: string, deleteTask: (
     const method = "PATCH";
     const body = JSON.stringify({
       title: (document.getElementById("title") as HTMLInputElement).value,
-      description: (document.getElementById(
-        "description"
-      ) as HTMLInputElement).value,
+      description: (document.getElementById("description") as HTMLInputElement)
+        .value,
       labels: (document.getElementById("labels") as HTMLInputElement).value,
       date: (document.getElementById("date") as HTMLInputElement).value,
       priority: parseInt(
         (document.getElementById("priority") as HTMLInputElement).value
       ),
-      completed: (document.getElementById(
-        "completed"
-      ) as HTMLInputElement).checked,
+      completed: (document.getElementById("completed") as HTMLInputElement)
+        .checked,
     });
     const headers = {
       "Content-Type": "application/json",
@@ -163,12 +170,13 @@ function TaskDetails({ id, deleteTask, closeModal }: { id: string, deleteTask: (
           </div>
 
           <div className="add-task-form-item-row">
-          <button className="add-task-form-submit" onClick={saveTask}>Save</button>
-            <button className="add-task-form-submit" onClick={deleteTask}>Delete</button>
-            <button
-              className="add-task-form-submit"
-              onClick={closeModal}
-            >
+            <button className="add-task-form-submit" onClick={saveTask}>
+              Save
+            </button>
+            <button className="add-task-form-submit" onClick={deleteTask}>
+              Delete
+            </button>
+            <button className="add-task-form-submit" onClick={closeModal}>
               Cancel
             </button>
           </div>

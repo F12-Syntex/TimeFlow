@@ -1,0 +1,6 @@
+select,
+select#labels,
+select#priority {
+  height: 42px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}

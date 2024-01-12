@@ -7,10 +7,6 @@
 
 # Back End
 
-- [ ] Task CRUD
 - [ ] Project CRUD
-- [ ] Tag CRUD 
 - [ ] Colaboration
 - [ ] Notifications
-- [ ] Search after every character
-- [ ] Fix light mode

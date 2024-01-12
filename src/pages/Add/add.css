@@ -29,12 +29,10 @@
   }
 
   select,
-  select#labels,
-  select#priority {
+  select#labels {
     background-color: rgba(255, 255, 255, 0.05);
     border-radius: 16px;
-    height: 42px;
-    padding-left: 16px;
+    height: 40px;
     outline: none;
     border: 1px solid rgba(255, 255, 255, 0.08);
     transition: 0.25s;
@@ -42,11 +40,11 @@
 
   select:hover,
   select#labels:hover,
-  select#priority:hover,
   button:hover {
     background-color: rgba(255, 255, 255, 0.1);
     transition: 0.25s;
   }
+  grid-gap: 8px;
 }
 
 .add-task-form-item-top {
@@ -90,7 +88,7 @@
 
   select {
     background-color: rgba(255, 255, 255, 0.05);
-    width: calc(100% - 8px);
+    width: 100%;
     border-radius: 16px;
     height: 40px;
     padding-left: 16px;
@@ -102,10 +100,6 @@
   select:hover {
     background-color: rgba(255, 255, 255, 0.1);
   }
-}
-
-.date {
-  margin-right: 8px;
 }
 
 .add-task-form-submit {

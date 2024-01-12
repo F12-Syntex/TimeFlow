@@ -30,8 +30,6 @@ function TagDetails({
         setTag(data["tag"]);
         (document.getElementById("name") as HTMLInputElement).value =
           data["tag"].name;
-        (document.getElementById("id") as HTMLInputElement).value =
-          data["tag"]._id.toString();
       })
       .catch((error) => {
         console.error("Error:", error);

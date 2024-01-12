@@ -207,7 +207,7 @@ function App({
                 />
               </div>
               <div className="add-task-form-item-row">
-                <div className="add-task-form-item date">
+                <div className="add-task-form-item">
                   <input
                     type="date"
                     id="date"
@@ -217,14 +217,15 @@ function App({
                   />
                 </div>
                 <div className="add-task-form-item">
-                  <select id="priority" name="priority" defaultValue="priority">
-                    <option value="priority" disabled>
-                      Priority
-                    </option>
-                    <option value="high">High</option>
-                    <option value="normal">Normal</option>
-                    <option value="low">Low</option>
-                  </select>
+                  <input
+                    id="priority"
+                    name="priority"
+                    placeholder="Priority"
+                    defaultValue="0"
+                    min="0"
+                    max="100"
+                    type="number"
+                  />
                 </div>
                 <div className="add-task-form-item">
                   <select id="labels" name="labels" defaultValue="none">
@@ -264,37 +265,6 @@ function App({
               <div className="add-task-form-item">
                 <button className="add-task-form-submit" onClick={addTag}>
                   Add Tag
-                </button>
-              </div>
-            </div>
-          </>
-        ) : null}
-
-        {type === "priority" || type === "all" ? (
-          <>
-            <PageHeader title="Add Priority" editableView={false} />
-            <div className="add-task-form">
-              <div className="add-task-form-item">
-                <input
-                  type="text"
-                  id="priority-name"
-                  name="name"
-                  placeholder="Name"
-                />
-              </div>
-              <div className="add-task-form-item">
-                <input
-                  type="number"
-                  id="priority-value"
-                  name="value"
-                  placeholder="Value"
-                  min="0"
-                  max="100"
-                />
-              </div>
-              <div className="add-task-form-item">
-                <button className="add-task-form-submit" onClick={addTag}>
-                  Add Priority
                 </button>
               </div>
             </div>

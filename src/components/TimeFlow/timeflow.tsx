@@ -5,7 +5,6 @@ import "../../pages/pages.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Inbox from "../../pages/Inbox/Inbox";
 import Search from "../../pages/Search/Search";
-import Add from "../../pages/Add/Add";
 import Calendar from "../../pages/Calendar/Calendar";
 import Tags from "../../pages/Tags/Tags";
 import Account from "../../pages/Account/Account";
@@ -13,6 +12,7 @@ import RegisterPage from "../../pages/Register/register";
 import ForgotPasswordPage from "../../pages/ForgotPassword/forgotPassword";
 import useFetchTaskList from "../../components/Functions/FetchTaskList/fetchTaskList";
 import AddModal from "../../components/update/AddModal/addmodal";
+import LoginPage from "../../pages/Login/login";
 
 const TimeFlow = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -43,8 +43,6 @@ const TimeFlow = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   const [previousSelectedIndex, setPreviousSelectedIndex] = useState(2);
-
-  // on change of either
 
   // Open Add modal
   function openAddModal() {
@@ -154,7 +152,7 @@ const TimeFlow = () => {
     return (
       <Router>
         <Routes>
-          <Route path="/" element={<Account />} key={5} />
+          <Route path="/" element={<LoginPage />} key={5} />
           <Route path="/account" element={<Account />} key={5} />
           <Route path="/register" element={<RegisterPage />} key={5} />
           <Route

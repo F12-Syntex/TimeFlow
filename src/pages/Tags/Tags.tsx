@@ -13,9 +13,6 @@ function App() {
       <div className="page-content">
         <PageHeader title="Tags" editableView={true} />
         <TagListView />
-        <PageHeader title="Priorities" editableView={false} />
-        {/* <TagListView /> */}
-        <NoItems name="Priority" />
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 .sidebar {
-  width: 64px;
+  width: 63px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -8,6 +8,7 @@
   height: 100%;
   overflow: hidden;
   background-color: #121212;
+  border-right: 1px solid #1f1f1f;
 }
 
 .sidebar-buttons {
@@ -41,7 +42,7 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  border: none;
+  border: none !important;
   border-radius: 50%;
   /* border-radius: 32px; */
   margin-bottom: 1rem;
@@ -57,6 +58,9 @@
     border-radius: 45%;
     /* border-radius: 24px; */
     outline: none;
+    scale: 1.001;
+    box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.2);
+    transition: all 0.25s;
   }
 }
 
@@ -116,6 +120,7 @@ a {
 @media (prefers-color-scheme: light) {
   .sidebar {
     background-color: #f9f9f9;
+    border-right: 1px solid #f3f3f3;
   }
 
   .sidebar-button,
@@ -134,7 +139,7 @@ a {
     background-color: rgb(218, 101, 101);
 
     &:hover {
-      background-color: rgb(127, 78, 77);
+      background-color: rgba(127, 78, 78, 0.8);
     }
 
     &:active,
@@ -144,14 +149,14 @@ a {
 
     &.sidebar-add-selected {
       &:hover {
-        background-color: rgb(187, 81, 81);
+        background-color: rgba(127, 78, 78, 0.8);
       }
     }
   }
 
   .sidebar-button {
     &:hover {
-      background-color: rgb(179, 210, 229);
+      background-color: rgba(67, 149, 197, 0.8);
     }
 
     &:active,
@@ -161,20 +166,20 @@ a {
   }
 
   .sidebar-selected {
-    background-color: rgb(53, 142, 195);
+    background-color: rgba(53, 142, 195);
 
     &:hover {
-      background-color: rgb(179, 210, 229);
+      background-color: rgba(53, 142, 195, 0.8);
     }
 
     &:active,
     &:focus {
-      background-color: rgb(64, 108, 133);
+      background-color: rgb(53, 142, 195);
     }
 
     &.sidebar-selected {
       &:hover {
-        background-color: rgb(40, 74, 94);
+        background-color: rgba(53, 142, 195, 0.8);
       }
     }
   }
@@ -187,10 +192,16 @@ a {
   }
 
   .sidebar-button:hover {
-    background-color: rgb(106, 146, 169);
+    background-color: rgb(105, 146, 170);
   }
 
   a:hover {
     color: white;
+  }
+
+  :focus {
+    .bi {
+      color: white;
+    }
   }
 }

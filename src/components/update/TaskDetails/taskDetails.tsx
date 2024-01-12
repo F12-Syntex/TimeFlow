@@ -52,8 +52,6 @@ function TaskDetails({
           String(data["task"].priority);
         (document.getElementById("completed") as HTMLInputElement).checked =
           data["task"].completed;
-        (document.getElementById("id") as HTMLInputElement).value =
-          data["task"]._id;
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -148,14 +146,15 @@ function TaskDetails({
             <input type="date" id="date" name="date" placeholder="Date" />
           </div>
           <div className="add-task-form-item">
-            <select id="priority" name="priority" defaultValue="priority">
-              <option value="priority" disabled>
-                Priority
-              </option>
-              <option value="high">High</option>
-              <option value="normal">Normal</option>
-              <option value="low">Low</option>
-            </select>
+            <input
+              id="priority"
+              name="priority"
+              placeholder="Priority"
+              defaultValue="0"
+              min="0"
+              max="100"
+              type="number"
+            />
           </div>
           <div className="add-task-form-item">
             <input
@@ -165,29 +164,23 @@ function TaskDetails({
               placeholder="Completed"
             />
           </div>
-          <div className="add-task-form-item">
-            <input type="hidden" id="id" name="id" />
-          </div>
 
           <div className="add-task-form-item-row">
             <button
               className="add-task-form-item add-task-form-submit"
               onClick={saveTask}
-              style={{ marginRight: "4px" }}
             >
               Save
             </button>
             <button
               className="add-task-form-item add-task-form-submit"
               onClick={deleteTask}
-              style={{ marginRight: "4px", marginLeft: "4px" }}
             >
               Delete
             </button>
             <button
               className="add-task-form-item add-task-form-submit"
               onClick={closeModal}
-              style={{ marginLeft: "4px" }}
             >
               Cancel
             </button>

@@ -21,7 +21,7 @@
 
 @media (max-width: 1024px) {
   .list-view-item {
-    width: calc(100vw - 96px - 90px);
+    width: calc(100vw - 96px - 82px);
   }
 }
 

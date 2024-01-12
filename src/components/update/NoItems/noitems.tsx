@@ -24,7 +24,6 @@ function NoItems(props: { name: string }) {
 
   return (
     <>
-      {/* <Link to="/add" style={{ textDecoration: "none" }}> */}
       {showModal && (
         <AddModal
           closeModal={closeModal}
@@ -50,7 +49,6 @@ function NoItems(props: { name: string }) {
           </div>
         </div>
       </div>
-      {/* // </Link> */}
     </>
   );
 }

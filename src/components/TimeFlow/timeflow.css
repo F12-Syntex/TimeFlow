@@ -67,7 +67,8 @@
 .sidebar-button {
   background-color: rgb(24, 24, 24);
 
-  &:hover {
+  &:hover,
+  &:focus {
     background-color: rgb(29, 38, 52);
   }
 
@@ -75,12 +76,15 @@
     &:hover {
       background-color: rgba(0, 115, 255, 0.8);
     }
+    &:focus {
+      background-color: rgb(0, 115, 255);
+    }
   }
 
-  &:active,
-  &:focus {
+  &:active {
     background-color: rgb(0, 115, 255);
   }
+
 }
 
 .sidebar-add {
@@ -90,12 +94,12 @@
     font-size: 1.8rem;
   }
 
-  &:hover {
-    background-color: rgba(148, 63, 60, 0.8);
+  &:hover,
+  &:focus {
+    background-color: rgba(148, 63, 60, 0.8) !important;
   }
 
-  &:active,
-  &:focus {
+  &:active {
     background-color: rgb(148, 63, 60);
   }
 }

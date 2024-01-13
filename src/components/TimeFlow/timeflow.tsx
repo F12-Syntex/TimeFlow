@@ -1,5 +1,10 @@
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  Link,
+  useNavigate,
+} from "react-router-dom";
 import "./timeflow.css";
 import "../../pages/pages.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -15,6 +20,8 @@ import AddModal from "../../components/update/AddModal/addmodal";
 import LoginPage from "../../pages/Login/login";
 
 const TimeFlow = () => {
+  const navigate = useNavigate();
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const [selectedIndex, setSelectedIndex] = useState(2);
@@ -148,111 +155,161 @@ const TimeFlow = () => {
       });
   }
 
+  // control or cmd n to open add modal
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.ctrlKey || event.metaKey) {
+        if (event.key === "n") {
+          openAddModal();
+        }
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
+  // control or cmd f to open search
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.ctrlKey || event.metaKey) {
+        if (event.key === "f") {
+          setSelectedIndex(1);
+          navigate("/search");
+        }
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [navigator, selectedIndex]);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "1") {
+        if (isAddModalOpen) {
+          closeAddModal();
+          setSelectedIndex(previousSelectedIndex);
+        } else {
+          setPreviousSelectedIndex(selectedIndex);
+          openAddModal();
+          setSelectedIndex(0);
+        }
+      } else if (event.key === "2") {
+        setSelectedIndex(1);
+        navigate("/search");
+      } else if (event.key === "3") {
+        setSelectedIndex(2);
+        navigate("/inbox");
+      } else if (event.key === "4") {
+        setSelectedIndex(3);
+        navigate("/calendar");
+      } else if (event.key === "5") {
+        setSelectedIndex(4);
+        navigate("/tags");
+      } else if (event.key === "6") {
+        setSelectedIndex(5);
+        navigate("/account");
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [navigator, selectedIndex]);
+
+
   if (!isLoggedIn) {
     return (
-      <Router>
-        <Routes>
-          <Route path="/" element={<LoginPage />} key={5} />
-          <Route path="/account" element={<Account />} key={5} />
-          <Route path="/register" element={<RegisterPage />} key={5} />
-          <Route
-            path="/forgotPassword"
-            element={<ForgotPasswordPage />}
-            key={5}
-          />
-          {buttonData.map((button, index) => (
-            <Route key={index} path={button.path} element={button.component} />
-          ))}
-        </Routes>
-      </Router>
+      <Routes>
+        <Route path="/" element={<LoginPage />} key={5} />
+        <Route path="/account" element={<Account />} key={5} />
+        <Route path="/register" element={<RegisterPage />} key={5} />
+        <Route
+          path="/forgotPassword"
+          element={<ForgotPasswordPage />}
+          key={5}
+        />
+        {buttonData.map((button, index) => (
+          <Route key={index} path={button.path} element={button.component} />
+        ))}
+      </Routes>
     );
   }
 
   return (
-    <Router>
-      <div className="main-container">
-        <div className="sidebar">
-          <div className="sidebar-buttons sidebar-top">
-            {/* Render sidebar buttons */}
-            {buttonData.map((button, index) => (
-              <div key={index}>
-                {/* For "Add" button, open modal; for other buttons, handle navigation */}
-                {index === 0 ? (
-                  <button
-                    className={getButtonClassName(
-                      index,
-                      index === selectedIndex
-                    )}
-                    onClick={openAddModal}
-                  >
-                    <i
-                      className={getIconClassName(
-                        index,
-                        index === selectedIndex
-                      )}
-                    ></i>
-                  </button>
-                ) : (
-                  <Link
-                    to={button.path}
-                    className={getButtonClassName(
-                      index,
-                      index === selectedIndex
-                    )}
-                    onClick={() => setSelectedIndex(index)}
-                  >
-                    <i
-                      className={getIconClassName(
-                        index,
-                        index === selectedIndex
-                      )}
-                    ></i>
-                  </Link>
-                )}
-              </div>
-            ))}
-          </div>
-          <div className="sidebar-bottom">{handlePersonButtonClick()}</div>
-        </div>
-        {isAddModalOpen && (
-          <AddModal
-            modal={isAddModalOpen}
-            closeModal={closeAddModal}
-            type="all"
-          />
-        )}
-
-        <Routes>
-          {/* Add route for Account/Login/Register/Forgot Password */}
-          <Route path="/login" element={<Account />} key="login" />
-          <Route path="/account" element={<Account />} key="account" />
-          <Route path="/register" element={<RegisterPage />} key="register" />
-          <Route
-            path="/forgotPassword"
-            element={<ForgotPasswordPage />}
-            key="forgotPassword"
-          />
-
-          {/* default page inbox */}
-          <Route path="/" element={<Inbox listViewItems={todoList} />} />
-
-          {/* Add routes for other main sections */}
-          <Route path="/inbox/*" element={<Inbox listViewItems={todoList} />} />
-
-          {/* Add routes for Add/Search/Calendar/Tags */}
+    <div className="main-container">
+      <div className="sidebar">
+        <div className="sidebar-buttons sidebar-top">
+          {/* Render sidebar buttons */}
           {buttonData.map((button, index) => (
-            <Route
-              key={button.path}
-              path={button.path}
-              element={button.component}
-            />
+            <div key={index}>
+              {/* For "Add" button, open modal; for other buttons, handle navigation */}
+              {index === 0 ? (
+                <button
+                  className={getButtonClassName(index, index === selectedIndex)}
+                  onClick={openAddModal}
+                >
+                  <i
+                    className={getIconClassName(index, index === selectedIndex)}
+                  ></i>
+                </button>
+              ) : (
+                <Link
+                  to={button.path}
+                  className={getButtonClassName(index, index === selectedIndex)}
+                  onClick={() => setSelectedIndex(index)}
+                >
+                  <i
+                    className={getIconClassName(index, index === selectedIndex)}
+                  ></i>
+                </Link>
+              )}
+            </div>
           ))}
-
-          {/* Catch-all route (should be at the end) */}
-          <Route path="/*" element={<Inbox listViewItems={todoList} />} />
-        </Routes>
+        </div>
+        <div className="sidebar-bottom">{handlePersonButtonClick()}</div>
       </div>
-    </Router>
+      {isAddModalOpen && (
+        <AddModal
+          modal={isAddModalOpen}
+          closeModal={closeAddModal}
+          type="all"
+        />
+      )}
+
+      <Routes>
+        {/* Add route for Account/Login/Register/Forgot Password */}
+        <Route path="/login" element={<Account />} key="login" />
+        <Route path="/account" element={<Account />} key="account" />
+        <Route path="/register" element={<RegisterPage />} key="register" />
+        <Route
+          path="/forgotPassword"
+          element={<ForgotPasswordPage />}
+          key="forgotPassword"
+        />
+
+        {/* default page inbox */}
+        <Route path="/" element={<Inbox listViewItems={todoList} />} />
+
+        {/* Add routes for other main sections */}
+        <Route path="/inbox/*" element={<Inbox listViewItems={todoList} />} />
+
+        {/* Add routes for Add/Search/Calendar/Tags */}
+        {buttonData.map((button, index) => (
+          <Route
+            key={button.path}
+            path={button.path}
+            element={button.component}
+          />
+        ))}
+
+        {/* Catch-all route (should be at the end) */}
+        <Route path="/*" element={<Inbox listViewItems={todoList} />} />
+      </Routes>
+    </div>
   );
 };
 

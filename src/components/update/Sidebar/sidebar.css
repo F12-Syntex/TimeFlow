@@ -39,18 +39,18 @@
 }
 
 .sidebar-add {
-    background-color: rgba(148, 63, 60, 0.6);
+    background-color: rgba(148, 63, 60, 0.6) !important;
 
     &:hover {
-        background-color: rgba(148, 63, 60, 0.8);
+        background-color: rgba(148, 63, 60, 0.8) !important;
     }
 
     &:active {
-        background-color: rgb(148, 63, 60);
+        background-color: rgb(148, 63, 60) !important;
     }
 
     &:focus {
-        background-color: rgb(148, 63, 60);
+        background-color: rgb(148, 63, 60) !important;
     }
 }
 
@@ -60,6 +60,6 @@
 }
 
 .sidebar-add-selected {
-    background-color: rgb(148, 63, 60);
+    background-color: rgb(148, 63, 60) !important;
     border-radius: 45%;
 }

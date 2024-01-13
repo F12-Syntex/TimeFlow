@@ -14,12 +14,10 @@ function Inbox({ listViewItems }: { listViewItems: TodoItemWithTags[] }) {
 
   return (
     <div className="main-page-container">
-      <div className="page-content">
         <PageHeader title="Today" editableView={true} />
         <ListView listViewItems={todoList || listViewItems} filterDate={filterDate} />
         <PageHeader title="Inbox" editableView={false} />
         <ListView listViewItems={todoList || listViewItems} filterInverseDate={filterDate} />
-      </div>
     </div>
   );
 }

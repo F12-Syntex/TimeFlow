@@ -91,37 +91,35 @@ function Search({ listViewItems }: { listViewItems: TodoItemWithTags[] }) {
 
   return (
     <div className="main-page-container">
-      <div className="search-page-content">
-        <PageHeader title="Search" editableView={true} />
-        <input
-          type="text"
-          className="search-search-bar"
-          placeholder="Search"
-          onChange={handleSearch}
-        />
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            width: "calc(100% - 64px)",
-            marginTop: "-20px",
-          }}
-        >
-          <PageHeader title="Tasks" editableView={false} />
-        </div>
-        <ListView listViewItems={filteredList} />
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            width: "calc(100% - 64px)",
-            marginTop: "-8px",
-          }}
-        >
-          <PageHeader title="Tags" editableView={false} />
-        </div>
-        <TagListView tagListViewItems={filteredTagList} />
+      <PageHeader title="Search" editableView={true} />
+      <input
+        type="text"
+        className="search-search-bar"
+        placeholder="Search"
+        onChange={handleSearch}
+      />
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          width: "calc(100% - 64px)",
+          marginTop: "-20px",
+        }}
+      >
+        <PageHeader title="Tasks" editableView={false} />
       </div>
+      <ListView listViewItems={filteredList} />
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          width: "calc(100% - 64px)",
+          marginTop: "-8px",
+        }}
+      >
+        <PageHeader title="Tags" editableView={false} />
+      </div>
+      <TagListView tagListViewItems={filteredTagList} />
     </div>
   );
 }

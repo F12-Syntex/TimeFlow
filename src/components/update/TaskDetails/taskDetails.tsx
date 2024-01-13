@@ -118,7 +118,6 @@ function TaskDetails({
 
   return (
     <div className="modal-container">
-      <div className="page-content">
         <PageHeader title={task.title} editableView={false} />
         <div className="add-task-form">
           <div className="add-task-form-item">
@@ -186,7 +185,6 @@ function TaskDetails({
             </button>
           </div>
         </div>
-      </div>
     </div>
   );
 }

@@ -20,6 +20,18 @@ const Modal = ({ closeModal, children, closing }: any) => {
     }
   };
 
+  useEffect(() => {
+    const handleKeyDown = (e: any) => {
+      if (e.key === "Escape") {
+        handleCloseModal();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
   return (
     <div
       className={`modal-overlay ${closingContainer ? "fade-out" : "fade-in"}`}

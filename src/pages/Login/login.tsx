@@ -41,7 +41,6 @@ function LoginPage() {
   return (
     <div className="auth-page-container">
       <PageHeader title="Login" editableView={false} />
-      <div className="auth-page-content">
         <div className="login-form">
           <div className="login-form-item">
             <input
@@ -75,7 +74,6 @@ function LoginPage() {
             </div>
           </div>
         </div>
-      </div>
     </div>
   );
 }

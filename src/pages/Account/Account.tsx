@@ -26,9 +26,7 @@ function AccountPage() {
         <h2>Account</h2>
         <button onClick={logout}>Logout</button>
       </div>
-      <div className="page-content">
-        <p>Account information and settings go here.</p>
-      </div>
+      <p>Account information and settings go here.</p>
     </div>
   );
 }

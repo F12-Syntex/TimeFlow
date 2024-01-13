@@ -67,46 +67,44 @@ function RegisterPage() {
   return (
     <div className="auth-page-container">
       <PageHeader title="Register" editableView={false} />
-      <div className="auth-page-content">
-        <div className="login-form">
-          <div className="login-form-item">
-            <input type="text" id="email" name="email" placeholder="Email" />
+      <div className="login-form">
+        <div className="login-form-item">
+          <input type="text" id="email" name="email" placeholder="Email" />
+        </div>
+        <div className="login-form-item">
+          <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Username"
+          />
+        </div>
+        <div className="login-form-item">
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Password"
+          />
+        </div>
+        <div className="login-form-item">
+          <input
+            type="password"
+            id="confirm-password"
+            name="confirm-password"
+            placeholder="Confirm Password"
+          />
+        </div>
+        <div className="login-form-item-row">
+          <div className="login-form-bottom-left">
+            <button className="login-form-submit" onClick={register}>
+              Register
+            </button>
           </div>
-          <div className="login-form-item">
-            <input
-              type="text"
-              id="username"
-              name="username"
-              placeholder="Username"
-            />
-          </div>
-          <div className="login-form-item">
-            <input
-              type="password"
-              id="password"
-              name="password"
-              placeholder="Password"
-            />
-          </div>
-          <div className="login-form-item">
-            <input
-              type="password"
-              id="confirm-password"
-              name="confirm-password"
-              placeholder="Confirm Password"
-            />
-          </div>
-          <div className="login-form-item-row">
-            <div className="login-form-bottom-left">
-              <button className="login-form-submit" onClick={register}>
-                Register
-              </button>
-            </div>
-            <div className="login-form-bottom-right">
-              <Link className="login-form-submit" to="/account">
-                <button>Login</button>
-              </Link>
-            </div>
+          <div className="login-form-bottom-right">
+            <Link className="login-form-submit" to="/">
+              <button>Login</button>
+            </Link>
           </div>
         </div>
       </div>

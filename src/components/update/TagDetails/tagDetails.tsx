@@ -82,41 +82,39 @@ function TagDetails({
 
   return (
     <div className="modal-container">
-      <div className="page-content">
-        <PageHeader title={tag.name} editableView={false} />
-        <div className="add-task-form">
-          <div className="add-task-form-item">
-            <input type="text" id="name" name="title" placeholder="Title" />
-          </div>
-
-          <div className="add-task-form-item-row">
-            <button
-              className="add-task-form-item add-task-form-submit"
-              onClick={saveTag}
-              style={{ marginRight: "4px" }}
-            >
-              Save
-            </button>
-            <button
-              className="add-task-form-item add-task-form-submit"
-              onClick={deleteTag}
-              style={{ marginRight: "4px", marginLeft: "4px" }}
-            >
-              Delete
-            </button>
-            <button
-              className="add-task-form-item add-task-form-submit"
-              onClick={closeModal}
-              style={{ marginLeft: "4px" }}
-            >
-              Cancel
-            </button>
-          </div>
+      <PageHeader title={tag.name} editableView={false} />
+      <div className="add-task-form">
+        <div className="add-task-form-item">
+          <input type="text" id="name" name="title" placeholder="Title" />
         </div>
-        <PageHeader title="Related Tasks" editableView={false} />
-        <ListView listViewItems={taskList} />
-        <div className="task-list"></div>
+
+        <div className="add-task-form-item-row">
+          <button
+            className="add-task-form-item add-task-form-submit"
+            onClick={saveTag}
+            style={{ marginRight: "4px" }}
+          >
+            Save
+          </button>
+          <button
+            className="add-task-form-item add-task-form-submit"
+            onClick={deleteTag}
+            style={{ marginRight: "4px", marginLeft: "4px" }}
+          >
+            Delete
+          </button>
+          <button
+            className="add-task-form-item add-task-form-submit"
+            onClick={closeModal}
+            style={{ marginLeft: "4px" }}
+          >
+            Cancel
+          </button>
+        </div>
       </div>
+      <PageHeader title="Related Tasks" editableView={false} />
+      <ListView listViewItems={taskList} />
+      <div className="task-list"></div>
     </div>
   );
 }

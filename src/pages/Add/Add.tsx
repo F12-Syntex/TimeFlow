@@ -7,15 +7,7 @@ import React, { useEffect, useState } from "react";
 import { ObjectId } from "mongodb";
 import { useNavigate } from "react-router-dom";
 
-function App({
-  modal,
-  closeModal,
-  type,
-}: {
-  modal: boolean;
-  closeModal: () => void;
-  type: string;
-}) {
+function App({ closeModal, type }: { closeModal: () => void; type: string }) {
   const navigate = useNavigate();
 
   // get user from cookie
@@ -189,88 +181,78 @@ function App({
   }, []);
 
   return (
-    <div className={modal ? "modal-container" : "main-page-container"}>
-      <div className="page-content">
-        {type === "task" || type === "all" ? (
-          <>
-            <PageHeader title="Add Task" editableView={false} />
-            <div className="add-task-form">
-              <div className="add-task-form-item">
-                <input type="text" id="name" name="name" placeholder="Name" />
-              </div>
-              <div className="add-task-form-item">
-                <input
-                  type="text"
-                  id="description"
-                  name="description"
-                  placeholder="Description"
-                />
-              </div>
-              <div className="add-task-form-item-row">
-                <div className="add-task-form-item">
-                  <input
-                    type="date"
-                    id="date"
-                    name="date"
-                    placeholder="Date"
-                    defaultValue={new Date().toISOString().substr(0, 10)}
-                  />
-                </div>
-                <div className="add-task-form-item">
-                  <input
-                    id="priority"
-                    name="priority"
-                    placeholder="Priority"
-                    defaultValue="0"
-                    min="0"
-                    max="100"
-                    type="number"
-                  />
-                </div>
-                <div className="add-task-form-item">
-                  <select id="labels" name="labels" defaultValue="none">
-                    <option value="none">No Tag</option>
-                    {tagList.map((tag) => (
-                      <option
-                        key={tag._id.toString()}
-                        value={tag._id.toString()}
-                      >
-                        {tag.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="add-task-form-item">
-                  <button className="add-task-form-submit" onClick={addTask}>
-                    Add Task
-                  </button>
-                </div>
-              </div>
+    <div className="modal-container">
+      {type === "task" || type === "all" ? (
+        <>
+          <PageHeader title="Add Task" editableView={false} />
+          <div className="add-task-form">
+            <div className="add-task-form-item">
+              <input type="text" id="name" name="name" placeholder="Name" />
             </div>
-          </>
-        ) : null}
-
-        {type === "tag" || type === "all" ? (
-          <>
-            <PageHeader title="Add Tag" editableView={false} />
-            <div className="add-task-form">
+            <div className="add-task-form-item">
+              <input
+                type="text"
+                id="description"
+                name="description"
+                placeholder="Description"
+              />
+            </div>
+            <div className="add-task-form-item-row">
               <div className="add-task-form-item">
                 <input
-                  type="text"
-                  id="tag-name"
-                  name="name"
-                  placeholder="Name"
+                  type="date"
+                  id="date"
+                  name="date"
+                  placeholder="Date"
+                  defaultValue={new Date().toISOString().substr(0, 10)}
                 />
               </div>
               <div className="add-task-form-item">
-                <button className="add-task-form-submit" onClick={addTag}>
-                  Add Tag
+                <input
+                  id="priority"
+                  name="priority"
+                  placeholder="Priority"
+                  defaultValue="0"
+                  min="0"
+                  max="100"
+                  type="number"
+                />
+              </div>
+              <div className="add-task-form-item">
+                <select id="labels" name="labels" defaultValue="none">
+                  <option value="none">No Tag</option>
+                  {tagList.map((tag) => (
+                    <option key={tag._id.toString()} value={tag._id.toString()}>
+                      {tag.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="add-task-form-item">
+                <button className="add-task-form-submit" onClick={addTask}>
+                  Add Task
                 </button>
               </div>
             </div>
-          </>
-        ) : null}
-      </div>
+          </div>
+        </>
+      ) : null}
+
+      {type === "tag" || type === "all" ? (
+        <>
+          <PageHeader title="Add Tag" editableView={false} />
+          <div className="add-task-form">
+            <div className="add-task-form-item">
+              <input type="text" id="tag-name" name="name" placeholder="Name" />
+            </div>
+            <div className="add-task-form-item">
+              <button className="add-task-form-submit" onClick={addTag}>
+                Add Tag
+              </button>
+            </div>
+          </div>
+        </>
+      ) : null}
     </div>
   );
 }

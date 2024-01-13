@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Add from "../../../pages/Add/Add";
 
 const AddModal = ({ closeModal, type }: any) => {
@@ -17,6 +17,18 @@ const AddModal = ({ closeModal, type }: any) => {
     }
   };
 
+  useEffect(() => {
+    const handleKeyDown = (e: any) => {
+      if (e.key === "Escape") {
+        handleCloseModal();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
   return (
     <div
       className={`modal-overlay ${closing ? "fade-out" : "fade-in"}`}
@@ -27,7 +39,7 @@ const AddModal = ({ closeModal, type }: any) => {
           <i className="bi bi-x"></i>
         </button>
         <div className="modal-content">
-          <Add modal={true} closeModal={handleCloseModal} type={type} />
+          <Add closeModal={handleCloseModal} type={type} />
         </div>
       </div>
     </div>

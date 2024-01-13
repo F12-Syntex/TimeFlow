@@ -15,9 +15,7 @@ function App() {
   return (
     <div className='main-page-container'>
       <PageHeader title='Calendar' editableView={true}/>
-      <div className="page-content">
-        <Calendar />
-      </div>
+      <Calendar />
     </div>
   )
 }

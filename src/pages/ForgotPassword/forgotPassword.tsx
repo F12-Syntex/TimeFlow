@@ -39,30 +39,28 @@ function ForgotPasswordPage() {
   return (
     <div className="auth-page-container">
       <PageHeader title="Forgot Password" editableView={false} />
-      <div className="auth-page-content">
-        <div className="login-form">
-          <div className="login-form-item">
-            <input type="text" id="email" name="email" placeholder="Email" />
+      <div className="login-form">
+        <div className="login-form-item">
+          <input type="text" id="email" name="email" placeholder="Email" />
+        </div>
+        <div className="login-form-item">
+          <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Username"
+          />
+        </div>
+        <div className="login-form-item-row">
+          <div className="login-form-bottom-left">
+            <button className="login-form-submit" onClick={resetPassword}>
+              Reset Password
+            </button>
           </div>
-          <div className="login-form-item">
-            <input
-              type="text"
-              id="username"
-              name="username"
-              placeholder="Username"
-            />
-          </div>
-          <div className="login-form-item-row">
-            <div className="login-form-bottom-left">
-              <button className="login-form-submit" onClick={resetPassword}>
-                Reset Password
-              </button>
-            </div>
-            <div className="login-form-bottom-right">
-              <Link className="login-form-submit" to="/account">
-                <button>Login</button>
-              </Link>
-            </div>
+          <div className="login-form-bottom-right">
+            <Link className="login-form-submit" to="/">
+              <button>Login</button>
+            </Link>
           </div>
         </div>
       </div>

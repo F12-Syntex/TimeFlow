@@ -48,18 +48,6 @@
   justify-content: center;
 }
 
-.auth-page-content {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: top;
-  align-items: center;
-  width: calc(100vw - 64px);
-  height: 100%;
-  user-select: none;
-  padding-bottom: 36px;
-}
-
 @media (prefers-color-scheme: light) {
   .login-form {
     background-color: rgba(0, 0, 0, 0.025);

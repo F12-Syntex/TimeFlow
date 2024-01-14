@@ -3,19 +3,19 @@
 TimeFlow is a time-driven todo list application that helps you manage your tasks effectively by prioritising them based on time constraints. With TimeFlow, you can organise your tasks, set deadlines, and visualise your schedule to make the most of your time.
 
 ## Todo List
-- [ ] Set up project structure
-- [ ] Create task management UI
-- [ ] Implement task addition functionality
-- [ ] Implement task update functionality
-- [ ] Implement task removal functionality
-- [ ] Add deadline tracking feature
-- [ ] Integrate time visualisation tools
-- [ ] Prioritise tasks based on deadlines
-- [ ] Test and debug the application
-- [ ] Update README with installation and usage instructions
-- [ ] Add contribution guidelines
-- [ ] Define project license
-- [ ] Provide support contact information
+- [ ] Set up project structure - done
+- [ ] Create task management UI - progress
+- [ ] Implement task addition functionality - done
+- [ ] Implement task update functionality - done
+- [ ] Implement task removal functionality - done
+- [ ] Add deadline tracking feature - done (need to check)
+- [ ] Integrate time visualisation tools - 
+- [ ] Prioritise tasks based on deadlines - to be done (done or still doing?)
+- [ ] Test and debug the application - 
+- [ ] Update README with installation and usage instructions - progress
+- [ ] Add contribution guidelines -  done
+- [ ] Define project license - done
+- [ ] Provide support contact information - none
 
 ## Installation
 To run TimeFlow locally, follow these steps:

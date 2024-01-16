@@ -1,10 +1,5 @@
 import { useState, useEffect } from "react";
-import {
-  Routes,
-  Route,
-  Link,
-  useNavigate,
-} from "react-router-dom";
+import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import "./timeflow.css";
 import "../../pages/pages.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -188,30 +183,32 @@ const TimeFlow = () => {
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "1") {
-        if (isAddModalOpen) {
-          closeAddModal();
-          setSelectedIndex(previousSelectedIndex);
-        } else {
-          setPreviousSelectedIndex(selectedIndex);
-          openAddModal();
-          setSelectedIndex(0);
+      if (event.ctrlKey || event.metaKey) {
+        if (event.key === "1") {
+          if (isAddModalOpen) {
+            closeAddModal();
+            setSelectedIndex(previousSelectedIndex);
+          } else {
+            setPreviousSelectedIndex(selectedIndex);
+            openAddModal();
+            setSelectedIndex(0);
+          }
+        } else if (event.key === "2") {
+          setSelectedIndex(1);
+          navigate("/search");
+        } else if (event.key === "3") {
+          setSelectedIndex(2);
+          navigate("/inbox");
+        } else if (event.key === "4") {
+          setSelectedIndex(3);
+          navigate("/calendar");
+        } else if (event.key === "5") {
+          setSelectedIndex(4);
+          navigate("/tags");
+        } else if (event.key === "6") {
+          setSelectedIndex(5);
+          navigate("/account");
         }
-      } else if (event.key === "2") {
-        setSelectedIndex(1);
-        navigate("/search");
-      } else if (event.key === "3") {
-        setSelectedIndex(2);
-        navigate("/inbox");
-      } else if (event.key === "4") {
-        setSelectedIndex(3);
-        navigate("/calendar");
-      } else if (event.key === "5") {
-        setSelectedIndex(4);
-        navigate("/tags");
-      } else if (event.key === "6") {
-        setSelectedIndex(5);
-        navigate("/account");
       }
     };
     window.addEventListener("keydown", handleKeyDown);
@@ -219,7 +216,6 @@ const TimeFlow = () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [navigator, selectedIndex]);
-
 
   if (!isLoggedIn) {
     return (

@@ -276,15 +276,18 @@ expressApp.patch(
 
       const tasksCollection = database.collection("tasks");
       const taskId = req.params.id;
+
       const updateData: Partial<TodoItem> = {
         title: req.body.title,
         description: req.body.description,
         date: req.body.date,
         priority: req.body.priority,
         completed: req.body.completed,
-        // labels: [new ObjectId(req.body.labels[0])],
-        // user: userObjectId,
+        labels: req.body.labels === "none" ? [] : [new ObjectId(req.body.labels)],
+        user: userObjectId, // add colaboration later
       };
+
+      console.log("updateData:", updateData);
 
       // Perform the update using $set to update specific fields
       await tasksCollection.updateOne(

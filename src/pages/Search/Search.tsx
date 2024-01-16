@@ -7,9 +7,10 @@ import TodoItemWithTags from "express/src/types/TodoItemWithTags";
 import useFetchTaskList from "../../components/Functions/FetchTaskList/fetchTaskList";
 import useFetchTagList from "@/components/Functions/FetchTagList/fetchTagList";
 import TagListView from "@/components/update/TagListView/taglistview";
+import fetchWebSocket from "@/components/Functions/FetchTaskList/fetchWebSocket";
 
 function Search({ listViewItems }: { listViewItems: TodoItemWithTags[] }) {
-  const todoList = useFetchTaskList();
+  const [todoList, setTodoList] = useState<TodoItemWithTags[]>(listViewItems); // todoList is the list of items to be displayed in the list view
   const tagList = useFetchTagList();
 
   const [filteredList, setFilteredList] = useState(todoList);
@@ -60,12 +61,10 @@ function Search({ listViewItems }: { listViewItems: TodoItemWithTags[] }) {
     // Filter the list of items based on the search text
     setFilteredList(
       todoList.filter((item) => {
-        // is array item.labels
-
         return (
           item.title.toLowerCase().includes(searchText) ||
           item.description.toLowerCase().includes(searchText) ||
-          item.priority.toLowerCase().includes(searchText) ||
+          String(item.priority).toLowerCase().includes(searchText) ||
           item.labels.some((label) =>
             label.name == null
               ? false

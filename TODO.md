@@ -4,6 +4,8 @@
 - [ ] Transparency?
 - [ ] Calendar View
 - [ ] Board View
+- [ ] Fix CSS
+- [ ] Cache data, update page when data changes
 
 # Back End
 

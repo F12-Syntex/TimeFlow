@@ -175,6 +175,7 @@ ipcMain.handle("open-win", (_, arg) => {
 });
 
 import { MongoClient, ObjectId, ServerApiVersion } from "mongodb";
+import WebSocket, { WebSocketServer } from "ws";
 
 // Encode the username and password for the URI
 const user = encodeURIComponent("admin");
@@ -194,7 +195,7 @@ const client = new MongoClient(uri, {
 async function connectToMongoDB() {
   try {
     await client.connect();
-    console.log("Connected to MongoDB!");
+    // console.log("Connected to MongoDB!");
   } catch (error) {
     console.error("Error connecting to MongoDB:", error);
   }
@@ -283,11 +284,10 @@ expressApp.patch(
         date: req.body.date,
         priority: req.body.priority,
         completed: req.body.completed,
-        labels: req.body.labels === "none" ? [] : [new ObjectId(req.body.labels)],
+        labels:
+          req.body.labels === "none" ? [] : [new ObjectId(req.body.labels)],
         user: userObjectId, // add colaboration later
       };
-
-      console.log("updateData:", updateData);
 
       // Perform the update using $set to update specific fields
       await tasksCollection.updateOne(
@@ -636,3 +636,62 @@ async function fetchUserObjectID() {
   const userValue = loginStatusData.cookie[0].value;
   return new ObjectId(userValue);
 }
+
+const wss = new WebSocketServer({ port: 8080 });
+
+import TodoItemWithTags from "../../express/src/types/TodoItemWithTags";
+
+// This is just a basic example. You'll need to replace it with your actual logic.
+async function broadcastUpdates() {
+  try {
+    const tasksCollection = database.collection("tasks");
+    const tagsCollection = database.collection("tags");
+
+    const tasks = await tasksCollection.find().toArray();
+    const tags = await tagsCollection.find().toArray();
+
+    // send in each task as TodoItemWithTags
+    tasks.forEach((task, index: number) => {
+      // compare task.labels to tags._id
+      const labels = task.labels.map((labelId: ObjectId) => {
+        const label = tags.find((tag) => tag._id.equals(labelId));
+        return label;
+      });
+      tasks[index] = {
+        user: task.user,
+        title: task.title,
+        description: task.description,
+        date: new Date(task.date),
+        priority: task.priority,
+        labels: labels,
+        completed: task.completed,
+        _id: task._id,
+      } as TodoItemWithTags;
+    });
+
+    const updatedData = {
+      tasks: tasks,
+      tags: tags,
+    };
+
+    wss.clients.forEach((client) => {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(JSON.stringify(updatedData));
+      }
+    });
+  } catch (error) {
+    console.error("Error broadcasting updates:", error);
+  }
+}
+
+// Broadcast updates when a task is added, updated, or deleted
+expressApp.post("/api/sample/tasks/add", broadcastUpdates);
+expressApp.patch("/api/sample/tasks/update/:id", broadcastUpdates);
+expressApp.delete("/api/sample/tasks/delete/:id", broadcastUpdates);
+
+// Broadcast updates when a tag is added, updated, or deleted
+expressApp.post("/api/sample/tags/add", broadcastUpdates);
+expressApp.patch("/api/sample/tags/update/:id", broadcastUpdates);
+expressApp.delete("/api/sample/tags/delete/:id", broadcastUpdates);
+
+setInterval(broadcastUpdates, 50);

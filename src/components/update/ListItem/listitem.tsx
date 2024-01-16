@@ -4,6 +4,7 @@ import TagItem from "express/src/types/TagItem";
 import TodoItemWithTags from "express/src/types/TodoItemWithTags";
 import Modal from "../Modal/modal";
 import TaskDetails from "../TaskDetails/taskDetails";
+import { ObjectId } from "mongodb";
 interface ListItemProps {
   item: TodoItemWithTags | TodoItem;
   handleTaskDelete: (id: string) => void;
@@ -20,9 +21,13 @@ const ListItem = ({ item, handleTaskDelete }: ListItemProps) => {
     const checked = event.currentTarget.checked;
     const updatedItem = { ...item, completed: checked };
 
+    const parsedLabels = item.labels as TagItem[];
+    const labelIds = parsedLabels[0] === undefined || parsedLabels[0] == null ? "none" : parsedLabels[0]._id;
+    const updatedItemWithLabelIds = { ...updatedItem, labels: labelIds };
+
     const url = `http://localhost:3000/api/sample/tasks/update/${item._id}`;
     const method = "PATCH";
-    const body = JSON.stringify(updatedItem);
+    const body = JSON.stringify(updatedItemWithLabelIds);
     const headers = {
       "Content-Type": "application/json",
     };
@@ -112,14 +117,16 @@ const ListItem = ({ item, handleTaskDelete }: ListItemProps) => {
 
   // Fix the below code to display the label names instead of "Tags"
   try {
-    const parsedLabels = item.labels as unknown as ListItemTags[];
-    labels = parsedLabels.map((label) => label.tag.name);
+    let parsedLabels = item.labels as TagItem[];
+    labels = parsedLabels.map((label) => label.name);
   } catch (error) {
-    // console.error("Error occurred while parsing labels:", error);
+    // no labels
     labels = [];
   }
 
-  const deleteTask = (e: React.MouseEvent<HTMLButtonElement | HTMLDivElement, MouseEvent>) => {
+  const deleteTask = (
+    e: React.MouseEvent<HTMLButtonElement | HTMLDivElement, MouseEvent>
+  ) => {
     handleTaskDelete(item._id.toString());
   };
 
@@ -136,9 +143,15 @@ const ListItem = ({ item, handleTaskDelete }: ListItemProps) => {
 
   return (
     <>
-      {showModal && <Modal closeModal={closeModal} closing={closing}>
-        <TaskDetails id={String(item._id)} deleteTask={deleteTask} closeModal={closeModal} />
-      </Modal>}
+      {showModal && (
+        <Modal closeModal={closeModal} closing={closing}>
+          <TaskDetails
+            id={String(item._id)}
+            deleteTask={deleteTask}
+            closeModal={closeModal}
+          />
+        </Modal>
+      )}
       <div className="list-view-item">
         <div className="list-view-item-left">
           <div className="container">
@@ -154,7 +167,10 @@ const ListItem = ({ item, handleTaskDelete }: ListItemProps) => {
           </div>
         </div>
         {/* <Link to={`/task/${item._id}`} className="list-view-item-right"> */}
-        <div className="list-view-item-right" onClick={() => setShowModal(true)}>
+        <div
+          className="list-view-item-right"
+          onClick={() => setShowModal(true)}
+        >
           <div className="list-view-item-top">
             <div className="list-view-item-title">{item.title}</div>
             <div className="list-view-item-date">

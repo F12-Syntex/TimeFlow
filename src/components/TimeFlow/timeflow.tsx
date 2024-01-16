@@ -13,14 +13,13 @@ import ForgotPasswordPage from "../../pages/ForgotPassword/forgotPassword";
 import useFetchTaskList from "../../components/Functions/FetchTaskList/fetchTaskList";
 import AddModal from "../../components/update/AddModal/addmodal";
 import LoginPage from "../../pages/Login/login";
+import TodoItemWithTags from "express/src/types/TodoItemWithTags";
 
 const TimeFlow = () => {
   const navigate = useNavigate();
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
   const [selectedIndex, setSelectedIndex] = useState(2);
-
   const todoList = useFetchTaskList();
 
   useEffect(() => {
@@ -76,7 +75,7 @@ const TimeFlow = () => {
       name: "inbox",
       selectedName: "inbox-fill",
       path: "/inbox",
-      component: <Inbox listViewItems={todoList} />,
+      component: <Inbox />,
     },
     {
       name: "calendar",
@@ -288,10 +287,10 @@ const TimeFlow = () => {
         />
 
         {/* default page inbox */}
-        <Route path="/" element={<Inbox listViewItems={todoList} />} />
+        <Route path="/" element={<Inbox />} />
 
         {/* Add routes for other main sections */}
-        <Route path="/inbox/*" element={<Inbox listViewItems={todoList} />} />
+        <Route path="/inbox/*" element={<Inbox />} />
 
         {/* Add routes for Add/Search/Calendar/Tags */}
         {buttonData.map((button, index) => (
@@ -303,7 +302,7 @@ const TimeFlow = () => {
         ))}
 
         {/* Catch-all route (should be at the end) */}
-        <Route path="/*" element={<Inbox listViewItems={todoList} />} />
+        <Route path="/*" element={<Inbox />} />
       </Routes>
     </div>
   );

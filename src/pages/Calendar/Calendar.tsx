@@ -7,11 +7,7 @@ import { useState, useEffect } from 'react'
 import TagItem from 'express/src/types/TagItem';
 import useFetchTaskList from '../../components/Functions/FetchTaskList/fetchTaskList'
 
-function App() {
-  
-  const [tagList, setTagList] = useState<TagItem[]>([]);
-  const todoList = useFetchTaskList();
-
+function App() {  
   return (
     <div className='main-page-container'>
       <PageHeader title='Calendar' editableView={true}/>

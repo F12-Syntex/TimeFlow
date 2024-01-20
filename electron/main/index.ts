@@ -174,7 +174,7 @@ ipcMain.handle("open-win", (_, arg) => {
   }
 });
 
-import { MongoClient, ObjectId, ServerApiVersion } from "mongodb";
+import { MongoClient, ObjectId, ServerApiVersion, WithId } from "mongodb";
 import WebSocket, { WebSocketServer } from "ws";
 
 // Encode the username and password for the URI
@@ -641,7 +641,44 @@ const wss = new WebSocketServer({ port: 8080 });
 
 import TodoItemWithTags from "../../express/src/types/TodoItemWithTags";
 
-// This is just a basic example. You'll need to replace it with your actual logic.
+// startSocketUpdates
+
+expressApp.get("/search/:searchTerm", async (req: Request, res: Response) => {
+  try {
+    const userObjectId = await fetchUserObjectID();
+
+    const tasksCollection = database.collection("tasks");
+    const tasks = await tasksCollection
+      .find({
+        $and: [
+          { user: userObjectId },
+          {
+            $or: [
+              { title: { $regex: req.params.searchTerm, $options: "i" } },
+              { description: { $regex: req.params.searchTerm, $options: "i" } },
+            ],
+          },
+        ],
+      })
+      .toArray();
+
+    const tagsCollection = database.collection("tags");
+    const tags = await tagsCollection
+      .find({
+        $and: [
+          { user: userObjectId },
+          { name: { $regex: req.params.searchTerm, $options: "i" } },
+        ],
+      })
+      .toArray();
+
+    res.json({ tasks, tags });
+  } catch (error) {
+    console.error("Error fetching tasks:", error);
+    res.status(500).json({ error: "Error fetching tasks" });
+  }
+});
+
 async function broadcastUpdates() {
   try {
     const tasksCollection = database.collection("tasks");
@@ -694,4 +731,81 @@ expressApp.post("/api/sample/tags/add", broadcastUpdates);
 expressApp.patch("/api/sample/tags/update/:id", broadcastUpdates);
 expressApp.delete("/api/sample/tags/delete/:id", broadcastUpdates);
 
-setInterval(broadcastUpdates, 50);
+expressApp.post("/initialUpdate/", broadcastUpdates);
+
+async function broadcastSearchUpdates(searchTerm: string) {
+  try {
+    const tasksCollection = database.collection("tasks");
+    const tagsCollection = database.collection("tags");
+
+    let tasks: any;
+    let tags: any;
+
+    console.log("searchTerm:", searchTerm);
+
+    // Apply search criteria
+    tasks = await tasksCollection
+      .find({
+        $or: [
+          { title: { $regex: searchTerm, $options: "i" } },
+          { description: { $regex: searchTerm, $options: "i" } },
+          { priority: { $regex: searchTerm, $options: "i" } },
+          { completed: { $regex: searchTerm, $options: "i" } },
+          { "labels.name": { $regex: searchTerm, $options: "i" } },
+        ],
+      })
+      .toArray();
+
+    tags = await tagsCollection
+      .find({
+        name: { $regex: searchTerm, $options: "i" },
+      })
+      .toArray();
+
+    // Convert tasks to TodoItemWithTags format
+    tasks.forEach((task: any, index: any) => {
+      const labels = task.labels.map((labelId: ObjectId) => {
+        const label = tags.find((tag: any) => tag._id.equals(labelId));
+        return label;
+      });
+      tasks[index] = {
+        user: task.user,
+        title: task.title,
+        description: task.description,
+        date: new Date(task.date),
+        priority: task.priority,
+        labels: labels,
+        completed: task.completed,
+        _id: task._id,
+      } as TodoItemWithTags;
+    });
+    const updatedData = {
+      tasks: tasks,
+      tags: tags,
+    };
+
+    wss.clients.forEach((client) => {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(JSON.stringify(updatedData));
+      }
+    });
+  } catch (error) {
+    console.error("Error broadcasting search updates:", error);
+  }
+}
+
+// Handle WebSocket connection for search
+wss.on("connection", (socket) => {
+  socket.on("message", (message) => {
+    const { action, searchTerm } = JSON.parse(message.toString());
+    if (action === "search") {
+      broadcastSearchUpdates(searchTerm);
+    }
+  });
+});
+
+wss.on("upgrade", (request, socket, head) => {
+  wss.handleUpgrade(request, socket, head, (socket) => {
+    wss.emit("connection", socket, request);
+  });
+});

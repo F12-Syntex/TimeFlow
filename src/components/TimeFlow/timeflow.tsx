@@ -10,17 +10,14 @@ import Tags from "../../pages/Tags/Tags";
 import Account from "../../pages/Account/Account";
 import RegisterPage from "../../pages/Register/register";
 import ForgotPasswordPage from "../../pages/ForgotPassword/forgotPassword";
-import useFetchTaskList from "../../components/Functions/FetchTaskList/fetchTaskList";
 import AddModal from "../../components/update/AddModal/addmodal";
 import LoginPage from "../../pages/Login/login";
-import TodoItemWithTags from "express/src/types/TodoItemWithTags";
 
 const TimeFlow = () => {
   const navigate = useNavigate();
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(2);
-  const todoList = useFetchTaskList();
 
   useEffect(() => {
     getLoginStatus();
@@ -69,7 +66,7 @@ const TimeFlow = () => {
       name: "search",
       selectedName: "search",
       path: "/search",
-      component: <Search listViewItems={todoList} />,
+      component: <Search/>,
     },
     {
       name: "inbox",
@@ -228,7 +225,11 @@ const TimeFlow = () => {
           key={5}
         />
         {buttonData.map((button, index) => (
-          <Route key={index} path={button.path} element={button.component} />
+          <Route
+            key={button.path}
+            path={button.path}
+            element={button.component}
+          />
         ))}
       </Routes>
     );
@@ -240,7 +241,7 @@ const TimeFlow = () => {
         <div className="sidebar-buttons sidebar-top">
           {/* Render sidebar buttons */}
           {buttonData.map((button, index) => (
-            <div key={index}>
+            <div key={button.path}>
               {/* For "Add" button, open modal; for other buttons, handle navigation */}
               {index === 0 ? (
                 <button

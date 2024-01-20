@@ -1,11 +1,24 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import TodoItemWithTags from "../../../../express/src/types/TodoItemWithTags";
 
-function fetchWebSocket(
+function useFetchWebSocket(
   setTodoList: (todoList: TodoItemWithTags[]) => void
 ) {
   useEffect(() => {
     const socket = new WebSocket("ws://localhost:8080");
+
+    fetch("http://localhost:3000/initialUpdate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then(() => {
+        console.log("Update triggered successfully");
+      })
+      .catch((error) => {
+        console.error("Error triggering update:", error);
+      });
 
     // Set up event listener for when the socket is opened
     socket.addEventListener("open", (event) => {
@@ -51,4 +64,4 @@ function fetchWebSocket(
   }, []);
 }
 
-export default fetchWebSocket;
+export default useFetchWebSocket;

@@ -2,100 +2,66 @@ import "./search.css";
 import "../pages.css";
 import PageHeader from "../../components/update/PageHeader/pageheader";
 import ListView from "../../components/update/ListView/listview";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import TodoItemWithTags from "express/src/types/TodoItemWithTags";
-import useFetchTaskList from "../../components/Functions/FetchTaskList/fetchTaskList";
-import useFetchTagList from "@/components/Functions/FetchTagList/fetchTagList";
 import TagListView from "@/components/update/TagListView/taglistview";
-import fetchWebSocket from "@/components/Functions/FetchTaskList/fetchWebSocket";
+import TagItem from "express/src/types/TagItem";
 
-function Search({ listViewItems }: { listViewItems: TodoItemWithTags[] }) {
-  const [todoList, setTodoList] = useState<TodoItemWithTags[]>(listViewItems); // todoList is the list of items to be displayed in the list view
-  const tagList = useFetchTagList();
-
-  const [filteredList, setFilteredList] = useState(todoList);
-  const [filteredTagList, setFilteredTagList] = useState(tagList);
-
-  const parseDate = (date: Date): string => {
-    const currentDate = new Date();
-    const oneDay = 24 * 60 * 60 * 1000; // milliseconds in a day
-
-    // Check if the date is today
-    if (date.toDateString() === currentDate.toDateString()) {
-      return "Today";
-    }
-
-    // Check if the date is tomorrow
-    const tomorrow = new Date(currentDate);
-    tomorrow.setDate(currentDate.getDate() + 1);
-    if (date.toDateString() === tomorrow.toDateString()) {
-      return "Tomorrow";
-    }
-
-    // Check if the date is within the next 7 days
-    const nextWeek = new Date(currentDate);
-    nextWeek.setDate(currentDate.getDate() + 7);
-    if (date.getTime() < nextWeek.getTime()) {
-      const dayOfWeek = [
-        "Sunday",
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-      ];
-      return dayOfWeek[date.getDay()];
-    }
-
-    // Return the date as mm/dd/yyyy for dates outside the range
-    const formattedDate = new Date(date);
-    const mm = String(formattedDate.getMonth() + 1).padStart(2, "0");
-    const dd = String(formattedDate.getDate()).padStart(2, "0");
-    const yyyy = formattedDate.getFullYear();
-    return `${mm}/${dd}/${yyyy}`;
-  };
-
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const searchText = event.target.value.toLowerCase();
-    // Filter the list of items based on the search text
-    setFilteredList(
-      todoList.filter((item) => {
-        return (
-          item.title.toLowerCase().includes(searchText) ||
-          item.description.toLowerCase().includes(searchText) ||
-          String(item.priority).toLowerCase().includes(searchText) ||
-          item.labels.some((label) =>
-            label.name == null
-              ? false
-              : label.name.toLowerCase().includes(searchText)
-          ) ||
-          parseDate(item.date).toLowerCase().includes(searchText) ||
-          String(item.completed).toLowerCase().includes(searchText)
-        );
-      }, [])
-    );
-    // Filter the list of tags based on the search text
-    setFilteredTagList(
-      tagList.filter((tag) => {
-        return tag.name.toLowerCase().includes(searchText);
-      }, [])
-    );
-  };
+function Search() {
+  const [todoList, setTodoList] = useState<TodoItemWithTags[]>([]);
+  const [tagList, setTagList] = useState<TagItem[]>([]);
+  const [searchText, setSearchText] = useState("");
+  const [socket, setSocket] = useState<WebSocket | null>(null);
 
   useEffect(() => {
-    setFilteredList(todoList); // Update the filtered list whenever todoList changes
-    setFilteredTagList(tagList); // Update the filtered list whenever tagList changes
-  }, [todoList, tagList]);
+    const newSocket = new WebSocket("ws://localhost:8080");
+
+    newSocket.addEventListener("open", (event) => {
+      console.log("WebSocket connection opened:", event);
+      setSocket(newSocket);
+    });
+
+    newSocket.addEventListener("message", handleSearchResponse);
+
+    // Clean up the WebSocket connection when the component unmounts
+    return () => {
+      newSocket.close();
+    };
+  }, []);
+
+  function performSearch() {
+    if (socket && socket.readyState === WebSocket.OPEN) {
+      const searchTerm = searchText.toLowerCase();
+      const message = JSON.stringify({ action: "search", searchTerm });
+      socket.send(message);
+      return searchTerm;
+    }
+  };
+
+  const handleSearchResponse = (event: MessageEvent) => {
+    const response = JSON.parse(event.data);
+    setTodoList(response.tasks);
+    setTagList(response.tags);
+  };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchText(event.target.value.toLowerCase());
+  };
+  
+
+  useEffect(() => {
+    performSearch();
+  }, [searchText, socket]);
 
   return (
     <div className="main-page-container">
+      performSearch: {searchText}
       <PageHeader title="Search" editableView={true} />
       <input
         type="text"
         className="search-search-bar"
         placeholder="Search"
-        onChange={handleSearch}
+        onChange={handleInputChange}
       />
       <div
         style={{
@@ -107,7 +73,7 @@ function Search({ listViewItems }: { listViewItems: TodoItemWithTags[] }) {
       >
         <PageHeader title="Tasks" editableView={false} />
       </div>
-      <ListView listViewItems={filteredList} />
+      <ListView listViewItems={todoList} />
       <div
         style={{
           display: "flex",
@@ -118,7 +84,7 @@ function Search({ listViewItems }: { listViewItems: TodoItemWithTags[] }) {
       >
         <PageHeader title="Tags" editableView={false} />
       </div>
-      <TagListView tagListViewItems={filteredTagList} />
+      <TagListView tagListViewItems={tagList} />
     </div>
   );
 }

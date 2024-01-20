@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import TagItem from "express/src/types/TagItem";
 import TagListItem from "../TagListItem/taglistitem";
 import NoItems from "../NoItems/noitems";
-import Modal from "../Modal/modal";
 
 // optional prop tagListViewItems, use this if you want to pass in a list of tags to display
 // otherwise, fetch the list of tags from the server

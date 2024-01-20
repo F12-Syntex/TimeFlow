@@ -86,42 +86,48 @@ a {
   color: inherit;
 }
 
-@media (prefers-color-scheme: dark) { 
+@media (prefers-color-scheme: dark) {
   .sidebar-selected {
     background-color: rgb(0, 115, 255);
     border-radius: 45%;
-    /* border-radius: 24px; */
   }
-  
+
   .sidebar-add-selected {
     background-color: rgb(148, 63, 60);
     border-radius: 45%;
-    /* border-radius: 24px; */
   }
 
   .sidebar-button {
     background-color: rgb(24, 24, 24);
-  
-    &:hover,
-    &:focus {
+
+    &:hover {
       background-color: rgb(29, 38, 52);
     }
-  
-    &.sidebar-selected {
-      &:hover {
-        background-color: rgba(0, 115, 255, 0.8);
-      }
-      &:focus {
-        background-color: rgb(0, 115, 255);
-      }
+
+    &:active,
+    &:focus {
+      background-color: rgb(68, 138, 223);
     }
-  
-    &:active {
-      background-color: rgb(0, 115, 255);
-    }
-  
   }
 
+  .sidebar-selected {
+    background-color: rgb(68, 138, 223);
+
+    &:hover {
+      background-color: rgb(0, 140, 255);
+    }
+
+    &:active,
+    &:focus {
+      background-color: rgb(68, 138, 223);
+    }
+
+    &.sidebar-selected {
+      &:hover {
+        background-color: rgb(0, 140, 255);
+      }
+    }
+  }
 }
 
 @media (prefers-color-scheme: light) {
@@ -174,6 +180,7 @@ a {
 
   .sidebar-selected {
     background-color: rgba(53, 142, 195);
+    border-radius: 45%;
 
     &:hover {
       background-color: rgba(53, 142, 195, 0.8);

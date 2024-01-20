@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import TodoItemWithTags from "../../../../express/src/types/TodoItemWithTags";
 import TagItem from "../../../../express/src/types/TagItem";
+import { getWebSocketInstance } from "../websocket";
 
 function useFetchSearchWebSocket(
   searchTerm: string,
@@ -8,7 +9,7 @@ function useFetchSearchWebSocket(
   setTagList: (tagList: TagItem[]) => void
 ) {
   useEffect(() => {
-    const socket = new WebSocket(`ws://localhost:8080/search/${searchTerm}`);
+    const socket = new WebSocket("ws://localhost:8080");
 
     // Set up event listener for when the socket is opened
     socket.addEventListener("open", (event) => {
@@ -65,7 +66,11 @@ function useFetchSearchWebSocket(
           _id: tag._id,
         }));
 
-        console.log("WebSocket message received:", updatedTodoList, updatedTagList);
+        console.log(
+          "WebSocket message received:",
+          updatedTodoList,
+          updatedTagList
+        );
 
         // Update the state with the new TodoItemWithTags array
         setTodoList(updatedTodoList);
@@ -77,7 +82,9 @@ function useFetchSearchWebSocket(
 
     // Clean up the WebSocket connection when the component unmounts
     return () => {
-      socket.close();
+      if (socket && socket.readyState === WebSocket.OPEN) {
+        socket.close();
+      }
     };
   }, []);
 }

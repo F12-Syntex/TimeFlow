@@ -48,6 +48,7 @@ function TagDetails({
       .then((data) => {
         if (Array.isArray(data.tasks)) {
           setTaskList(data.tasks);
+          console.log(data.tasks);
         } else {
           console.error("Invalid data format for tasks");
         }
@@ -92,21 +93,18 @@ function TagDetails({
           <button
             className="add-task-form-item add-task-form-submit"
             onClick={saveTag}
-            style={{ marginRight: "4px" }}
           >
             Save
           </button>
           <button
             className="add-task-form-item add-task-form-submit"
             onClick={deleteTag}
-            style={{ marginRight: "4px", marginLeft: "4px" }}
           >
             Delete
           </button>
           <button
             className="add-task-form-item add-task-form-submit"
             onClick={closeModal}
-            style={{ marginLeft: "4px" }}
           >
             Cancel
           </button>
@@ -114,7 +112,6 @@ function TagDetails({
       </div>
       <PageHeader title="Related Tasks" editableView={false} />
       <ListView listViewItems={taskList} />
-      <div className="task-list"></div>
     </div>
   );
 }

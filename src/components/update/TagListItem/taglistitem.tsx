@@ -19,7 +19,7 @@ const ListItem = ({ item, handleTagDelete }: ListItemProps) => {
     e: React.MouseEvent<HTMLDivElement | HTMLButtonElement, MouseEvent>
   ) {
     e.preventDefault();
-    setShowModal(false);
+    closeModal();
     handleTagDelete(item._id.toString());
   }
 

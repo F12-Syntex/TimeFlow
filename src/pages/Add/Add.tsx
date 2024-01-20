@@ -97,10 +97,7 @@ function App({ closeModal, type }: { closeModal: () => void; type: string }) {
       .then((response) => {
         console.log("hello" + response.status);
         if (response.status === 200) {
-          // alert("Task added successfully");
-          navigate("/inbox");
-
-          // window.location.href = "/inbox";
+          // navigate("/inbox");
         } else {
           alert("Error adding task");
         }
@@ -135,7 +132,7 @@ function App({ closeModal, type }: { closeModal: () => void; type: string }) {
       .then((response) => {
         if (response.status === 200) {
           // window.location.href = "/tags";
-          navigate("/tags");
+          // navigate("/tags");
         } else {
           alert("Error adding tag");
         }

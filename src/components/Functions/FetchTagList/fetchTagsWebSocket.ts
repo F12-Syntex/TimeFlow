@@ -1,12 +1,10 @@
 import { useEffect } from "react";
-import TodoItemWithTags from "../../../../express/src/types/TodoItemWithTags";
+import TagItem from "express/src/types/TagItem";
 import { getWebSocketInstance } from "../websocket";
 
-function useFetchWebSocket(
-  setTodoList: (todoList: TodoItemWithTags[]) => void
-) {
+function useFetchTagsWebSocket(setTagList: (tagList: TagItem[]) => void) {
   useEffect(() => {
-    const socket = getWebSocketInstance();
+    const socket = new WebSocket("ws://localhost:8080");
 
     // Set up event listener for when the socket is opened
     socket.addEventListener("open", (event) => {
@@ -22,26 +20,19 @@ function useFetchWebSocket(
         const updatedData = JSON.parse(event.data);
 
         // Extract the tasks array from the received data
-        const tasks = updatedData?.tasks || [];
+        const tags = updatedData?.tags || [];
 
-        // Convert each task to TodoItemWithTags format
-        const updatedTodoList: TodoItemWithTags[] = tasks.map(
-          (task: TodoItemWithTags) => ({
-            user: task.user,
-            title: task.title,
-            description: task.description,
-            date: new Date(task.date),
-            priority: task.priority,
-            labels: task.labels,
-            completed: task.completed,
-            _id: task._id,
-          })
-        );
+        // Convert each task to TagItem format
+        const updatedTagList: TagItem[] = tags.map((tag: TagItem) => ({
+          user: tag.user,
+          name: tag.name,
+          _id: tag._id,
+        }));
 
-        console.log("WebSocket message received:", updatedTodoList);
+        console.log("WebSocket message received:", updatedTagList);
 
-        // Update the state with the new TodoItemWithTags array
-        setTodoList(updatedTodoList);
+        // Update the state with the new TagItem array
+        setTagList(updatedTagList);
       } catch (error) {
         console.error("Error parsing WebSocket message:", error);
       }
@@ -56,4 +47,4 @@ function useFetchWebSocket(
   }, []);
 }
 
-export default useFetchWebSocket;
+export default useFetchTagsWebSocket;

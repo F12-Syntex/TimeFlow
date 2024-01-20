@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import TagItem from "express/src/types/TagItem";
 import TagListItem from "../TagListItem/taglistitem";
 import NoItems from "../NoItems/noitems";
+import useFetchTagsWebSocket from "../../Functions/FetchTagList/fetchTagsWebSocket";
 
 // optional prop tagListViewItems, use this if you want to pass in a list of tags to display
 // otherwise, fetch the list of tags from the server
@@ -18,20 +19,9 @@ const TagList: React.FC<TagListProps> = ({ tagListViewItems }) => {
       setTagList(tagListViewItems);
       return;
     }
-    // Fetch tag list on initial load
-    fetchTagList();
   }, [tagListViewItems]); // Re-run this effect if the tagListViewItems prop changes
 
-  const fetchTagList = () => {
-    fetch("http://localhost:3000/api/sample/tags")
-      .then((response) => response.json())
-      .then((data) => {
-        setTagList(data.tags);
-      })
-      .catch((error) => {
-        console.error("Error fetching tags:", error);
-      });
-  };
+  useFetchTagsWebSocket(setTagList);
 
   const handleTagDelete = (tagId: string) => {
     if (!window.confirm("Are you sure you want to delete this tag?")) {

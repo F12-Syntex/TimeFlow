@@ -214,6 +214,8 @@ expressApp.get("/api/sample/tasks", async (req: Request, res: Response) => {
     const taskCollection = database.collection("tasks");
     const tasks = await taskCollection.find({ user: userObjectId }).toArray();
 
+    broadcastUpdates();
+
     res.json({ tasks });
   } catch (error) {
     console.error("Error fetching tasks:", error);
@@ -230,6 +232,9 @@ expressApp.get("/api/sample/tasks/:id", async (req: Request, res: Response) => {
     const task = await tasksCollection.findOne({
       $and: [{ user: userObjectId }, { _id: new ObjectId(req.params.id) }],
     });
+
+    broadcastUpdates();
+
     res.json({ task });
   } catch (error) {
     console.error("Error fetching task:", error);
@@ -259,7 +264,10 @@ expressApp.post(
         _id: new ObjectId(),
       };
 
-      tasksCollection.insertOne(task);
+      await tasksCollection.insertOne(task);
+
+      broadcastUpdates();
+
       res.json({ task });
     } catch (error) {
       console.error("Error adding task:", error);
@@ -295,6 +303,8 @@ expressApp.patch(
         { $set: updateData }
       );
 
+      broadcastUpdates();
+
       res.json({ message: "Task updated successfully" });
     } catch (error) {
       console.error("Error updating task:", error);
@@ -311,9 +321,10 @@ expressApp.delete(
       const userObjectId = await fetchUserObjectID();
 
       const tasksCollection = database.collection("tasks");
-      tasksCollection.deleteOne({
+      await tasksCollection.deleteOne({
         $and: [{ _id: new ObjectId(req.params.id) }, { user: userObjectId }],
       });
+
       res.json({ tasks: [] });
     } catch (error) {
       console.error("Error deleting task:", error);
@@ -329,6 +340,9 @@ expressApp.get("/api/sample/tags", async (req: Request, res: Response) => {
 
     const tagsCollection = database.collection("tags");
     const tags = await tagsCollection.find({ user: userObjectId }).toArray();
+
+    broadcastUpdates();
+
     res.json({ tags });
   } catch (error) {
     console.error("Error fetching tags:", error);
@@ -354,6 +368,8 @@ expressApp.patch(
         { $set: updateData }
       );
 
+      broadcastUpdates();
+
       res.json({ message: "Tag updated successfully" });
     } catch (error) {
       console.error("Error updating tag:", error);
@@ -370,6 +386,9 @@ expressApp.get("/api/sample/tags/:id", async (req: Request, res: Response) => {
     const tag = await tagsCollection.findOne({
       $and: [{ user: userObjectId }, { _id: new ObjectId(req.params.id) }],
     });
+
+    broadcastUpdates();
+
     res.json({ tag });
   } catch (error) {
     console.error("Error fetching tag:", error);
@@ -387,7 +406,10 @@ expressApp.post("/api/sample/tags/add", async (req: Request, res: Response) => {
       name: req.body.name,
       _id: new ObjectId(),
     };
-    tagsCollection.insertOne(tag);
+    await tagsCollection.insertOne(tag);
+
+    broadcastUpdates();
+
     res.json({ tag });
   } catch (error) {
     console.error("Error adding tag:", error);
@@ -458,6 +480,31 @@ expressApp.get(
           return false;
         }
       });
+
+      // for each task, find the tag with that id
+      const tagsCollection = database.collection("tags");
+      const tags = await tagsCollection.find().toArray();
+
+      // send in each task as TodoItemWithTags
+      filteredTasks.forEach((task, index: number) => {
+        // compare task.labels to tags._id
+        const labels = task.labels.map((labelId: ObjectId) => {
+          const label = tags.find((tag) => tag._id.equals(labelId));
+          return label;
+        });
+        filteredTasks[index] = {
+          user: task.user,
+          title: task.title,
+          description: task.description,
+          date: new Date(task.date),
+          priority: task.priority,
+          labels: labels,
+          completed: task.completed,
+          _id: task._id,
+        } as TodoItemWithTags;
+      });
+
+      broadcastUpdates();
 
       res.json({ tasks: filteredTasks });
     } catch (error) {
@@ -640,44 +687,7 @@ async function fetchUserObjectID() {
 const wss = new WebSocketServer({ port: 8080 });
 
 import TodoItemWithTags from "../../express/src/types/TodoItemWithTags";
-
-// startSocketUpdates
-
-expressApp.get("/search/:searchTerm", async (req: Request, res: Response) => {
-  try {
-    const userObjectId = await fetchUserObjectID();
-
-    const tasksCollection = database.collection("tasks");
-    const tasks = await tasksCollection
-      .find({
-        $and: [
-          { user: userObjectId },
-          {
-            $or: [
-              { title: { $regex: req.params.searchTerm, $options: "i" } },
-              { description: { $regex: req.params.searchTerm, $options: "i" } },
-            ],
-          },
-        ],
-      })
-      .toArray();
-
-    const tagsCollection = database.collection("tags");
-    const tags = await tagsCollection
-      .find({
-        $and: [
-          { user: userObjectId },
-          { name: { $regex: req.params.searchTerm, $options: "i" } },
-        ],
-      })
-      .toArray();
-
-    res.json({ tasks, tags });
-  } catch (error) {
-    console.error("Error fetching tasks:", error);
-    res.status(500).json({ error: "Error fetching tasks" });
-  }
-});
+import { Await } from "react-router-dom";
 
 async function broadcastUpdates() {
   try {
@@ -721,17 +731,7 @@ async function broadcastUpdates() {
   }
 }
 
-// Broadcast updates when a task is added, updated, or deleted
-expressApp.post("/api/sample/tasks/add", broadcastUpdates);
-expressApp.patch("/api/sample/tasks/update/:id", broadcastUpdates);
-expressApp.delete("/api/sample/tasks/delete/:id", broadcastUpdates);
-
-// Broadcast updates when a tag is added, updated, or deleted
-expressApp.post("/api/sample/tags/add", broadcastUpdates);
-expressApp.patch("/api/sample/tags/update/:id", broadcastUpdates);
-expressApp.delete("/api/sample/tags/delete/:id", broadcastUpdates);
-
-expressApp.post("/initialUpdate/", broadcastUpdates);
+// Broadcast updates when a task or tag is added, updated, or deleted
 
 async function broadcastSearchUpdates(searchTerm: string) {
   try {
@@ -740,8 +740,6 @@ async function broadcastSearchUpdates(searchTerm: string) {
 
     let tasks: any;
     let tags: any;
-
-    console.log("searchTerm:", searchTerm);
 
     // Apply search criteria
     tasks = await tasksCollection
@@ -797,13 +795,11 @@ async function broadcastSearchUpdates(searchTerm: string) {
 // Handle WebSocket connection for search
 wss.on("connection", (socket) => {
   socket.on("message", (message) => {
-    const { action, searchTerm } = JSON.parse(message.toString());
-    if (action === "search") {
+    const { searchTerm } = JSON.parse(message.toString());
       broadcastSearchUpdates(searchTerm);
-    }
+      broadcastUpdates();
   });
 });
-
 wss.on("upgrade", (request, socket, head) => {
   wss.handleUpgrade(request, socket, head, (socket) => {
     wss.emit("connection", socket, request);

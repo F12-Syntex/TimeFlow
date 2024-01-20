@@ -32,11 +32,10 @@ function Search() {
   function performSearch() {
     if (socket && socket.readyState === WebSocket.OPEN) {
       const searchTerm = searchText.toLowerCase();
-      const message = JSON.stringify({ action: "search", searchTerm });
+      const message = JSON.stringify({ searchTerm });
       socket.send(message);
-      return searchTerm;
     }
-  };
+  }
 
   const handleSearchResponse = (event: MessageEvent) => {
     const response = JSON.parse(event.data);
@@ -47,7 +46,6 @@ function Search() {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchText(event.target.value.toLowerCase());
   };
-  
 
   useEffect(() => {
     performSearch();
@@ -55,7 +53,6 @@ function Search() {
 
   return (
     <div className="main-page-container">
-      performSearch: {searchText}
       <PageHeader title="Search" editableView={true} />
       <input
         type="text"

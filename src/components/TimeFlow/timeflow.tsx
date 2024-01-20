@@ -66,7 +66,7 @@ const TimeFlow = () => {
       name: "search",
       selectedName: "search",
       path: "/search",
-      component: <Search/>,
+      component: <Search />,
     },
     {
       name: "inbox",

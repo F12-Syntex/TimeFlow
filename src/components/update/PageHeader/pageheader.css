@@ -9,3 +9,28 @@
   margin-bottom: -8px;
   user-select: none;
 }
+
+.toggle-name {
+  margin-left: 16px;
+  margin-top: 1px;
+}
+
+.toggle-switch {
+  display: flex;
+  margin-top: -2px;
+}
+
+.toggle-switch-container {
+  height: 64px;
+}
+
+.view-options-grid {
+  display: grid;
+  grid-gap: 10px;
+  margin-bottom: -10px;
+  /* each grid item is 500px */
+  grid-template-columns: repeat(auto-fit, minmax(375px, 1fr));
+  width: calc(100% - 52px);
+  /* animated grid movement */
+  transition: transform 0.5s ease-in-out;
+}

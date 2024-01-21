@@ -11,7 +11,6 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  /* width: calc(100vw - 96px - 128px - 52px); */
   width: calc(100% - 52px);
   justify-content: space-between;
   padding-bottom: 8px;
@@ -22,7 +21,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* width: calc(100vw - 96px - 128px); */
   width: 100%;
   padding-bottom: 16px;
   padding-top: 24px;

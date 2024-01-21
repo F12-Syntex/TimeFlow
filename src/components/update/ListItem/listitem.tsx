@@ -156,7 +156,7 @@ const ListItem = ({ item, handleTaskDelete }: ListItemProps) => {
       )}
       <div className="list-view-item">
         <div className="list-view-item-left">
-          <div className="container">
+          <div className="toggle-container">
             <div className="round">
               <input
                 type="checkbox"

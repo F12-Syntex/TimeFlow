@@ -7,8 +7,6 @@
   padding-bottom: 16px;
   padding-top: 24px;
   border-radius: 16px;
-  /* background-color: rgba(255, 255, 255, 0.05); */
-  /* background-color: transparent; */
   background-color: rgba(255, 255, 255, 0.025);
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
@@ -20,17 +18,9 @@
   justify-content: center;
   width: calc(100% - 52px);
 
-  input {
-    background-color: rgba(255, 255, 255, 0.05);
-  }
-
-  input:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-  }
-
   select,
   select#labels {
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: rgba(255, 255, 255, 0.025);
     border-radius: 16px;
     height: 40px;
     outline: none;
@@ -41,7 +31,7 @@
   select:hover,
   select#labels:hover,
   button:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.05);
     transition: 0.25s;
   }
   grid-gap: 8px;
@@ -53,17 +43,9 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 10px;
-  input {
-    background-color: rgba(255, 255, 255, 0.05);
-    width: calc(100%);
-  }
-
-  input:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-  }
 
   select {
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: rgba(255, 255, 255, 0.025);
     border-radius: 16px;
     height: 40px;
     outline: none;
@@ -71,23 +53,23 @@
   }
 
   select:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.05);
   }
 }
 .add-task-form-item {
   margin-bottom: 10px; /* Adjust spacing between form items */
   width: calc(100% - 52px);
   input {
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: rgba(255, 255, 255, 0.025);
     width: calc(100% - 40px);
   }
 
   input:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.05);
   }
 
   select {
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: rgba(255, 255, 255, 0.025);
     width: 100%;
     border-radius: 16px;
     height: 40px;
@@ -98,17 +80,17 @@
   }
 
   select:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.05);
   }
 }
 
 .add-task-form-submit {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: rgba(255, 255, 255, 0.025);
   width: calc(100%);
 }
 
 .add-task-form-submit:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.05);
 }
 
 .dropdown {
@@ -119,17 +101,22 @@
 /* light mode */
 @media (prefers-color-scheme: light) {
   .add-task-form {
-    background-color: rgba(0, 0, 0, 0.025);
-  }
-
-  .add-task-form {
     background-color: rgb(0, 0, 0, 0.025);
     border: 1px solid rgba(0, 0, 0, 0.08);
+    select:hover,
+    select#labels:hover,
+    select#priority:hover,
+    button:hover {
+      background-color: rgb(255, 255, 255) !important;
+      box-shadow: 0px 4px 16px -2px rgba(0, 0, 0, 0.05) !important;
+      scale: 1.001;
+      transition: background-color 0.25s, box-shadow 0.25s, scale 0.25s;
+    }
   }
 
   .add-task-form-item-row {
     input {
-      background-color: rgba(0, 0, 0, 0.05);
+      background-color: rgba(0, 0, 0, 0.025);
     }
 
     input:hover {
@@ -137,7 +124,7 @@
     }
 
     select {
-      background-color: rgba(0, 0, 0, 0.05);
+      background-color: rgba(0, 0, 0, 0.025);
     }
 
     select:hover {
@@ -147,7 +134,7 @@
 
   .add-task-form-item-top {
     input {
-      background-color: rgba(0, 0, 0, 0.05);
+      background-color: rgba(0, 0, 0, 0.025);
     }
 
     input:hover {
@@ -155,7 +142,7 @@
     }
 
     select {
-      background-color: rgba(0, 0, 0, 0.05);
+      background-color: rgba(0, 0, 0, 0.025);
     }
 
     select:hover {
@@ -165,7 +152,7 @@
 
   .add-task-form-item {
     input {
-      background-color: rgba(0, 0, 0, 0.05);
+      background-color: rgba(0, 0, 0, 0.025);
     }
 
     input:hover {
@@ -173,7 +160,7 @@
     }
 
     select {
-      background-color: rgba(0, 0, 0, 0.05);
+      background-color: rgba(0, 0, 0, 0.025);
     }
 
     select:hover {
@@ -182,19 +169,6 @@
   }
 
   .add-task-form-submit {
-    background-color: rgba(0, 0, 0, 0.05);
-  }
-
-  .add-task-form {
-    select:hover,
-    select#labels:hover,
-    select#priority:hover,
-    button:hover {
-      background-color: rgb(255, 255, 255) !important;
-      border: 1px solid rgba(0, 0, 0, 0.08) !important;
-      box-shadow: 0px 4px 16px -2px rgba(0, 0, 0, 0.1) !important;
-      scale: 1.001;
-      transition: background-color 0.25s, box-shadow 0.25s, scale 0.25s;
-    }
+    background-color: rgba(0, 0, 0, 0.025);
   }
 }

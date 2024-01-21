@@ -10,8 +10,8 @@ function useFetchWebSocket(
 
     // Set up event listener for when the socket is opened
     socket.addEventListener("open", (event) => {
-      console.log("WebSocket connection opened:", event);
-      const message = JSON.stringify({ });
+      // console.log("WebSocket connection opened:", event);
+      const message = JSON.stringify({});
       socket.send(message);
     });
 
@@ -38,7 +38,7 @@ function useFetchWebSocket(
           })
         );
 
-        console.log("WebSocket message received:", updatedTodoList);
+        // console.log("WebSocket message received:", updatedTodoList);
 
         // Update the state with the new TodoItemWithTags array
         setTodoList(updatedTodoList);

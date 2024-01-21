@@ -1,19 +1,36 @@
 import { useEffect } from "react";
 import TodoItemWithTags from "../../../../express/src/types/TodoItemWithTags";
 import TagItem from "../../../../express/src/types/TagItem";
-import { getWebSocketInstance } from "../websocket";
 
 function useFetchSearchWebSocket(
   searchTerm: string,
   setTodoList: (todoList: TodoItemWithTags[]) => void,
   setTagList: (tagList: TagItem[]) => void
 ) {
+  const filterTasks = (task: TodoItemWithTags) => {
+    console.log("filterTasks", task);
+    if (task.title.toLowerCase().includes(searchTerm.toLowerCase())) {
+      return true;
+    }
+    if (task.description.toLowerCase().includes(searchTerm.toLowerCase())) {
+      return true;
+    }
+    if (
+      task.labels.some((label: TagItem) =>
+        label.name.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    ) {
+      return true;
+    }
+    return false;
+  };
+
   useEffect(() => {
     const socket = new WebSocket("ws://localhost:8080");
 
     // Set up event listener for when the socket is opened
     socket.addEventListener("open", (event) => {
-      console.log("WebSocket connection opened:", event);
+      // console.log("WebSocket connection opened:", event);
     });
 
     // Set up event listener for incoming messages
@@ -27,37 +44,17 @@ function useFetchSearchWebSocket(
 
         // Convert each task to TodoItemWithTags format
         const updatedTodoList: TodoItemWithTags[] = tasks
-          .map(
-            (task: TodoItemWithTags) => ({
-              user: task.user,
-              title: task.title,
-              description: task.description,
-              date: new Date(task.date),
-              priority: task.priority,
-              labels: task.labels,
-              completed: task.completed,
-              _id: task._id,
-            })
-            //   any element of task can be searched
-          )
-          .filter((task: TodoItemWithTags) => {
-            if (task.title.toLowerCase().includes(searchTerm.toLowerCase())) {
-              return true;
-            }
-            if (
-              task.description.toLowerCase().includes(searchTerm.toLowerCase())
-            ) {
-              return true;
-            }
-            if (
-              task.labels.some((label: TagItem) =>
-                label.name.toLowerCase().includes(searchTerm.toLowerCase())
-              )
-            ) {
-              return true;
-            }
-            return false;
-          });
+          .map((task: TodoItemWithTags) => ({
+            user: task.user,
+            title: task.title,
+            description: task.description,
+            date: new Date(task.date),
+            priority: task.priority,
+            labels: task.labels,
+            completed: task.completed,
+            _id: task._id,
+          }))
+          .filter(filterTasks);
 
         const tags = updatedData?.tags || [];
 

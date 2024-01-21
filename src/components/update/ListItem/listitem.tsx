@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import TodoItem from "../../../../express/src/types/TodoItem";
 import TagItem from "express/src/types/TagItem";
 import TodoItemWithTags from "express/src/types/TodoItemWithTags";
 import Modal from "../Modal/modal";
 import TaskDetails from "../TaskDetails/taskDetails";
-import { ObjectId } from "mongodb";
 interface ListItemProps {
   item: TodoItemWithTags | TodoItem;
   handleTaskDelete: (id: string) => void;
@@ -22,7 +21,10 @@ const ListItem = ({ item, handleTaskDelete }: ListItemProps) => {
     const updatedItem = { ...item, completed: checked };
 
     const parsedLabels = item.labels as TagItem[];
-    const labelIds = parsedLabels[0] === undefined || parsedLabels[0] == null ? "none" : parsedLabels[0]._id;
+    const labelIds =
+      parsedLabels[0] === undefined || parsedLabels[0] == null
+        ? "none"
+        : parsedLabels[0]._id;
     const updatedItemWithLabelIds = { ...updatedItem, labels: labelIds };
 
     const url = `http://localhost:3000/api/sample/tasks/update/${item._id}`;

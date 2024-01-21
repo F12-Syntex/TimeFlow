@@ -88,7 +88,7 @@ function TaskDetails({
     fetch(url, { method, body, headers })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Success:", data);
+        // console.log("Success:", data);
       })
       .catch((error) => {
         console.error("Error:", error);

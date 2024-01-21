@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import TagItem from "express/src/types/TagItem";
-import { getWebSocketInstance } from "../websocket";
 
 function useFetchTagsWebSocket(setTagList: (tagList: TagItem[]) => void) {
   useEffect(() => {
@@ -8,8 +7,8 @@ function useFetchTagsWebSocket(setTagList: (tagList: TagItem[]) => void) {
 
     // Set up event listener for when the socket is opened
     socket.addEventListener("open", (event) => {
-      console.log("WebSocket connection opened:", event);
-      const message = JSON.stringify({ });
+      // console.log("WebSocket connection opened:", event);
+      const message = JSON.stringify({});
       socket.send(message);
     });
 
@@ -29,7 +28,7 @@ function useFetchTagsWebSocket(setTagList: (tagList: TagItem[]) => void) {
           _id: tag._id,
         }));
 
-        console.log("WebSocket message received:", updatedTagList);
+        // console.log("WebSocket message received:", updatedTagList);
 
         // Update the state with the new TagItem array
         setTagList(updatedTagList);

@@ -9,11 +9,11 @@ function TagDetails({
   deleteTag,
   closeModal,
 }: {
-  id: string;
-  deleteTag: (
+  readonly id: string;
+  readonly deleteTag: (
     e: React.MouseEvent<HTMLDivElement | HTMLButtonElement, MouseEvent>
   ) => void;
-  closeModal: () => void;
+  readonly closeModal: () => void;
 }) {
   const [tag, setTag] = useState<TagItem>({} as TagItem);
 
@@ -41,14 +41,14 @@ function TagDetails({
     getTasks();
   }, []);
 
-  //   fetch tasks with tag id
+  // Fetch tasks with tag id
   const getTasks = () => {
     fetch(`http://localhost:3000/api/sample/tags/${id}/tasks`)
       .then((response) => response.json())
       .then((data) => {
         if (Array.isArray(data.tasks)) {
           setTaskList(data.tasks);
-          console.log(data.tasks);
+          // console.log(data.tasks);
         } else {
           console.error("Invalid data format for tasks");
         }

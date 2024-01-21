@@ -64,7 +64,7 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: #161616;
 }
 
 @media (prefers-color-scheme: light) {

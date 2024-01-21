@@ -99,7 +99,6 @@ function App({
     })
       // then alert the user that the task was added and redirect to the inbox
       .then((response) => {
-        console.log("hello" + response.status);
         if (response.status !== 200) {
           alert("Error adding task");
         }

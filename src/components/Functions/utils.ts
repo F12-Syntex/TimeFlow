@@ -21,25 +21,22 @@ export const getTags = (setTagList: (tagList: TagItem[]) => void) => {
     });
 };
 
-export const getLoginStatus = async (setIsLoggedIn: (isLoggedIn: boolean) => void) => {
-    try {
-      const response = await fetch(
-        "http://localhost:3000/api/get-login-status",
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+export const getLoginStatus = async (
+  setIsLoggedIn: (isLoggedIn: boolean) => void
+) => {
+  try {
+    const response = await fetch("http://localhost:3000/api/get-login-status", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-      const data = await response.json();
+    const data = await response.json();
 
-      setIsLoggedIn(
-        data.cookie[0].value !== null && data.cookie[0].value !== ""
-      );
-    } catch (error) {
-      console.error("Error:", error);
-      setIsLoggedIn(false);
-    }
+    setIsLoggedIn(data.cookie[0].value !== null && data.cookie[0].value !== "");
+  } catch (error) {
+    console.error("Error:", error);
+    setIsLoggedIn(false);
   }
+};

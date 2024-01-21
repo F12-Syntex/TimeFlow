@@ -14,6 +14,8 @@ import { Request, Response } from "express-serve-static-core";
 import TodoItem from "../../express/src/types/TodoItem";
 import TagItem from "../../express/src/types/TagItem";
 import crypto from "crypto";
+import WebSocket, { WebSocketServer } from "ws";
+import { MongoClient, ObjectId, ServerApiVersion } from "mongodb";
 
 // The built directory structure
 //
@@ -25,13 +27,14 @@ import crypto from "crypto";
 // ├─┬ dist
 // │ └── index.html    > Electron-Renderer
 //
+
 process.env.DIST_ELECTRON = join(__dirname, "../");
 process.env.DIST = join(process.env.DIST_ELECTRON, "../dist");
 process.env.VITE_PUBLIC = process.env.VITE_DEV_SERVER_URL
   ? join(process.env.DIST_ELECTRON, "../public")
   : process.env.DIST;
 
-// Disable GPU Acceleration for Windows 7
+// Disable GPU Acceleration fir Windows 7
 if (release().startsWith("6.1")) app.disableHardwareAcceleration();
 
 // Set application name for Windows 10+ notifications
@@ -48,7 +51,7 @@ if (!app.requestSingleInstanceLock()) {
 // process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 
 let win: BrowserWindow | null = null;
-// Here, you can also use other preload
+
 const preload = join(__dirname, "../preload/index.js");
 const url = process.env.VITE_DEV_SERVER_URL;
 const indexHtml = join(process.env.DIST, "index.html");
@@ -65,8 +68,8 @@ async function createWindow() {
     show: false,
     frame: false,
     hasShadow: true,
-    titleBarStyle: "hiddenInset",
-    // vibrancy: "sidebar",
+    titleBarStyle: "hidden",
+    titleBarOverlay: true,
     roundedCorners: true,
     webPreferences: {
       preload,
@@ -80,15 +83,10 @@ async function createWindow() {
   });
 
   win.blur();
-
-  // win.setMenuBarVisibility(false)
   win.removeMenu();
 
   if (url) {
-    // electron-vite-vue#298
     win.loadURL(url);
-    // Open devTool if the app is not packaged
-    // win.webContents.openDevTools()
   } else {
     win.loadFile(indexHtml);
   }
@@ -173,9 +171,6 @@ ipcMain.handle("open-win", (_, arg) => {
     childWindow.loadFile(indexHtml, { hash: arg });
   }
 });
-
-import { MongoClient, ObjectId, ServerApiVersion, WithId } from "mongodb";
-import WebSocket, { WebSocketServer } from "ws";
 
 // Encode the username and password for the URI
 const user = encodeURIComponent("admin");
@@ -687,7 +682,6 @@ async function fetchUserObjectID() {
 const wss = new WebSocketServer({ port: 8080 });
 
 import TodoItemWithTags from "../../express/src/types/TodoItemWithTags";
-import { Await } from "react-router-dom";
 
 async function broadcastUpdates() {
   try {
@@ -796,8 +790,8 @@ async function broadcastSearchUpdates(searchTerm: string) {
 wss.on("connection", (socket) => {
   socket.on("message", (message) => {
     const { searchTerm } = JSON.parse(message.toString());
-      broadcastSearchUpdates(searchTerm);
-      broadcastUpdates();
+    broadcastSearchUpdates(searchTerm);
+    broadcastUpdates();
   });
 });
 wss.on("upgrade", (request, socket, head) => {

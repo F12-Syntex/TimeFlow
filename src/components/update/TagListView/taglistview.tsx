@@ -17,7 +17,6 @@ const TagList: React.FC<TagListProps> = ({ tagListViewItems }) => {
     if (tagListViewItems) {
       // If the tagListViewItems prop is passed in, use that
       setTagList(tagListViewItems);
-      return;
     }
   }, [tagListViewItems]); // Re-run this effect if the tagListViewItems prop changes
 

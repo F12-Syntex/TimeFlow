@@ -177,6 +177,7 @@ const TimeFlow: React.FC = () => {
 
   return (
     <div className="main-container">
+      <div className="titlebar"></div>
       <div className="sidebar">
         <div className="sidebar-buttons sidebar-top">
           {/* Render sidebar buttons */}

@@ -12,49 +12,35 @@ import RegisterPage from "../../pages/Register/register";
 import ForgotPasswordPage from "../../pages/ForgotPassword/forgotPassword";
 import AddModal from "../../components/update/AddModal/addmodal";
 import LoginPage from "../../pages/Login/login";
+import SidebarButton from "../SidebarButton/sidebarButton";
+import { getLoginStatus } from "../Functions/utils";
 
-const TimeFlow = () => {
+const TimeFlow: React.FC = () => {
   const navigate = useNavigate();
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(2);
-
-  useEffect(() => {
-    getLoginStatus();
-
-    // check which page is currently being viewed and set the selected index accordingly
-    const currentPath = window.location.pathname;
-    if (currentPath === "/search") {
-      setSelectedIndex(1);
-    } else if (currentPath === "/inbox") {
-      setSelectedIndex(2);
-    } else if (currentPath === "/calendar") {
-      setSelectedIndex(3);
-    } else if (currentPath === "/tags") {
-      setSelectedIndex(4);
-    } else if (currentPath === "/account") {
-      setSelectedIndex(5);
-    }
-  }, []);
-
-  // State for Add modal
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-
   const [previousSelectedIndex, setPreviousSelectedIndex] = useState(2);
 
-  // Open Add modal
-  function openAddModal() {
+  useEffect(() => {
+    getLoginStatus(setIsLoggedIn);
+    const currentPath = window.location.pathname;
+    const index = buttonData.findIndex((button) => button.path === currentPath);
+    setSelectedIndex(index !== -1 ? index : 2);
+  }, []);
+
+  const openAddModal = () => {
     setPreviousSelectedIndex(selectedIndex);
     setSelectedIndex(0);
     setIsAddModalOpen(true);
-  }
+  };
 
-  function closeAddModal() {
+  const closeAddModal = () => {
     setSelectedIndex(previousSelectedIndex);
     setIsAddModalOpen(false);
-  }
+  };
 
-  // array of button data
   const buttonData = [
     {
       name: "plus",
@@ -88,130 +74,84 @@ const TimeFlow = () => {
     },
   ];
 
-  // gets the classes for the icon
-  function getIconClassName(index: number, selected: boolean) {
-    if (selected) {
-      return `bi bi-${buttonData[index].selectedName}`;
-    }
-    return `bi bi-${buttonData[index].name}`;
-  }
+  // Account button click handler
+  const handlePersonButtonClick = () => (
+    <Link
+      to="/account"
+      className={`sidebar-account-button sidebar-button ${
+        selectedIndex === 5 ? "sidebar-selected" : ""
+      }`}
+      onClick={() => setSelectedIndex(5)}
+    >
+      <i className="bi bi-person-fill"></i>
+    </Link>
+  );
 
-  // get the classes for the button
-  function getButtonClassName(index: number, selected: boolean) {
-    if (selected) {
-      if (index === 0) {
-        return `sidebar-add sidebar-add-selected`;
-      }
-      return `sidebar-button sidebar-selected`;
-    }
-    if (index === 0) {
-      return `sidebar-add`;
-    }
-    return `sidebar-button`;
-  }
-
-  const handlePersonButtonClick = () => {
-    const classes = `sidebar-account-button sidebar-button ${
-      selectedIndex === 5 ? "sidebar-selected" : ""
-    }`;
-    return (
-      <Link
-        to="/account"
-        className={classes}
-        onClick={() => setSelectedIndex(5)}
-      >
-        <i className="bi bi-person-fill"></i>
-      </Link>
-    );
-  };
-
-  function getLoginStatus() {
-    fetch("http://localhost:3000/api/get-login-status", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then(async (data) => {
-        if (data["cookie"][0].value != "" && data["cookie"][0].value != null) {
-          setIsLoggedIn(true);
-        } else {
-          setIsLoggedIn(false);
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        setIsLoggedIn(false);
-      });
-  }
-
-  // control or cmd n to open add modal
+  // Handle keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
+      const key = event.key.toLowerCase();
+      const keyMap: {
+        [key: string]: {
+          action: (index: number, path: string) => void;
+          index: number;
+          path?: string;
+        };
+      } = {
+        "1": { action: toggleModalOrNavigate, index: 0 },
+        n: { action: closeAndSetPreviousIndex, index: 0 },
+        "2": { action: closeAndNavigate, index: 1, path: "/search" },
+        f: { action: closeAndNavigate, index: 1, path: "/search" },
+        s: { action: closeAndNavigate, index: 1, path: "/search" },
+        "3": { action: closeAndNavigate, index: 2, path: "/inbox" },
+        i: { action: closeAndNavigate, index: 2, path: "/inbox" },
+        "4": { action: closeAndNavigate, index: 3, path: "/calendar" },
+        c: { action: closeAndNavigate, index: 3, path: "/calendar" },
+        "5": { action: closeAndNavigate, index: 4, path: "/tags" },
+        t: { action: closeAndNavigate, index: 4, path: "/tags" },
+        "6": { action: closeAndNavigate, index: 5, path: "/account" },
+        a: { action: closeAndNavigate, index: 5, path: "/account" },
+      };
+
+      const mapping = keyMap[key];
+
       if (event.ctrlKey || event.metaKey) {
-        if (event.key === "n") {
-          openAddModal();
+        if (mapping) {
+          mapping.action(mapping.index, mapping.path ?? "");
         }
       }
     };
+
+    const toggleModalOrNavigate = (index: number, path: string) => {
+      if (isAddModalOpen) {
+        closeAndSetPreviousIndex();
+      } else {
+        setPreviousSelectedIndex(selectedIndex);
+        openAddModal();
+        setSelectedIndex(index);
+        if (path) {
+          navigate(path);
+        }
+      }
+    };
+
+    const closeAndSetPreviousIndex = () => {
+      closeAddModal();
+      setSelectedIndex(previousSelectedIndex);
+    };
+
+    const closeAndNavigate = (index: number, path: string) => {
+      closeAddModal();
+      setSelectedIndex(index);
+      navigate(path);
+    };
+
     window.addEventListener("keydown", handleKeyDown);
+
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
-
-  // control or cmd f to open search
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.ctrlKey || event.metaKey) {
-        if (event.key === "f") {
-          setSelectedIndex(1);
-          navigate("/search");
-        }
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [navigator, selectedIndex]);
-
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.ctrlKey || event.metaKey) {
-        if (event.key === "1") {
-          if (isAddModalOpen) {
-            closeAddModal();
-            setSelectedIndex(previousSelectedIndex);
-          } else {
-            setPreviousSelectedIndex(selectedIndex);
-            openAddModal();
-            setSelectedIndex(0);
-          }
-        } else if (event.key === "2") {
-          setSelectedIndex(1);
-          navigate("/search");
-        } else if (event.key === "3") {
-          setSelectedIndex(2);
-          navigate("/inbox");
-        } else if (event.key === "4") {
-          setSelectedIndex(3);
-          navigate("/calendar");
-        } else if (event.key === "5") {
-          setSelectedIndex(4);
-          navigate("/tags");
-        } else if (event.key === "6") {
-          setSelectedIndex(5);
-          navigate("/account");
-        }
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [navigator, selectedIndex]);
+  }, [isAddModalOpen, navigate, selectedIndex, previousSelectedIndex]);
 
   if (!isLoggedIn) {
     return (
@@ -241,29 +181,14 @@ const TimeFlow = () => {
         <div className="sidebar-buttons sidebar-top">
           {/* Render sidebar buttons */}
           {buttonData.map((button, index) => (
-            <div key={button.path}>
-              {/* For "Add" button, open modal; for other buttons, handle navigation */}
-              {index === 0 ? (
-                <button
-                  className={getButtonClassName(index, index === selectedIndex)}
-                  onClick={openAddModal}
-                >
-                  <i
-                    className={getIconClassName(index, index === selectedIndex)}
-                  ></i>
-                </button>
-              ) : (
-                <Link
-                  to={button.path}
-                  className={getButtonClassName(index, index === selectedIndex)}
-                  onClick={() => setSelectedIndex(index)}
-                >
-                  <i
-                    className={getIconClassName(index, index === selectedIndex)}
-                  ></i>
-                </Link>
-              )}
-            </div>
+            <SidebarButton
+              key={button.path}
+              button={button}
+              index={index}
+              selectedIndex={selectedIndex}
+              openAddModal={openAddModal}
+              setSelectedIndex={setSelectedIndex}
+            />
           ))}
         </div>
         <div className="sidebar-bottom">{handlePersonButtonClick()}</div>

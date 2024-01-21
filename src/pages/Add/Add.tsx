@@ -5,11 +5,15 @@ import TagItem from "express/src/types/TagItem";
 import TodoItem from "express/src/types/TodoItem";
 import React, { useEffect, useState } from "react";
 import { ObjectId } from "mongodb";
-import { useNavigate } from "react-router-dom";
+import { getTags } from "../../components/Functions/utils";
 
-function App({ closeModal, type }: { closeModal: () => void; type: string }) {
-  const navigate = useNavigate();
-
+function App({
+  closeModal,
+  type,
+}: {
+  readonly closeModal: () => void;
+  readonly type: string;
+}) {
   // get user from cookie
   function getUserID() {
     const cookies = document.cookie.split(";");
@@ -96,9 +100,7 @@ function App({ closeModal, type }: { closeModal: () => void; type: string }) {
       // then alert the user that the task was added and redirect to the inbox
       .then((response) => {
         console.log("hello" + response.status);
-        if (response.status === 200) {
-          // navigate("/inbox");
-        } else {
+        if (response.status !== 200) {
           alert("Error adding task");
         }
       });
@@ -130,10 +132,7 @@ function App({ closeModal, type }: { closeModal: () => void; type: string }) {
     })
       // then alert the user that the task was added and redirect to the inbo
       .then((response) => {
-        if (response.status === 200) {
-          // window.location.href = "/tags";
-          // navigate("/tags");
-        } else {
+        if (response.status !== 200) {
           alert("Error adding tag");
         }
       });
@@ -151,30 +150,8 @@ function App({ closeModal, type }: { closeModal: () => void; type: string }) {
 
   const [tagList, setTagList] = useState<TagItem[]>([]);
 
-  const getTags = () => {
-    fetch("http://localhost:3000/api/sample/tags")
-      .then((response) => response.json())
-      .then((data) => {
-        // Check if data.tags is an array
-        if (Array.isArray(data.tags)) {
-          // Manipulate the data to get TagItem array
-          const parsedTagList: TagItem[] = data.tags.map((tag: any) => ({
-            name: tag.name,
-            _id: tag._id,
-          }));
-          setTagList(parsedTagList);
-        } else {
-          console.error("Invalid data format for tags");
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching tags:", error);
-      });
-  };
-
   useEffect(() => {
-    getTags();
-    // setSelectedIndex(0);
+    getTags(setTagList);
   }, []);
 
   return (
@@ -201,7 +178,7 @@ function App({ closeModal, type }: { closeModal: () => void; type: string }) {
                   id="date"
                   name="date"
                   placeholder="Date"
-                  defaultValue={new Date().toISOString().substr(0, 10)}
+                  defaultValue={new Date().toISOString().slice(0, 10)}
                 />
               </div>
               <div className="add-task-form-item">

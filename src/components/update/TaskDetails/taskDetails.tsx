@@ -3,17 +3,18 @@ import PageHeader from "../PageHeader/pageheader";
 import TodoItem from "express/src/types/TodoItem";
 import TagItem from "express/src/types/TagItem";
 import "@/components/update/TaskDetails/taskDetails.css";
+import { getTags } from "@/components/Functions/utils";
 
 function TaskDetails({
   id,
   deleteTask,
   closeModal,
 }: {
-  id: string;
-  deleteTask: (
+  readonly id: string;
+  readonly deleteTask: (
     e: React.MouseEvent<HTMLDivElement | HTMLButtonElement, MouseEvent>
   ) => void;
-  closeModal: () => void;
+  readonly closeModal: () => void;
 }) {
   const [task, setTask] = useState<TodoItem>({} as TodoItem);
 
@@ -60,31 +61,10 @@ function TaskDetails({
 
   useEffect(() => {
     getTaskDetails();
-    getTags();
+    getTags(setTagList);
   }, []);
 
   const [tagList, setTagList] = useState<TagItem[]>([]);
-
-  const getTags = () => {
-    fetch("http://localhost:3000/api/sample/tags")
-      .then((response) => response.json())
-      .then((data) => {
-        // Check if data.tags is an array
-        if (Array.isArray(data.tags)) {
-          // Manipulate the data to get TagItem array
-          const parsedTagList: TagItem[] = data.tags.map((tag: any) => ({
-            name: tag.name,
-            _id: tag._id,
-          }));
-          setTagList(parsedTagList);
-        } else {
-          console.error("Invalid data format for tags");
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching tags:", error);
-      });
-  };
 
   function saveTask() {
     const url = `http://localhost:3000/api/sample/tasks/update/${id}`;
@@ -118,73 +98,73 @@ function TaskDetails({
 
   return (
     <div className="modal-container">
-        <PageHeader title={task.title} editableView={false} />
-        <div className="add-task-form">
-          <div className="add-task-form-item">
-            <input type="text" id="title" name="title" placeholder="Title" />
-          </div>
-          <div className="add-task-form-item">
-            <input
-              type="text"
-              id="description"
-              name="description"
-              placeholder="Description"
-            />
-          </div>
-          <div className="add-task-form-item">
-            <select id="labels" name="labels" defaultValue="none">
-              <option value="none">No Tag</option>
-              {tagList.map((tag) => (
-                <option key={tag._id.toString()} value={tag._id.toString()}>
-                  {tag.name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="add-task-form-item">
-            <input type="date" id="date" name="date" placeholder="Date" />
-          </div>
-          <div className="add-task-form-item">
-            <input
-              id="priority"
-              name="priority"
-              placeholder="Priority"
-              defaultValue="0"
-              min="0"
-              max="100"
-              type="number"
-            />
-          </div>
-          <div className="add-task-form-item">
-            <input
-              type="checkbox"
-              id="completed"
-              name="completed"
-              placeholder="Completed"
-            />
-          </div>
-
-          <div className="add-task-form-item-row">
-            <button
-              className="add-task-form-item add-task-form-submit"
-              onClick={saveTask}
-            >
-              Save
-            </button>
-            <button
-              className="add-task-form-item add-task-form-submit"
-              onClick={deleteTask}
-            >
-              Delete
-            </button>
-            <button
-              className="add-task-form-item add-task-form-submit"
-              onClick={closeModal}
-            >
-              Cancel
-            </button>
-          </div>
+      <PageHeader title={task.title} editableView={false} />
+      <div className="add-task-form">
+        <div className="add-task-form-item">
+          <input type="text" id="title" name="title" placeholder="Title" />
         </div>
+        <div className="add-task-form-item">
+          <input
+            type="text"
+            id="description"
+            name="description"
+            placeholder="Description"
+          />
+        </div>
+        <div className="add-task-form-item">
+          <select id="labels" name="labels" defaultValue="none">
+            <option value="none">No Tag</option>
+            {tagList.map((tag) => (
+              <option key={tag._id.toString()} value={tag._id.toString()}>
+                {tag.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="add-task-form-item">
+          <input type="date" id="date" name="date" placeholder="Date" />
+        </div>
+        <div className="add-task-form-item">
+          <input
+            id="priority"
+            name="priority"
+            placeholder="Priority"
+            defaultValue="0"
+            min="0"
+            max="100"
+            type="number"
+          />
+        </div>
+        <div className="add-task-form-item">
+          <input
+            type="checkbox"
+            id="completed"
+            name="completed"
+            placeholder="Completed"
+          />
+        </div>
+
+        <div className="add-task-form-item-row">
+          <button
+            className="add-task-form-item add-task-form-submit"
+            onClick={saveTask}
+          >
+            Save
+          </button>
+          <button
+            className="add-task-form-item add-task-form-submit"
+            onClick={deleteTask}
+          >
+            Delete
+          </button>
+          <button
+            className="add-task-form-item add-task-form-submit"
+            onClick={closeModal}
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

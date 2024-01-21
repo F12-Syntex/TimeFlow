@@ -68,7 +68,10 @@
 }
 
 @media (prefers-color-scheme: light) {
-  .main-page-container, .auth-page-container, .title-bar, .modal-container {
+  .main-page-container,
+  .auth-page-container,
+  .title-bar,
+  .modal-container {
     background-color: #ffffff;
   }
 

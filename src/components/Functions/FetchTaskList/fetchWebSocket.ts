@@ -3,7 +3,7 @@ import TodoItemWithTags from "../../../../express/src/types/TodoItemWithTags";
 import { getWebSocketInstance } from "../websocket";
 
 function useFetchWebSocket(
-  setTodoList: (todoList: TodoItemWithTags[]) => void
+  setTodoList: (todoList: TodoItemWithTags[]) => void,
 ) {
   useEffect(() => {
     const socket = getWebSocketInstance();
@@ -35,7 +35,7 @@ function useFetchWebSocket(
             labels: task.labels,
             completed: task.completed,
             _id: task._id,
-          })
+          }),
         );
 
         // console.log("WebSocket message received:", updatedTodoList);

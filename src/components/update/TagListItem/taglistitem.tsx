@@ -16,7 +16,7 @@ const ListItem = ({ item, handleTagDelete }: ListItemProps) => {
   const [closing, setClosing] = useState(false);
 
   function deleteTag(
-    e: React.MouseEvent<HTMLDivElement | HTMLButtonElement, MouseEvent>
+    e: React.MouseEvent<HTMLDivElement | HTMLButtonElement, MouseEvent>,
   ) {
     e.preventDefault();
     closeModal();

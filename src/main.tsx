@@ -10,7 +10,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <Router>
       <TimeFlow />
     </Router>
-  </React.StrictMode>
+  </React.StrictMode>,
 );
 
 postMessage({ payload: "removeLoading" }, "*");

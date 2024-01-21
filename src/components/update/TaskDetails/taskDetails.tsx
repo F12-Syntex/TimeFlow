@@ -12,7 +12,7 @@ function TaskDetails({
 }: {
   readonly id: string;
   readonly deleteTask: (
-    e: React.MouseEvent<HTMLDivElement | HTMLButtonElement, MouseEvent>
+    e: React.MouseEvent<HTMLDivElement | HTMLButtonElement, MouseEvent>,
   ) => void;
   readonly closeModal: () => void;
 }) {
@@ -76,7 +76,7 @@ function TaskDetails({
       labels: (document.getElementById("labels") as HTMLInputElement).value,
       date: (document.getElementById("date") as HTMLInputElement).value,
       priority: parseInt(
-        (document.getElementById("priority") as HTMLInputElement).value
+        (document.getElementById("priority") as HTMLInputElement).value,
       ),
       completed: (document.getElementById("completed") as HTMLInputElement)
         .checked,

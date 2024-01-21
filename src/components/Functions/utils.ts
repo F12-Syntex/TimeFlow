@@ -22,7 +22,7 @@ export const getTags = (setTagList: (tagList: TagItem[]) => void) => {
 };
 
 export const getLoginStatus = async (
-  setIsLoggedIn: (isLoggedIn: boolean) => void
+  setIsLoggedIn: (isLoggedIn: boolean) => void,
 ) => {
   try {
     const response = await fetch("http://localhost:3000/api/get-login-status", {

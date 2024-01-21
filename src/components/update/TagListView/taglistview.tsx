@@ -34,7 +34,7 @@ const TagList: React.FC<TagListProps> = ({ tagListViewItems }) => {
       .then((data) => {
         // After successful deletion, update the tag list state
         setTagList((prevTagList) =>
-          prevTagList.filter((tag) => tag._id.toString() !== tagId)
+          prevTagList.filter((tag) => tag._id.toString() !== tagId),
         );
         // alert("Tag deleted successfully");
       })

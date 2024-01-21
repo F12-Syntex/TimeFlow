@@ -14,13 +14,13 @@ npm i electron-updater
 
    Add a `publish` field to `electron-builder.json5` for configuring the update address and which strategy to use as the update service.
 
-   ``` json5
+   ```json5
    {
-      "publish": {
-         "provider": "generic",
-         "channel": "latest",
-         "url": "https://foo.com/"
-      }
+     publish: {
+       provider: "generic",
+       channel: "latest",
+       url: "https://foo.com/",
+     },
    }
    ```
 
@@ -34,12 +34,12 @@ npm i electron-updater
    - Downloading the new version of the software from the server (when an update is available);
    - Installation method;
 
-   For more information, please refer to  : [update...](https://github.com/electron-vite/electron-vite-react/blob/main/electron/main/update.ts)
+   For more information, please refer to : [update...](https://github.com/electron-vite/electron-vite-react/blob/main/electron/main/update.ts)
 
 3. ##### Updating UI pages in Electron:
 
    The main function is to provide a UI page for users to trigger the update logic mentioned in (2.) above. Users can click on the page to trigger different update functions in Electron.
-   
+
    For more information, please refer to : [components/update...](https://github.com/electron-vite/electron-vite-react/blob/main/src/components/update/index.tsx)
 
 ---

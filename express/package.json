@@ -1,15 +1,13 @@
 {
-    "name": "timeflow-express-server",
-    "version": "1.0.0",
-    "description": "Express server for TimeFlow",
-    "main": "src/server.ts",
-    "scripts": {
-      "start": "node src/server.ts"
-    },
-    "dependencies": {
-      "express": "^4.17.1"
-    },
-    "devDependencies": {
-
-    }
-  }
+  "name": "timeflow-express-server",
+  "version": "1.0.0",
+  "description": "Express server for TimeFlow",
+  "main": "src/server.ts",
+  "scripts": {
+    "start": "node src/server.ts"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {}
+}

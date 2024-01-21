@@ -41,9 +41,7 @@ const Modal = ({ closeModal, children, closing }: any) => {
         <button className="modal-close" onClick={handleCloseModal}>
           <i className="bi bi-x"></i>
         </button>
-        <div className="modal-content">
-          {children}
-        </div>
+        <div className="modal-content">{children}</div>
       </div>
     </div>
   );

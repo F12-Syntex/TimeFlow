@@ -54,7 +54,7 @@ const Update = () => {
         setUpdateAvailable(false);
       }
     },
-    []
+    [],
   );
 
   const onUpdateError = useCallback(
@@ -62,14 +62,14 @@ const Update = () => {
       setUpdateAvailable(false);
       setUpdateError(arg1);
     },
-    []
+    [],
   );
 
   const onDownloadProgress = useCallback(
     (_event: Electron.IpcRendererEvent, arg1: ProgressInfo) => {
       setProgressInfo(arg1);
     },
-    []
+    [],
   );
 
   const onUpdateDownloaded = useCallback(
@@ -82,7 +82,7 @@ const Update = () => {
         onOk: () => ipcRenderer.invoke("quit-and-install"),
       }));
     },
-    []
+    [],
   );
 
   useEffect(() => {

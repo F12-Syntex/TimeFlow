@@ -127,7 +127,7 @@ const ListItem = ({ item, handleTaskDelete }: ListItemProps) => {
   }
 
   const deleteTask = (
-    e: React.MouseEvent<HTMLButtonElement | HTMLDivElement, MouseEvent>
+    e: React.MouseEvent<HTMLButtonElement | HTMLDivElement, MouseEvent>,
   ) => {
     handleTaskDelete(item._id.toString());
   };

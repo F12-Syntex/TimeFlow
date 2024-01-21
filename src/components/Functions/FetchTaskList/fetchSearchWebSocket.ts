@@ -5,7 +5,7 @@ import TagItem from "../../../../express/src/types/TagItem";
 function useFetchSearchWebSocket(
   searchTerm: string,
   setTodoList: (todoList: TodoItemWithTags[]) => void,
-  setTagList: (tagList: TagItem[]) => void
+  setTagList: (tagList: TagItem[]) => void,
 ) {
   const filterTasks = (task: TodoItemWithTags) => {
     console.log("filterTasks", task);
@@ -17,7 +17,7 @@ function useFetchSearchWebSocket(
     }
     if (
       task.labels.some((label: TagItem) =>
-        label.name.toLowerCase().includes(searchTerm.toLowerCase())
+        label.name.toLowerCase().includes(searchTerm.toLowerCase()),
       )
     ) {
       return true;
@@ -66,7 +66,7 @@ function useFetchSearchWebSocket(
         console.log(
           "WebSocket message received:",
           updatedTodoList,
-          updatedTagList
+          updatedTagList,
         );
 
         // Update the state with the new TodoItemWithTags array

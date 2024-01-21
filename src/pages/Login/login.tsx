@@ -25,7 +25,7 @@ function LoginPage() {
       .then((response) => response.json())
       .then((data) => {
         if (data["user"] != null) {
-            window.location.href = "/";
+          window.location.href = "/";
         } else {
           alert("Invalid username or password");
         }
@@ -41,39 +41,39 @@ function LoginPage() {
   return (
     <div className="auth-page-container">
       <PageHeader title="Login" editableView={false} />
-        <div className="login-form">
-          <div className="login-form-item">
-            <input
-              type="text"
-              id="username"
-              name="username"
-              placeholder="Username"
-            />
+      <div className="login-form">
+        <div className="login-form-item">
+          <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Username"
+          />
+        </div>
+        <div className="login-form-item">
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Password"
+          />
+        </div>
+        <div className="login-form-item-row">
+          <div className="login-form-bottom-left">
+            <button className="login-form-submit" onClick={login}>
+              Login
+            </button>
           </div>
-          <div className="login-form-item">
-            <input
-              type="password"
-              id="password"
-              name="password"
-              placeholder="Password"
-            />
-          </div>
-          <div className="login-form-item-row">
-            <div className="login-form-bottom-left">
-              <button className="login-form-submit" onClick={login}>
-                Login
-              </button>
-            </div>
-            <div className="login-form-bottom-right">
-              <Link className="login-form-submit" to="/register">
-                <button>Register</button>
-              </Link>
-              <Link className="login-form-submit" to="/forgotpassword">
-                <button>Forgot Password</button>
-              </Link>
-            </div>
+          <div className="login-form-bottom-right">
+            <Link className="login-form-submit" to="/register">
+              <button>Register</button>
+            </Link>
+            <Link className="login-form-submit" to="/forgotpassword">
+              <button>Forgot Password</button>
+            </Link>
           </div>
         </div>
+      </div>
     </div>
   );
 }

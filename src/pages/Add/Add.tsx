@@ -58,7 +58,7 @@ function App({
 
     if (
       new Date(
-        (document.getElementById("date") as HTMLInputElement)?.value ?? ""
+        (document.getElementById("date") as HTMLInputElement)?.value ?? "",
       ).toString() === "Invalid Date"
     ) {
       alert("Please enter a valid date for this task");
@@ -72,7 +72,7 @@ function App({
         (document.getElementById("description") as HTMLInputElement)?.value ??
         "",
       date: formatDate(
-        (document.getElementById("date") as HTMLInputElement)?.value ?? ""
+        (document.getElementById("date") as HTMLInputElement)?.value ?? "",
       ),
       priority:
         (document.getElementById("priority") as HTMLInputElement)?.value ?? "",
@@ -83,7 +83,7 @@ function App({
           : [
               new ObjectId(
                 (document.getElementById("labels") as HTMLInputElement)
-                  ?.value ?? ""
+                  ?.value ?? "",
               ),
             ],
       completed: false,
@@ -143,7 +143,7 @@ function App({
     return new Date(
       parseInt(dateArray[0]),
       parseInt(dateArray[1]) - 1,
-      parseInt(dateArray[2])
+      parseInt(dateArray[2]),
     );
   };
 

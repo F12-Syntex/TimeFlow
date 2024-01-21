@@ -11,7 +11,7 @@ function TagDetails({
 }: {
   readonly id: string;
   readonly deleteTag: (
-    e: React.MouseEvent<HTMLDivElement | HTMLButtonElement, MouseEvent>
+    e: React.MouseEvent<HTMLDivElement | HTMLButtonElement, MouseEvent>,
   ) => void;
   readonly closeModal: () => void;
 }) {

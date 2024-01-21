@@ -5,32 +5,31 @@ import CalendarSidebar from "./CalendarSidebar";
 // import Month from "./Month";
 
 function getMonth(month = dayjs().month()) {
-    
-    const year = dayjs().year();
-    const firstDayOfMonth = dayjs(new Date(year, month, 1)).day(); 
-    let curMonthCounter = 0 - firstDayOfMonth;
+  const year = dayjs().year();
+  const firstDayOfMonth = dayjs(new Date(year, month, 1)).day();
+  let curMonthCounter = 0 - firstDayOfMonth;
 
-    const dayMatrix = new Array(5).fill([]).map(() => {
-      return new Array(7).fill(null).map(() => {
-        curMonthCounter++;
-        return dayjs(new Date(year, month, curMonthCounter));
-      });
+  const dayMatrix = new Array(5).fill([]).map(() => {
+    return new Array(7).fill(null).map(() => {
+      curMonthCounter++;
+      return dayjs(new Date(year, month, curMonthCounter));
     });
-    return dayMatrix;
-  }
+  });
+  return dayMatrix;
+}
 
 function App() {
- const [currentMonth, setCurrentMonth] = useState(getMonth())
-//  const [];
+  const [currentMonth, setCurrentMonth] = useState(getMonth());
+  //  const [];
   return (
     <React.Fragment>
-        <div className="h-screen flex flex-columns">
-          <CalendarHeader />
-            <div className="flex flex-1">
-                <CalendarSidebar />
-                {/* <Month month={currentMonth} /> */}
-            </div>
+      <div className="h-screen flex flex-columns">
+        <CalendarHeader />
+        <div className="flex flex-1">
+          <CalendarSidebar />
+          {/* <Month month={currentMonth} /> */}
         </div>
+      </div>
     </React.Fragment>
   );
 }

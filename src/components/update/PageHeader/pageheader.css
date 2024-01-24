@@ -1,13 +1,21 @@
-.header-bar {
+.header-bar, .subheader-bar {
   position: relative;
   text-align: left;
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: space-between;
   width: calc(100% - 64px);
+  user-select: none;
+}
+
+.header-bar {
   padding-top: 8px;
   margin-bottom: -8px;
-  user-select: none;
+}
+
+.subheader-bar {
+  margin-top: -12px;
 }
 
 .toggle-name {

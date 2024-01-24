@@ -164,7 +164,7 @@ const TimeFlow: React.FC = () => {
           element={<ForgotPasswordPage />}
           key={5}
         />
-        {buttonData.map((button, index) => (
+        {buttonData.map((button) => (
           <Route
             key={button.path}
             path={button.path}
@@ -220,7 +220,7 @@ const TimeFlow: React.FC = () => {
         <Route path="/inbox/*" element={<Inbox />} />
 
         {/* Add routes for Add/Search/Calendar/Tags */}
-        {buttonData.map((button, index) => (
+        {buttonData.map((button) => (
           <Route
             key={button.path}
             path={button.path}

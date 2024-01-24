@@ -2,7 +2,7 @@ import "./inbox.css";
 import "../pages.css";
 import PageHeader from "../../components/update/PageHeader/pageheader";
 import ListView from "../../components/update/ListView/listview";
-import useFetchWebSocket from "@/components/Functions/FetchTaskList/fetchWebSocket";
+import useFetchWebSocket from "@/components/Functions/fetchWebSockets/fetchWebSocket";
 import TodoItemWithTags from "express/src/types/TodoItemWithTags";
 import { useState } from "react";
 

@@ -68,7 +68,7 @@
     border-radius: 45%;
     /* border-radius: 24px; */
     outline: none;
-    scale: 1.001;
+    scale: 1.0025;
     box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.2);
     transition: all 0.25s;
   }

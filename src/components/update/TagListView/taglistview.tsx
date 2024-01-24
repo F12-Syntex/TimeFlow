@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import TagItem from "express/src/types/TagItem";
 import TagListItem from "../TagListItem/taglistitem";
 import NoItems from "../NoItems/noitems";
-import useFetchTagsWebSocket from "../../Functions/FetchTagList/fetchTagsWebSocket";
+import useFetchTagsWebSocket from "../../Functions/fetchWebSockets/fetchTagsWebSocket";
 
 // optional prop tagListViewItems, use this if you want to pass in a list of tags to display
 // otherwise, fetch the list of tags from the server

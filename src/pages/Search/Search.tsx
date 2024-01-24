@@ -60,25 +60,11 @@ function Search() {
         placeholder="Search"
         onChange={handleInputChange}
       />
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          width: "calc(100% - 64px)",
-          marginTop: "-20px",
-        }}
-      >
+      <div className="subheader-bar">
         <PageHeader title="Tasks" editableView={false} />
       </div>
       <ListView listViewItems={todoList} />
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          width: "calc(100% - 64px)",
-          marginTop: "-8px",
-        }}
-      >
+      <div className="subheader-bar">
         <PageHeader title="Tags" editableView={false} />
       </div>
       <TagListView tagListViewItems={tagList} />

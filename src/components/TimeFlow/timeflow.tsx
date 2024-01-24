@@ -106,11 +106,9 @@ const TimeFlow: React.FC = () => {
         "3": { action: closeAndNavigate, index: 2, path: "/inbox" },
         i: { action: closeAndNavigate, index: 2, path: "/inbox" },
         "4": { action: closeAndNavigate, index: 3, path: "/calendar" },
-        c: { action: closeAndNavigate, index: 3, path: "/calendar" },
         "5": { action: closeAndNavigate, index: 4, path: "/tags" },
         t: { action: closeAndNavigate, index: 4, path: "/tags" },
         "6": { action: closeAndNavigate, index: 5, path: "/account" },
-        a: { action: closeAndNavigate, index: 5, path: "/account" },
       };
 
       const mapping = keyMap[key];

@@ -44,7 +44,7 @@ const TagList: React.FC<TagListProps> = ({ tagListViewItems }) => {
   };
 
   return (
-    <div className="list-view-container">
+<div className="grid gap-3 w-[calc(100%-64px)] grid-cols-[repeat(auto-fit,minmax(500px,1fr))]">
       {(tagList.length === 0 && <NoItems name="tag" />) ||
         tagList.map((item) => (
           <TagListItem

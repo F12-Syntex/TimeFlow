@@ -31,7 +31,7 @@ function PageHeader(props: Readonly<Props>) {
   }
 
   return (
-    <div className="header-bar">
+    <div className="relative text-left flex flex-row items-center justify-between select-none pt-2 -mb-2 md:min-w-[calc(100%-64px)]">
       {showModal && (
         <Modal closeModal={() => setShowModal(false)} closing={closing}>
           <div className="modal-container">
@@ -67,19 +67,17 @@ function ToggleSwitch({
   onChange,
 }: Readonly<{ name: string; checked: boolean; onChange: () => void }>) {
   return (
-    <button className="toggle-switch-container" onClick={onChange}>
-      <div className="toggle-switch">
-        <div className="toggle-container">
-          <div className="round">
-            <input
-              type="checkbox"
-              name={name}
-              id={name}
-              checked={checked}
-              onChange={onChange}
-            />
-            <label htmlFor={name}></label>
-          </div>
+    <button className="h-16" onClick={onChange}>
+      <div className="flex -mt-1">
+        <div className="round">
+          <input
+            type="checkbox"
+            name={name}
+            id={name}
+            checked={checked}
+            onChange={onChange}
+          />
+          <label htmlFor={name}></label>
         </div>
         <div className="toggle-name">{name}</div>
       </div>

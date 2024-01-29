@@ -38,7 +38,7 @@ function ListView({
 
     if (filterCompleted !== undefined) {
       updatedItems = updatedItems.filter(
-        (item) => item.completed === filterCompleted,
+        (item) => item.completed === filterCompleted
       );
     }
 
@@ -73,7 +73,7 @@ function ListView({
       .then((response) => response.json())
       .then((data) => {
         setFilteredItems((prevFilteredItems) =>
-          prevFilteredItems.filter((item) => item._id.toString() !== id),
+          prevFilteredItems.filter((item) => item._id.toString() !== id)
         );
         // alert("Task deleted successfully");
       })
@@ -83,7 +83,7 @@ function ListView({
   }
 
   return (
-    <div className="list-view-container">
+    <div className="grid gap-3 w-[calc(100%-64px)] grid-cols-[repeat(auto-fit,minmax(500px,1fr))]">
       {(filteredItems.length === 0 && <NoItems name="task" />) ||
         filteredItems.map((item) => (
           <ListItem

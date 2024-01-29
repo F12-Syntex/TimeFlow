@@ -174,8 +174,7 @@ const TimeFlow: React.FC = () => {
   }
 
   return (
-    <div className="main-container">
-      <div className="titlebar"></div>
+    <div className="flex flex-row items-center justify-center h-screen overflow-hidden">
       <div className="sidebar">
         <div className="sidebar-buttons sidebar-top">
           {/* Render sidebar buttons */}
@@ -190,7 +189,7 @@ const TimeFlow: React.FC = () => {
             />
           ))}
         </div>
-        <div className="sidebar-bottom">{handlePersonButtonClick()}</div>
+        <div className="flex flex-col justify-end items-center h-full pb-10">{handlePersonButtonClick()}</div>
       </div>
       {isAddModalOpen && (
         <AddModal

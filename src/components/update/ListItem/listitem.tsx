@@ -155,7 +155,7 @@ const ListItem = ({ item, handleTaskDelete }: ListItemProps) => {
         </Modal>
       )}
       <div className="list-view-item">
-        <div className="list-view-item-left">
+        <div className="pl-5 pt-2 w-10">
           <div className="toggle-container">
             <div className="round">
               <input
@@ -168,20 +168,19 @@ const ListItem = ({ item, handleTaskDelete }: ListItemProps) => {
             </div>
           </div>
         </div>
-        {/* <Link to={`/task/${item._id}`} className="list-view-item-right"> */}
         <div
-          className="list-view-item-right"
+          className="flex flex-col flex-1"
           onClick={() => setShowModal(true)}
         >
-          <div className="list-view-item-top">
-            <div className="list-view-item-title">{item.title}</div>
-            <div className="list-view-item-date">
+          <div className="flex flex-row justify-between">
+            <div className="text-xl font-semibold">{item.title}</div>
+            <div className="text-base font-normal">
               <span>{parseDate(String(item.date))}</span>
             </div>
           </div>
-          <div className="list-view-item-bottom">
-            <div className="list-view-item-description">{item.description}</div>
-            <div className="list-view-item-labels">
+          <div className="flex flex-row justify-between">
+            <div className="text-base font-normal">{item.description}</div>
+            <div className="flex flex-row items-center justify-end text-base font-semibold">
               {labels.map((label) => (
                 <div key={label} className="list-view-item-label">
                   {label}

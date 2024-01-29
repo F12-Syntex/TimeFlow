@@ -22,7 +22,7 @@ function AccountPage() {
 
   return (
     <div className="main-page-container">
-      <div className="header-bar">
+    <div className="relative text-left flex flex-row items-center justify-between select-none pt-2 -mb-2 md:min-w-[calc(100%-64px)]">
         <h2>Account</h2>
         <button onClick={logout}>Logout</button>
       </div>

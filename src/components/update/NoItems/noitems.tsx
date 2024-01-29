@@ -31,14 +31,14 @@ function NoItems(props: { name: string }) {
         ></AddModal>
       )}
       <div className="list-view-item" onClick={openModal}>
-        <div className="list-view-item-right" style={{ marginLeft: "24px" }}>
-          <div className="list-view-item-top">
-            <div className="list-view-item-title">
+        <div className="flex flex-col flex-1 ml-6">
+          <div className="flex flex-row justify-between">
+            <div className="text-xl font-semibold">
               No {pluralize(props.name)}
             </div>
           </div>
-          <div className="list-view-item-bottom">
-            <div className="list-view-item-description">
+          <div className="flex flex-row justify-between">
+            <div className="text-base font-normal">
               Add a {props.name} to get started!
             </div>
           </div>

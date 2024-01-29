@@ -1,4 +1,3 @@
-import "./search.css";
 import "../pages.css";
 import PageHeader from "../../components/update/PageHeader/pageheader";
 import ListView from "../../components/update/ListView/listview";
@@ -56,15 +55,15 @@ function Search() {
       <PageHeader title="Search" editableView={true} />
       <input
         type="text"
-        className="search-search-bar"
+        className="flex flex-row md:w-auto md:min-w-[calc(100%-96px)] p-3 md:p-4"
         placeholder="Search"
         onChange={handleInputChange}
       />
-      <div className="subheader-bar">
+      <div className="relative text-left flex flex-row items-center justify-between select-none -mt-3 md:min-w-[calc(100%-64px)]">
         <PageHeader title="Tasks" editableView={false} />
       </div>
       <ListView listViewItems={todoList} />
-      <div className="subheader-bar">
+      <div className="relative text-left flex flex-row items-center justify-between select-none -mt-3 md:min-w-[calc(100%-64px)]">
         <PageHeader title="Tags" editableView={false} />
       </div>
       <TagListView tagListViewItems={tagList} />

@@ -43,15 +43,15 @@ const ListItem = ({ item, handleTagDelete }: ListItemProps) => {
         </Modal>
       )}
       <div
-        className="list-view-item tag-list-view-item"
+        className="list-view-item"
         onClick={() => setShowModal(true)}
       >
         {/* <Link to={`/tag/${item._id}`}> */}
-        <div className="tag-list-view-item-left">
-          <div className="list-view-item-title">{item.name}</div>
+        <div className="pl-6 flex items-center justify-center">
+          <div className="text-xl font-semibold">{item.name}</div>
         </div>
         {/* </Link> */}
-        <div className="tag-list-view-item-right" onClick={deleteTag}>
+        <div className="ml-auto" onClick={deleteTag}>
           <button className="bi bi-trash3-fill"></button>
         </div>
       </div>

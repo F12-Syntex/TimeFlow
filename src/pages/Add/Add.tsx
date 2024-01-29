@@ -154,7 +154,7 @@ function App({
   }, []);
 
   return (
-    <div className="relative flex flex-col items-center h-full overflow-x-hidden overflow-y-auto bg-white select-none w-[calc(100vw-96px)] dark:bg-zinc-900 pb-9">
+    <div className="relative flex flex-col items-center h-full overflow-x-hidden overflow-y-auto bg-white select-none sm:w-[80vw] lg:w-[70vw] 2xl:w-[60vw] dark:bg-zinc-900 pb-9">
       {type === "task" || type === "all" ? (
         <>
           <PageHeader title="Add Task" editableView={false} />

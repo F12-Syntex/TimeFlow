@@ -44,6 +44,7 @@ function LoginPage() {
       <div className="login-form">
         <div className="login-form-item">
           <input
+            className="btn"
             type="text"
             id="username"
             name="username"
@@ -52,6 +53,7 @@ function LoginPage() {
         </div>
         <div className="login-form-item">
           <input
+            className="btn"
             type="password"
             id="password"
             name="password"
@@ -60,16 +62,16 @@ function LoginPage() {
         </div>
         <div className="login-form-item-row">
           <div className="login-form-bottom-left">
-            <button className="login-form-submit" onClick={login}>
+            <button className="login-form-submit btn" onClick={login}>
               Login
             </button>
           </div>
           <div className="login-form-bottom-right">
             <Link className="login-form-submit" to="/register">
-              <button>Register</button>
+              <button className="btn">Register</button>
             </Link>
             <Link className="login-form-submit" to="/forgotpassword">
-              <button>Forgot Password</button>
+              <button className="btn">Forgot Password</button>
             </Link>
           </div>
         </div>

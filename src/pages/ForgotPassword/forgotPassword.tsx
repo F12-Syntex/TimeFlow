@@ -41,10 +41,17 @@ function ForgotPasswordPage() {
       <PageHeader title="Forgot Password" editableView={false} />
       <div className="login-form">
         <div className="login-form-item">
-          <input type="text" id="email" name="email" placeholder="Email" />
+          <input
+            type="text"
+            id="email"
+            name="email"
+            placeholder="Email"
+            className="btn"
+          />
         </div>
         <div className="login-form-item">
           <input
+            className="btn"
             type="text"
             id="username"
             name="username"
@@ -53,13 +60,13 @@ function ForgotPasswordPage() {
         </div>
         <div className="login-form-item-row">
           <div className="login-form-bottom-left">
-            <button className="login-form-submit" onClick={resetPassword}>
+            <button className="login-form-submit btn" onClick={resetPassword}>
               Reset Password
             </button>
           </div>
           <div className="login-form-bottom-right">
             <Link className="login-form-submit" to="/">
-              <button>Login</button>
+              <button className="btn">Login</button>
             </Link>
           </div>
         </div>

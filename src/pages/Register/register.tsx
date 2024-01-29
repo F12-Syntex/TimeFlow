@@ -69,10 +69,17 @@ function RegisterPage() {
       <PageHeader title="Register" editableView={false} />
       <div className="login-form">
         <div className="login-form-item">
-          <input type="text" id="email" name="email" placeholder="Email" />
+          <input
+            className="btn"
+            type="text"
+            id="email"
+            name="email"
+            placeholder="Email"
+          />
         </div>
         <div className="login-form-item">
           <input
+            className="btn"
             type="text"
             id="username"
             name="username"
@@ -81,6 +88,7 @@ function RegisterPage() {
         </div>
         <div className="login-form-item">
           <input
+            className="btn"
             type="password"
             id="password"
             name="password"
@@ -89,6 +97,7 @@ function RegisterPage() {
         </div>
         <div className="login-form-item">
           <input
+            className="btn"
             type="password"
             id="confirm-password"
             name="confirm-password"
@@ -97,13 +106,13 @@ function RegisterPage() {
         </div>
         <div className="login-form-item-row">
           <div className="login-form-bottom-left">
-            <button className="login-form-submit" onClick={register}>
+            <button className="login-form-submit btn" onClick={register}>
               Register
             </button>
           </div>
           <div className="login-form-bottom-right">
             <Link className="login-form-submit" to="/">
-              <button>Login</button>
+              <button className="btn">Login</button>
             </Link>
           </div>
         </div>

@@ -11,6 +11,8 @@ function Search() {
   const [tagList, setTagList] = useState<TagItem[]>([]);
   const [searchText, setSearchText] = useState("");
   const [socket, setSocket] = useState<WebSocket | null>(null);
+  const [filterCompleted, setFilterCompleted] = useState<boolean>(false);
+  const [dimCompleted, setDimCompleted] = useState<boolean>(false);
 
   useEffect(() => {
     const newSocket = new WebSocket("ws://localhost:8080");
@@ -52,17 +54,25 @@ function Search() {
 
   return (
     <div className="relative flex flex-col items-center h-full overflow-x-hidden overflow-y-auto bg-white select-none w-[calc(100vw-96px)] dark:bg-zinc-900">
-      <PageHeader title="Search" editableView={true} />
+      <PageHeader
+        title="Search"
+        editableView={true}
+        filterCompleted={filterCompleted}
+        setFilterCompleted={setFilterCompleted}
+        dimCompleted={dimCompleted}
+        setDimCompleted={setDimCompleted}
+      />
       <input
         type="text"
-        className="flex flex-row w-[calc(100%-96px)] p-4"
+        className="flex flex-row w-[calc(100%-96px)] p-4 search-input"
         placeholder="Search"
         onChange={handleInputChange}
       />
       <div className="relative text-left flex flex-row items-center justify-between select-none -mt-3 w-[calc(100%-64px)]">
         <PageHeader title="Tasks" editableView={false} />
       </div>
-      <ListView listViewItems={todoList} />
+      <div>{filterCompleted}</div>
+      <ListView listViewItems={todoList} filterCompleted={filterCompleted} filterInverseDate={null} dimCompleted={dimCompleted} />
       <div className="relative text-left flex flex-row items-center justify-between select-none -mt-3 w-[calc(100%-64px)]">
         <PageHeader title="Tags" editableView={false} />
       </div>

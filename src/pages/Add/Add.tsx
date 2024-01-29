@@ -58,7 +58,7 @@ function App({
 
     if (
       new Date(
-        (document.getElementById("date") as HTMLInputElement)?.value ?? "",
+        (document.getElementById("date") as HTMLInputElement)?.value ?? ""
       ).toString() === "Invalid Date"
     ) {
       alert("Please enter a valid date for this task");
@@ -72,7 +72,7 @@ function App({
         (document.getElementById("description") as HTMLInputElement)?.value ??
         "",
       date: formatDate(
-        (document.getElementById("date") as HTMLInputElement)?.value ?? "",
+        (document.getElementById("date") as HTMLInputElement)?.value ?? ""
       ),
       priority:
         (document.getElementById("priority") as HTMLInputElement)?.value ?? "",
@@ -83,7 +83,7 @@ function App({
           : [
               new ObjectId(
                 (document.getElementById("labels") as HTMLInputElement)
-                  ?.value ?? "",
+                  ?.value ?? ""
               ),
             ],
       completed: false,
@@ -143,7 +143,7 @@ function App({
     return new Date(
       parseInt(dateArray[0]),
       parseInt(dateArray[1]) - 1,
-      parseInt(dateArray[2]),
+      parseInt(dateArray[2])
     );
   };
 
@@ -154,16 +154,23 @@ function App({
   }, []);
 
   return (
-    <div className="relative flex flex-col items-center h-full overflow-x-hidden overflow-y-auto bg-white select-none w-[calc(100vw-96px)] dark:bg-zinc-900 h-full pb-9">
+    <div className="relative flex flex-col items-center h-full overflow-x-hidden overflow-y-auto bg-white select-none w-[calc(100vw-96px)] dark:bg-zinc-900 pb-9">
       {type === "task" || type === "all" ? (
         <>
           <PageHeader title="Add Task" editableView={false} />
           <div className="add-task-form">
             <div className="add-task-form-item">
-              <input type="text" id="name" name="name" placeholder="Name" />
+              <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Name"
+                className="btn"
+              />
             </div>
             <div className="add-task-form-item">
               <input
+                className="btn"
                 type="text"
                 id="description"
                 name="description"
@@ -173,6 +180,7 @@ function App({
             <div className="add-task-form-item-row">
               <div className="add-task-form-item">
                 <input
+                  className="btn"
                   type="date"
                   id="date"
                   name="date"
@@ -182,6 +190,7 @@ function App({
               </div>
               <div className="add-task-form-item">
                 <input
+                  className="btn"
                   id="priority"
                   name="priority"
                   placeholder="Priority"
@@ -202,7 +211,7 @@ function App({
                 </select>
               </div>
               <div className="add-task-form-item">
-                <button className="add-task-form-submit" onClick={addTask}>
+                <button className="add-task-form-submit btn" onClick={addTask}>
                   Add Task
                 </button>
               </div>
@@ -216,10 +225,16 @@ function App({
           <PageHeader title="Add Tag" editableView={false} />
           <div className="add-task-form">
             <div className="add-task-form-item">
-              <input type="text" id="tag-name" name="name" placeholder="Name" />
+              <input
+                type="text"
+                id="tag-name"
+                name="name"
+                placeholder="Name"
+                className="btn"
+              />
             </div>
             <div className="add-task-form-item">
-              <button className="add-task-form-submit" onClick={addTag}>
+              <button className="add-task-form-submit btn" onClick={addTag}>
                 Add Tag
               </button>
             </div>

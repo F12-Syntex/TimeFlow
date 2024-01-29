@@ -123,7 +123,7 @@ const ListItem = ({ item, handleTaskDelete }: ListItemProps) => {
   }
 
   const deleteTask = (
-    e: React.MouseEvent<HTMLButtonElement | HTMLDivElement, MouseEvent>,
+    e: React.MouseEvent<HTMLButtonElement | HTMLDivElement, MouseEvent>
   ) => {
     handleTaskDelete(item._id.toString());
   };
@@ -155,6 +155,7 @@ const ListItem = ({ item, handleTaskDelete }: ListItemProps) => {
           <div className="toggle-container">
             <div className="round">
               <input
+                className="btn"
                 type="checkbox"
                 id={`checkbox-${item._id}`}
                 checked={check.completed}
@@ -187,7 +188,10 @@ const ListItem = ({ item, handleTaskDelete }: ListItemProps) => {
         </div>
         {/* </Link> */}
         {/* </div> */}
-        <button onClick={deleteTask} className="bi bi-trash3-fill"></button>
+        <button
+          onClick={deleteTask}
+          className="bi bi-trash3-fill bin-btn"
+        ></button>
       </div>
     </>
   );

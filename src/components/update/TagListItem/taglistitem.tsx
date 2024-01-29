@@ -52,7 +52,7 @@ const ListItem = ({ item, handleTagDelete }: ListItemProps) => {
         </div>
         {/* </Link> */}
         <div className="ml-auto" onClick={deleteTag}>
-          <button className="bi bi-trash3-fill"></button>
+          <button className="bi bi-trash3-fill bin-btn"></button>
         </div>
       </div>
     </>

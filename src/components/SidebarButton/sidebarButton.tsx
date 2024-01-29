@@ -45,7 +45,7 @@ const SidebarButton: React.FC<SidebarButtonProps> = ({
     <div key={button.path}>
       {index === 0 ? (
         <button
-          className={getButtonClassName(index === selectedIndex)}
+          className={getButtonClassName(index === selectedIndex) + " btn"}
           onClick={openAddModal}
         >
           <i className={getIconClassName(index === selectedIndex)}></i>

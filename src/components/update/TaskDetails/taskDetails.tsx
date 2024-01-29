@@ -12,7 +12,7 @@ function TaskDetails({
 }: {
   readonly id: string;
   readonly deleteTask: (
-    e: React.MouseEvent<HTMLDivElement | HTMLButtonElement, MouseEvent>,
+    e: React.MouseEvent<HTMLDivElement | HTMLButtonElement, MouseEvent>
   ) => void;
   readonly closeModal: () => void;
 }) {
@@ -76,7 +76,7 @@ function TaskDetails({
       labels: (document.getElementById("labels") as HTMLInputElement).value,
       date: (document.getElementById("date") as HTMLInputElement).value,
       priority: parseInt(
-        (document.getElementById("priority") as HTMLInputElement).value,
+        (document.getElementById("priority") as HTMLInputElement).value
       ),
       completed: (document.getElementById("completed") as HTMLInputElement)
         .checked,
@@ -101,10 +101,11 @@ function TaskDetails({
       <PageHeader title={task.title} editableView={false} />
       <div className="add-task-form">
         <div className="add-task-form-item">
-          <input type="text" id="title" name="title" placeholder="Title" />
+          <input type="text" id="title" name="title" placeholder="Title" className="btn"/>
         </div>
         <div className="add-task-form-item">
           <input
+            className="btn"
             type="text"
             id="description"
             name="description"
@@ -122,10 +123,11 @@ function TaskDetails({
           </select>
         </div>
         <div className="add-task-form-item">
-          <input type="date" id="date" name="date" placeholder="Date" />
+          <input type="date" id="date" name="date" placeholder="Date" className="btn"/>
         </div>
         <div className="add-task-form-item">
           <input
+          className="btn"
             id="priority"
             name="priority"
             placeholder="Priority"
@@ -137,6 +139,7 @@ function TaskDetails({
         </div>
         <div className="add-task-form-item">
           <input
+          className="btn"
             type="checkbox"
             id="completed"
             name="completed"
@@ -146,19 +149,19 @@ function TaskDetails({
 
         <div className="add-task-form-item-row">
           <button
-            className="add-task-form-item add-task-form-submit"
+            className="add-task-form-item add-task-form-submit btn"
             onClick={saveTask}
           >
             Save
           </button>
           <button
-            className="add-task-form-item add-task-form-submit"
+            className="add-task-form-item add-task-form-submit btn"
             onClick={deleteTask}
           >
             Delete
           </button>
           <button
-            className="add-task-form-item add-task-form-submit"
+            className="add-task-form-item add-task-form-submit btn"
             onClick={closeModal}
           >
             Cancel

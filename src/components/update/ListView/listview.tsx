@@ -10,6 +10,7 @@ interface ListViewProps {
   filterDate?: Date | null;
   filterInverseDate?: Date | null;
   filterCompleted?: boolean;
+  dimCompleted?: boolean;
 }
 
 function ListView({
@@ -17,6 +18,7 @@ function ListView({
   filterDate,
   filterInverseDate,
   filterCompleted,
+  dimCompleted,
 }: ListViewProps) {
   const [filteredItems, setFilteredItems] = useState(listViewItems);
 
@@ -37,21 +39,13 @@ function ListView({
     }
 
     if (filterCompleted !== undefined) {
-      updatedItems = updatedItems.filter(
-        (item) => item.completed === filterCompleted
-      );
-    }
-
-    if (filterInverseDate) {
+      // if filterCompleted is true, show all tasks, otherwise show only incomplete tasks
       updatedItems = updatedItems.filter((item) => {
-        const itemDate = new Date(item.date);
-        const selectedDate = new Date(filterInverseDate);
-
-        return (
-          itemDate.getDate() !== selectedDate.getDate() ||
-          itemDate.getMonth() !== selectedDate.getMonth() ||
-          itemDate.getFullYear() !== selectedDate.getFullYear()
-        );
+        if (filterCompleted) {
+          return true;
+        } else {
+          return !item.completed;
+        }
       });
     }
 

@@ -1,20 +1,9 @@
 .list-view-item {
-  display: flex;
-  flex-direction: row;
-  align-items: left;
-  padding-top: 16px;
-  padding-bottom: 16px;
-  padding-right: 16px;
-  list-style: none;
-  border-radius: 16px;
+  @apply flex flex-row pt-4 pb-4 pr-4 list-none transition-all duration-200 ease-in-out border rounded-2xl bg-zinc-800 border-zinc-700;
   background-color: rgba(255, 255, 255, 0.025);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  transition: background-color 0.25s;
   .bi-trash3-fill {
     margin-left: 16px;
-  }
-  button {
-    border-radius: 8px;
   }
 }
 
@@ -22,25 +11,15 @@
   background-color: rgba(255, 255, 255, 0.05);
   box-shadow: 0px 4px 16px -4px rgba(0, 0, 0, 0.1);
   scale: 1.0025;
-  transition:
-    background-color 0.25s,
-    box-shadow 0.25s,
-    scale 0.25s;
 }
 
 .list-view-item-label {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: 2px 8px;
-  margin-left: 8px;
-  border-radius: 8px;
+  @apply flex flex-row items-center justify-center px-2 py-0.5 mr-2 rounded-lg;
   background-color: rgba(255, 255, 255, 0.08);
 }
 
 .round {
-  position: relative;
+  @apply relative;
 }
 
 .round label {

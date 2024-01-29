@@ -38,7 +38,7 @@ const Modal = ({ closeModal, children, closing }: any) => {
       onClick={handleOverlayClick}
     >
       <div className={`modal ${closingContainer ? "fade-out" : "fade-in"}`}>
-        <button className="modal-close" onClick={handleCloseModal}>
+        <button className="modal-close btn" onClick={handleCloseModal}>
           <i className="bi bi-x"></i>
         </button>
         <div className="modal-content">{children}</div>

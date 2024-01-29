@@ -86,24 +86,24 @@ function TagDetails({
       <PageHeader title={tag.name} editableView={false} />
       <div className="add-task-form">
         <div className="add-task-form-item">
-          <input type="text" id="name" name="title" placeholder="Title" />
+          <input type="text" id="name" name="title" placeholder="Title" className="btn"/>
         </div>
 
         <div className="add-task-form-item-row">
           <button
-            className="add-task-form-item add-task-form-submit"
+            className="add-task-form-item add-task-form-submit btn"
             onClick={saveTag}
           >
             Save
           </button>
           <button
-            className="add-task-form-item add-task-form-submit"
+            className="add-task-form-item add-task-form-submit btn"
             onClick={deleteTag}
           >
             Delete
           </button>
           <button
-            className="add-task-form-item add-task-form-submit"
+            className="add-task-form-item add-task-form-submit btn"
             onClick={closeModal}
           >
             Cancel

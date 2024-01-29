@@ -34,7 +34,7 @@ const TagList: React.FC<TagListProps> = ({ tagListViewItems }) => {
       .then((data) => {
         // After successful deletion, update the tag list state
         setTagList((prevTagList) =>
-          prevTagList.filter((tag) => tag._id.toString() !== tagId),
+          prevTagList.filter((tag) => tag._id.toString() !== tagId)
         );
         // alert("Tag deleted successfully");
       })
@@ -44,7 +44,7 @@ const TagList: React.FC<TagListProps> = ({ tagListViewItems }) => {
   };
 
   return (
-<div className="grid gap-3 w-[calc(100%-64px)] grid-cols-[repeat(auto-fit,minmax(500px,1fr))]">
+    <div className="grid gap-3 w-[calc(100%-64px)] grid-cols-[repeat(auto-fit,minmax(500px,1fr))]">
       {(tagList.length === 0 && <NoItems name="tag" />) ||
         tagList.map((item) => (
           <TagListItem

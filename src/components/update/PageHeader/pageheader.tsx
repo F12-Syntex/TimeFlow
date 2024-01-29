@@ -31,10 +31,10 @@ function PageHeader(props: Readonly<Props>) {
   }
 
   return (
-    <div className="relative text-left flex flex-row items-center justify-between select-none pt-2 -mb-2 md:min-w-[calc(100%-64px)]">
+    <div className="relative text-left flex flex-row items-center justify-between select-none pt-2 -mb-2 w-[calc(100%-64px)]">
       {showModal && (
         <Modal closeModal={() => setShowModal(false)} closing={closing}>
-          <div className="modal-container">
+          <div className="relative flex flex-col items-center h-full overflow-x-hidden overflow-y-auto bg-white select-none w-[calc(100vw-96px)] dark:bg-zinc-900 pb-9">
             <PageHeader title="View Options" editableView={false} />
             <div className="view-options-grid">
               <ToggleSwitch

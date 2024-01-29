@@ -1,80 +1,26 @@
-.auth-page-container,
-.main-page-container,
-.modal-container {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: top;
-  align-items: center;
-  background-color: #161616;
-  position: relative;
-  user-select: none;
-  width: calc(100vw - 96px);
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
-.modal-container {
-  height: 100%;
-  padding-bottom: 36px;
-}
-
-.auth-page-container {
-  width: calc(100vw - 64px);
-  padding-left: 32px;
-  padding-right: 32px;
-  justify-content: center;
-}
-
 .title-bar {
-  background-color: #0a0a0a;
-  height: 32px;
-  width: 100%;
-  overflow: hidden;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  -webkit-app-region: drag; /* Allows dragging the window */
-}
+  -webkit-app-region: drag;
 
-.title-bar-title {
-  font-size: 14px;
-}
-
-#root {
-  margin: 0 !important;
-  padding: 0 !important;
+  @apply absolute top-0 z-50 flex flex-row items-center justify-between w-full h-6 overflow-hidden bg-transparent;
 }
 
 ::-webkit-scrollbar {
-  position: absolute;
-  z-index: 1000;
-  width: 10px;
+  @apply absolute z-50 w-2.5;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #262626;
-  border-radius: 4px;
+  @apply rounded-full bg-opacity-40 bg-zinc-800;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #2f2f2f;
-  border-radius: 4px;
+  @apply bg-opacity-80;
 }
 
 ::-webkit-scrollbar-track {
-  background: #161616;
+  opacity: 0;
 }
 
 @media (prefers-color-scheme: light) {
-  .main-page-container,
-  .auth-page-container,
-  .title-bar,
-  .modal-container {
-    background-color: #ffffff;
-  }
-
   ::-webkit-scrollbar-thumb {
     background: #f1f1f1;
   }

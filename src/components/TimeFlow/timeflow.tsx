@@ -175,7 +175,8 @@ const TimeFlow: React.FC = () => {
 
   return (
     <div className="flex flex-row items-center justify-center h-screen overflow-hidden">
-      <div className="sidebar">
+      <div className="title-bar"></div>
+      <div className="sidebar h-full p-4 pt-20 overflow-hidden align-middle justify-between flex-col flex w-[63px]">
         <div className="sidebar-buttons sidebar-top">
           {/* Render sidebar buttons */}
           {buttonData.map((button, index) => (
@@ -189,7 +190,7 @@ const TimeFlow: React.FC = () => {
             />
           ))}
         </div>
-        <div className="flex flex-col justify-end items-center h-full pb-10">{handlePersonButtonClick()}</div>
+        <div className="flex flex-col items-center justify-end h-full pb-10">{handlePersonButtonClick()}</div>
       </div>
       {isAddModalOpen && (
         <AddModal

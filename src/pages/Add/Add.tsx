@@ -154,7 +154,7 @@ function App({
   }, []);
 
   return (
-    <div className="modal-container">
+    <div className="relative flex flex-col items-center h-full overflow-x-hidden overflow-y-auto bg-white select-none w-[calc(100vw-96px)] dark:bg-zinc-900 h-full pb-9">
       {type === "task" || type === "all" ? (
         <>
           <PageHeader title="Add Task" editableView={false} />

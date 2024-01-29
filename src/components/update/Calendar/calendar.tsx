@@ -23,7 +23,7 @@ function App() {
   //  const [];
   return (
     <React.Fragment>
-      <div className="h-screen flex flex-columns">
+      <div className="flex h-screen flex-columns">
         <CalendarHeader />
         <div className="flex flex-1">
           <CalendarSidebar />

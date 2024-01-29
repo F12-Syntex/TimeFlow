@@ -4,9 +4,11 @@ import TagListView from "@/components/update/TagListView/taglistview";
 
 function App() {
   return (
-    <div className="main-page-container">
+    <div className="relative flex flex-col items-center h-full overflow-x-hidden overflow-y-auto bg-white select-none w-[calc(100vw-96px)] dark:bg-zinc-900">
       <PageHeader title="Tags" editableView={true} />
-      <TagListView />
+      <div className="w-[calc(100%)] mb-8 flex justify-center">
+        <TagListView />
+      </div>
     </div>
   );
 }

@@ -62,7 +62,7 @@ async function createWindow() {
     icon: join(process.env.VITE_PUBLIC, "new_program_icon.ico"),
     width: 1200,
     height: 900,
-    minWidth: 600,
+    minWidth: 670,
     minHeight: 800,
     transparent: true,
     show: false,

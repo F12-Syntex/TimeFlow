@@ -1,5 +1,3 @@
-import PageHeader from "@/components/update/PageHeader/pageheader";
-import { Link } from "react-router-dom";
 import "./account.css";
 
 function AccountPage() {
@@ -21,8 +19,8 @@ function AccountPage() {
   }
 
   return (
-    <div className="main-page-container">
-    <div className="relative text-left flex flex-row items-center justify-between select-none pt-2 -mb-2 md:min-w-[calc(100%-64px)]">
+    <div className="relative flex flex-col items-center h-full overflow-x-hidden overflow-y-auto bg-white select-none w-[calc(100vw-96px)] dark:bg-zinc-900">
+      <div className="relative text-left flex flex-row items-center justify-between select-none pt-2 -mb-2 w-[calc(100%-64px)]">
         <h2>Account</h2>
         <button onClick={logout}>Logout</button>
       </div>

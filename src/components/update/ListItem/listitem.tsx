@@ -151,7 +151,7 @@ const ListItem = ({ item, handleTaskDelete }: ListItemProps) => {
         </Modal>
       )}
       <div className="list-view-item">
-        <div className="pl-5 pt-2 w-10">
+        <div className="w-10 pt-2 pl-5">
           <div className="toggle-container">
             <div className="round">
               <input

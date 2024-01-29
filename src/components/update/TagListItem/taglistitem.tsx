@@ -47,7 +47,7 @@ const ListItem = ({ item, handleTagDelete }: ListItemProps) => {
         onClick={() => setShowModal(true)}
       >
         {/* <Link to={`/tag/${item._id}`}> */}
-        <div className="pl-6 flex items-center justify-center">
+        <div className="flex items-center justify-center pl-6">
           <div className="text-xl font-semibold">{item.name}</div>
         </div>
         {/* </Link> */}

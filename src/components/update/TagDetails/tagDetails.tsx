@@ -82,7 +82,7 @@ function TagDetails({
   }
 
   return (
-    <div className="modal-container">
+    <div className="relative flex flex-col items-center h-full overflow-x-hidden overflow-y-auto bg-white select-none w-[calc(100vw-96px)] dark:bg-zinc-900 pb-9">
       <PageHeader title={tag.name} editableView={false} />
       <div className="add-task-form">
         <div className="add-task-form-item">

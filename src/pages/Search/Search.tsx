@@ -51,22 +51,24 @@ function Search() {
   }, [searchText, socket]);
 
   return (
-    <div className="main-page-container">
+    <div className="relative flex flex-col items-center h-full overflow-x-hidden overflow-y-auto bg-white select-none w-[calc(100vw-96px)] dark:bg-zinc-900">
       <PageHeader title="Search" editableView={true} />
       <input
         type="text"
-        className="flex flex-row md:w-auto md:min-w-[calc(100%-96px)] p-3 md:p-4"
+        className="flex flex-row w-[calc(100%-96px)] p-4"
         placeholder="Search"
         onChange={handleInputChange}
       />
-      <div className="relative text-left flex flex-row items-center justify-between select-none -mt-3 md:min-w-[calc(100%-64px)]">
+      <div className="relative text-left flex flex-row items-center justify-between select-none -mt-3 w-[calc(100%-64px)]">
         <PageHeader title="Tasks" editableView={false} />
       </div>
       <ListView listViewItems={todoList} />
-      <div className="relative text-left flex flex-row items-center justify-between select-none -mt-3 md:min-w-[calc(100%-64px)]">
+      <div className="relative text-left flex flex-row items-center justify-between select-none -mt-3 w-[calc(100%-64px)]">
         <PageHeader title="Tags" editableView={false} />
       </div>
-      <TagListView tagListViewItems={tagList} />
+      <div className="w-[calc(100%)] mb-8 flex justify-center">
+        <TagListView tagListViewItems={tagList} />
+      </div>
     </div>
   );
 }

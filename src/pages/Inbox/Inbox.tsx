@@ -1,4 +1,3 @@
-import "./inbox.css";
 import "../pages.css";
 import PageHeader from "../../components/update/PageHeader/pageheader";
 import ListView from "../../components/update/ListView/listview";

@@ -1,4 +1,3 @@
-import "./tags.css";
 import "../pages.css";
 import PageHeader from "@/components/update/PageHeader/pageheader";
 import TagListView from "@/components/update/TagListView/taglistview";

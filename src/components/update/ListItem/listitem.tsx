@@ -9,10 +9,6 @@ interface ListItemProps {
   handleTaskDelete: (id: string) => void;
 }
 
-interface ListItemTags {
-  tag: TagItem;
-}
-
 const ListItem = ({ item, handleTaskDelete }: ListItemProps) => {
   const [check, setCheck] = useState(item);
 

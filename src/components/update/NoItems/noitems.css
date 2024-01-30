@@ -7,7 +7,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.25); /* Semi-transparent background */
+  background-color: rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(4px) saturate(0.8) brightness(0.8);
   display: flex;
   justify-content: center;
@@ -19,10 +19,7 @@
 .modal {
   border-radius: 16px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  background-color: #161616;
-  position: relative;
   overflow: auto;
-  opacity: 0;
 }
 
 .modal.fade-in {
@@ -68,15 +65,12 @@
 /* Close button */
 .modal-close {
   position: fixed;
-  top: 16px;
-  right: 16px;
-  background: none;
-  border: none;
-  cursor: pointer;
+  top: 24px;
+  right: 24px;
   font-size: 24px;
-  color: #888;
+  border: 1px solid transparent;
+  background: none;
   padding: 0;
   line-height: 1;
-  outline: none;
   z-index: 1000;
 }

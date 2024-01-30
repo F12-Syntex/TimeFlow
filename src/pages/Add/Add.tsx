@@ -201,7 +201,12 @@ function App({
                 />
               </div>
               <div className="add-task-form-item">
-                <select id="labels" name="labels" defaultValue="none">
+                <select
+                  id="labels"
+                  name="labels"
+                  defaultValue="none"
+                  className="btn"
+                >
                   <option value="none">No Tag</option>
                   {tagList.map((tag) => (
                     <option key={tag._id.toString()} value={tag._id.toString()}>

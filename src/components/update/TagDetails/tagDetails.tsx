@@ -3,6 +3,7 @@ import PageHeader from "../PageHeader/pageheader";
 import TagItem from "express/src/types/TagItem";
 import TodoItem from "express/src/types/TodoItem";
 import ListView from "../ListView/listview";
+import { ObjectId } from "mongodb";
 
 function TagDetails({
   id,
@@ -11,11 +12,14 @@ function TagDetails({
 }: {
   readonly id: string;
   readonly deleteTag: (
-    e: React.MouseEvent<HTMLDivElement | HTMLButtonElement, MouseEvent>,
+    e: React.MouseEvent<HTMLDivElement | HTMLButtonElement, MouseEvent>
   ) => void;
   readonly closeModal: () => void;
 }) {
-  const [tag, setTag] = useState<TagItem>({} as TagItem);
+  const [tag, setTag] = useState<TagItem>({
+    name: "",
+    _id: new ObjectId(),
+  } as TagItem);
 
   function getTagDetails() {
     const url = `http://localhost:3000/api/sample/tags/${id}`;
@@ -28,8 +32,6 @@ function TagDetails({
       .then((response) => response.json())
       .then((data) => {
         setTag(data["tag"]);
-        (document.getElementById("name") as HTMLInputElement).value =
-          data["tag"].name;
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -83,10 +85,21 @@ function TagDetails({
 
   return (
     <div className="relative flex flex-col items-center h-full overflow-x-hidden overflow-y-auto bg-white select-none sm:w-[80vw] lg:w-[70vw] 2xl:w-[60vw] dark:bg-zinc-900 pb-9">
-      <PageHeader title={tag.name} editableView={false} />
+      <PageHeader
+        title={tag.name === "" ? "No Title" : tag.name}
+        editableView={false}
+      />
       <div className="add-task-form">
         <div className="add-task-form-item">
-          <input type="text" id="name" name="title" placeholder="Title" className="btn"/>
+          <input
+            type="text"
+            id="name"
+            name="title"
+            placeholder="Title"
+            className="btn"
+            value={tag.name}
+            onChange={(e) => setTag({ ...tag, name: e.target.value })}
+          />
         </div>
 
         <div className="add-task-form-item-row">
@@ -111,7 +124,7 @@ function TagDetails({
         </div>
       </div>
       <PageHeader title="Related Tasks" editableView={false} />
-      <ListView listViewItems={taskList} />
+        <ListView listViewItems={taskList} />
     </div>
   );
 }

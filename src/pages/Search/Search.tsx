@@ -11,7 +11,7 @@ function Search() {
   const [tagList, setTagList] = useState<TagItem[]>([]);
   const [searchText, setSearchText] = useState("");
   const [socket, setSocket] = useState<WebSocket | null>(null);
-  const [filterCompleted, setFilterCompleted] = useState<boolean>(false);
+  const [filterCompleted, setFilterCompleted] = useState<boolean>(true);
   const [dimCompleted, setDimCompleted] = useState<boolean>(false);
 
   useEffect(() => {
@@ -40,8 +40,8 @@ function Search() {
 
   const handleSearchResponse = (event: MessageEvent) => {
     const response = JSON.parse(event.data);
-    setTodoList(response.tasks);
-    setTagList(response.tags);
+    setTodoList(response["tasks"]);
+    setTagList(response["tags"]);
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,6 +66,7 @@ function Search() {
         type="text"
         className="flex flex-row w-[calc(100%-96px)] p-4 search-input"
         placeholder="Search"
+        value={searchText}
         onChange={handleInputChange}
       />
       <div className="relative text-left flex flex-row items-center justify-between select-none -mt-3 w-[calc(100%-64px)]">

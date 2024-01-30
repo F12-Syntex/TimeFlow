@@ -16,7 +16,18 @@ function TaskDetails({
   ) => void;
   readonly closeModal: () => void;
 }) {
-  const [task, setTask] = useState<TodoItem>({} as TodoItem);
+  const [task, setTask] = useState<TodoItem>({
+    title: "",
+    description: "",
+    labels: [],
+    date: new Date(),
+    priority: "",
+    completed: false,
+  } as TodoItem);
+
+  const handleCheckboxClick = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTask({ ...task, completed: event.currentTarget.checked });
+  };
 
   function formatDate(date: Date): string {
     const formattedDate = new Date(date);
@@ -37,22 +48,12 @@ function TaskDetails({
       .then((response) => response.json())
       .then((data) => {
         setTask(data["task"]);
-        (document.getElementById("title") as HTMLInputElement).value =
-          data["task"].title;
-        (document.getElementById("description") as HTMLInputElement).value =
-          data["task"].description;
         (document.getElementById("labels") as HTMLInputElement).value =
           data["task"].labels.toString();
         if (data["task"].labels.toString() == "") {
           (document.getElementById("labels") as HTMLInputElement).value =
             "none";
         }
-        (document.getElementById("date") as HTMLInputElement).value =
-          formatDate(data["task"].date);
-        (document.getElementById("priority") as HTMLInputElement).value =
-          String(data["task"].priority);
-        (document.getElementById("completed") as HTMLInputElement).checked =
-          data["task"].completed;
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -67,19 +68,27 @@ function TaskDetails({
   const [tagList, setTagList] = useState<TagItem[]>([]);
 
   function saveTask() {
+
+    if (
+      (document.getElementById("title") as HTMLInputElement)?.value === "" ||
+      (document.getElementById("description") as HTMLInputElement)?.value ===
+        "" ||
+      (document.getElementById("date") as HTMLInputElement)?.value === "" ||
+      (document.getElementById("priority") as HTMLInputElement)?.value === ""
+    ) {
+      alert("Please fill out all fields");
+      return;
+    }
+
     const url = `http://localhost:3000/api/sample/tasks/update/${id}`;
     const method = "PATCH";
     const body = JSON.stringify({
-      title: (document.getElementById("title") as HTMLInputElement).value,
-      description: (document.getElementById("description") as HTMLInputElement)
-        .value,
+      title: task.title,
+      description: task.description,
       labels: (document.getElementById("labels") as HTMLInputElement).value,
-      date: (document.getElementById("date") as HTMLInputElement).value,
-      priority: parseInt(
-        (document.getElementById("priority") as HTMLInputElement).value
-      ),
-      completed: (document.getElementById("completed") as HTMLInputElement)
-        .checked,
+      date: task.date,
+      priority: task.priority,
+      completed: task.completed,
     });
     const headers = {
       "Content-Type": "application/json",
@@ -98,10 +107,21 @@ function TaskDetails({
 
   return (
     <div className="relative flex flex-col items-center h-full overflow-x-hidden overflow-y-auto bg-white select-none sm:w-[80vw] lg:w-[70vw] 2xl:w-[60vw] dark:bg-zinc-900 pb-9">
-      <PageHeader title={task.title} editableView={false} />
+      <PageHeader
+        title={task.title === "" ? "No Title" : task.title}
+        editableView={false}
+      />
       <div className="add-task-form">
         <div className="add-task-form-item">
-          <input type="text" id="title" name="title" placeholder="Title" className="btn"/>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            placeholder="Title"
+            value={task.title}
+            onChange={(e) => setTask({ ...task, title: e.target.value })}
+            className="btn"
+          />
         </div>
         <div className="add-task-form-item">
           <input
@@ -109,11 +129,13 @@ function TaskDetails({
             type="text"
             id="description"
             name="description"
+            value={task.description}
+            onChange={(e) => setTask({ ...task, description: e.target.value })}
             placeholder="Description"
           />
         </div>
         <div className="add-task-form-item">
-          <select id="labels" name="labels" defaultValue="none">
+          <select id="labels" name="labels" defaultValue="none" className="btn">
             <option value="none">No Tag</option>
             {tagList.map((tag) => (
               <option key={tag._id.toString()} value={tag._id.toString()}>
@@ -123,28 +145,43 @@ function TaskDetails({
           </select>
         </div>
         <div className="add-task-form-item">
-          <input type="date" id="date" name="date" placeholder="Date" className="btn"/>
+          <input
+            type="date"
+            id="date"
+            name="date"
+            placeholder="Date"
+            value={formatDate(task.date)}
+            onChange={(e) =>
+              setTask({ ...task, date: new Date(e.target.value) })
+            }
+            className="btn"
+          />
         </div>
         <div className="add-task-form-item">
           <input
-          className="btn"
+            className="btn"
             id="priority"
             name="priority"
             placeholder="Priority"
-            defaultValue="0"
+            value={task.priority}
+            onChange={(e) => setTask({ ...task, priority: e.target.value })}
             min="0"
             max="100"
             type="number"
           />
         </div>
         <div className="add-task-form-item">
-          <input
-          className="btn"
-            type="checkbox"
-            id="completed"
-            name="completed"
-            placeholder="Completed"
-          />
+          <div className="round">
+            <input
+              className="btn"
+              type="checkbox"
+              name="completed"
+              id="completed"
+              checked={task.completed}
+              onChange={handleCheckboxClick}
+            />
+            <label htmlFor="completed"></label>
+          </div>
         </div>
 
         <div className="add-task-form-item-row">

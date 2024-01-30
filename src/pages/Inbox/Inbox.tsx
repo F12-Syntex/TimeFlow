@@ -7,7 +7,7 @@ import { useState } from "react";
 
 function Inbox() {
   const filterDate: Date = new Date();
-  const [filterCompleted, setFilterCompleted] = useState<boolean>(false);
+  const [filterCompleted, setFilterCompleted] = useState<boolean>(true);
   const [dimCompleted, setDimCompleted] = useState<boolean>(false);
 
   const [todoList, setTodoList] = useState<TodoItemWithTags[]>([]);

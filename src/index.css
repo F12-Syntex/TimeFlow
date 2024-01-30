@@ -3,12 +3,12 @@
 @tailwind utilities;
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
+  color: rgba(255, 255, 255, 0.9);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -76,7 +76,7 @@ h1 {
 }
 
 input {
-  cursor: text;
+  cursor: text !important;
 }
 
 code {
@@ -125,9 +125,7 @@ code {
     background-color: #f9f9f9;
   }
 }
-*,
-a,
-button {
+* {
   cursor: default;
   user-select: none;
 }

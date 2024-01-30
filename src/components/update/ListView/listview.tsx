@@ -38,6 +38,19 @@ function ListView({
       });
     }
 
+    if (filterInverseDate) {
+      updatedItems = updatedItems.filter((item) => {
+        const itemDate = new Date(item.date);
+        const selectedDate = new Date(filterInverseDate);
+
+        return (
+          itemDate.getDate() !== selectedDate.getDate() ||
+          itemDate.getMonth() !== selectedDate.getMonth() ||
+          itemDate.getFullYear() !== selectedDate.getFullYear()
+        );
+      });
+    }
+
     if (filterCompleted !== undefined) {
       // if filterCompleted is true, show all tasks, otherwise show only incomplete tasks
       updatedItems = updatedItems.filter((item) => {

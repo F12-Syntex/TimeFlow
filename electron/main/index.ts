@@ -268,7 +268,7 @@ expressApp.post(
       console.error("Error adding task:", error);
       res.status(500).json({ error: "Error adding task" });
     }
-  },
+  }
 );
 
 // make sure only logged in user can access this route
@@ -295,7 +295,7 @@ expressApp.patch(
       // Perform the update using $set to update specific fields
       await tasksCollection.updateOne(
         { $and: [{ _id: new ObjectId(taskId) }, { user: userObjectId }] },
-        { $set: updateData },
+        { $set: updateData }
       );
 
       broadcastUpdates();
@@ -305,7 +305,7 @@ expressApp.patch(
       console.error("Error updating task:", error);
       res.status(500).json({ error: "Error updating task" });
     }
-  },
+  }
 );
 
 // make sure only logged in user can access this route
@@ -325,7 +325,7 @@ expressApp.delete(
       console.error("Error deleting task:", error);
       res.status(500).json({ error: "Error deleting task" });
     }
-  },
+  }
 );
 
 // make sure only logged in user can access this route
@@ -360,7 +360,7 @@ expressApp.patch(
       // Perform the update using $set to update specific fields
       let result = await tagsCollection.updateOne(
         { $and: [{ _id: new ObjectId(tagId) }, { user: userObjectId }] },
-        { $set: updateData },
+        { $set: updateData }
       );
 
       broadcastUpdates();
@@ -370,7 +370,7 @@ expressApp.patch(
       console.error("Error updating tag:", error);
       res.status(500).json({ error: "Error updating tag" });
     }
-  },
+  }
 );
 
 expressApp.get("/api/sample/tags/:id", async (req: Request, res: Response) => {
@@ -432,7 +432,7 @@ expressApp.delete(
             { labels: [new ObjectId(req.params.id)] },
           ],
         },
-        { $set: { labels: [] } },
+        { $set: { labels: [] } }
       );
 
       if (deletionResult && deletionResult.deletedCount === 1) {
@@ -443,7 +443,7 @@ expressApp.delete(
     } catch (error) {
       res.status(500).json({ error: "Error deleting tag" });
     }
-  },
+  }
 );
 
 // get tasks with specific tag
@@ -506,7 +506,7 @@ expressApp.get(
       console.error("Error fetching tasks:", error);
       res.status(500).json({ error: "Error fetching tasks" });
     }
-  },
+  }
 );
 
 expressApp.post("/api/login", async (req: Request, res: Response) => {
@@ -671,7 +671,7 @@ async function fetchUserObjectID() {
     {
       method: "GET",
       credentials: "include",
-    },
+    }
   );
 
   const loginStatusData = await loginStatusResponse.json();

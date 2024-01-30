@@ -164,7 +164,7 @@ function App({
                 type="text"
                 id="name"
                 name="name"
-                placeholder="Name"
+                placeholder="Title"
                 className="btn"
               />
             </div>
@@ -234,7 +234,7 @@ function App({
                 type="text"
                 id="tag-name"
                 name="name"
-                placeholder="Name"
+                placeholder="Title"
                 className="btn"
               />
             </div>

@@ -14,7 +14,7 @@
 }
 
 .list-view-item-label {
-  @apply flex flex-row items-center justify-center px-2 py-0.5 mr-2 rounded-lg;
+  @apply flex flex-row items-center justify-center px-2 py-0.5 mt-0.5 text-sm rounded-lg;
   background-color: rgba(255, 255, 255, 0.08);
 }
 

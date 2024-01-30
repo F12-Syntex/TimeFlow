@@ -176,7 +176,9 @@ const ListItem = ({ item, handleTaskDelete }: ListItemProps) => {
             </div>
           </div>
           <div className="flex flex-row justify-between">
-            <div className="text-base font-normal">{item.description}</div>
+            <div className="mt-1 text-base font-medium opacity-75">
+              <span>{item.description}</span>
+            </div>
             <div className="flex flex-row items-center justify-end text-base font-semibold">
               {labels.map((label) => (
                 <div key={label} className="list-view-item-label">
@@ -190,7 +192,7 @@ const ListItem = ({ item, handleTaskDelete }: ListItemProps) => {
         {/* </div> */}
         <button
           onClick={deleteTask}
-          className="bi bi-trash3-fill bin-btn"
+          className="bi bi-trash3-fill bin-btn h-fill"
         ></button>
       </div>
     </>
